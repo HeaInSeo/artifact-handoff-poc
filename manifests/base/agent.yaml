@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: artifact-agent
+  namespace: artifact-handoff
+spec:
+  selector:
+    matchLabels:
+      app: artifact-agent
+  template:
+    metadata:
+      labels:
+        app: artifact-agent
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      containers:
+        - name: agent
+          image: python:3.12-alpine
+          command: ["python", "/app/agent.py"]
+          env:
+            - name: PORT
+              value: "8080"
+            - name: STORAGE_DIR
+              value: /var/lib/artifact-handoff
+            - name: CATALOG_URL
+              value: http://artifact-catalog.artifact-handoff.svc.cluster.local:8090
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+              name: http
+          volumeMounts:
+            - name: app
+              mountPath: /app
+            - name: storage
+              mountPath: /var/lib/artifact-handoff
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+      volumes:
+        - name: app
+          configMap:
+            name: agent-code
+        - name: storage
+          hostPath:
+            path: /var/lib/artifact-handoff
+            type: DirectoryOrCreate
