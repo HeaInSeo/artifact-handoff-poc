@@ -2,6 +2,8 @@
 
 이 문서는 이번 Sprint 1 작업 중 실제로 막혔던 문제를 빠르게 파악하기 위한 메모입니다.
 
+진행 경과 전체는 [VALIDATION_HISTORY.ko.md](VALIDATION_HISTORY.ko.md)에서, 인프라 쪽 상세 장애 흐름은 `multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.ko.md`에서 함께 보는 편이 좋습니다.
+
 ## 1. `multipass-k8s-lab` 3-node bring-up이 처음 실패한 이유
 
 증상:

@@ -16,6 +16,8 @@ This file captures actual validation results for Sprint 1.
 - `2026-04-03`: `multipass-k8s-lab/scripts/k8s-tool.sh up` failed before 3-node bring-up because Multipass could not resolve the configured image alias `rocky-8`.
 - `2026-04-03`: kubeconfig was exported directly from the existing `k8s-master-0` VM to allow partial validation on the remaining single-node cluster.
 - `2026-04-03`: PoC baseline deployed successfully to namespace `artifact-handoff` on that single-node cluster.
+- `2026-04-04`: after the lab baseline was switched to Ubuntu 24.04 and the worker join/runtime issues were resolved, the intended `1 control-plane + 2 workers` cluster became available again.
+- `2026-04-04`: cross-node validation succeeded on the recovered 3-node lab.
 
 ## Same-Node Reuse
 
@@ -35,18 +37,25 @@ This file captures actual validation results for Sprint 1.
 
 ## Cross-Node Peer Fetch
 
-- Status: blocked by lab readiness
-- Actual script result: `need at least two schedulable nodes for cross-node validation`
-- Required next step: fix `multipass-k8s-lab` image/baseline bring-up so the intended `1 control-plane + 2 workers` cluster exists first
+- `2026-04-03` status: blocked by lab readiness
+- `2026-04-03` script result: `need at least two schedulable nodes for cross-node validation`
+- `2026-04-04` status: passed after lab recovery
+- Successful scenario:
+  - parent on `lab-worker-0`
+  - child on `lab-worker-1`
+  - child output `source=peer-fetch`
+  - digest matched
+  - catalog recorded producer and replica node information
 
 ## Second-Hit Cache
 
-- Status: not run
-- Reason: cross-node fetch could not be validated without a second node
+- Status: not captured in the final notes
+- Earlier status on `2026-04-03`: not run because cross-node fetch could not be validated without a second node
 
 ## Notes
 
 - The repository baseline and scripts are intended to run against a lab cluster prepared by `multipass-k8s-lab`.
 - `scripts/check-lab.sh` defaults to `MIN_NODES=3` and fails fast when the intended lab shape is missing.
 - For partial debugging on the leftover single-node cluster, `MIN_NODES=1` was used to deploy and run same-node validation only.
-- Full sprint acceptance remains incomplete until same-node and cross-node both succeed on the actual 3-node lab.
+- The earlier blocked state in this file reflects the `2026-04-03` checkpoint rather than the final recovered lab state.
+- The later recovery and successful cross-node validation are summarized in [TROUBLESHOOTING_NOTES.md](TROUBLESHOOTING_NOTES.md) and [VALIDATION_HISTORY.ko.md](VALIDATION_HISTORY.ko.md).
