@@ -1,7 +1,7 @@
 # artifact-handoff-poc
 
-English: [README.en.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/README.en.md)
-한국어: [README.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/README.md)
+English: [README.en.md](README.en.md)
+한국어: [README.md](README.md)
 
 `artifact-handoff-poc` is a narrow experiment repository for validating node-local artifact handoff on top of a Kubernetes lab cluster.
 
@@ -40,7 +40,7 @@ Out of scope:
 - Cilium-specific optimization
 - performance benchmarking
 
-More detail: [docs/SPRINT1_SCOPE.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/SPRINT1_SCOPE.md)
+More detail: [docs/SPRINT1_SCOPE.md](docs/SPRINT1_SCOPE.md)
 
 ## Layout
 
@@ -118,7 +118,7 @@ Cleanup:
 2. Deploy the PoC namespace, catalog, and agents.
 3. Run same-node reuse.
 4. Run cross-node peer fetch.
-5. Review logs and [docs/RESULTS.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/RESULTS.md).
+5. Review logs and [docs/RESULTS.md](docs/RESULTS.md).
 
 ## Known Limitations
 

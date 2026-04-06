@@ -1,7 +1,7 @@
 # artifact-handoff-poc
 
-한국어: [README.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/README.md)
-English: [README.en.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/README.en.md)
+한국어: [README.md](README.md)
+English: [README.en.md](README.en.md)
 
 `artifact-handoff-poc`은 Kubernetes 랩 클러스터 위에서 node-local artifact handoff를 검증하기 위한 범위를 좁힌 실험 저장소입니다.
 
@@ -40,7 +40,7 @@ Sprint 1은 한 가지 질문을 검증합니다.
 - Cilium 전용 최적화
 - 성능 벤치마킹
 
-자세한 내용: [docs/SPRINT1_SCOPE.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/SPRINT1_SCOPE.ko.md)
+자세한 내용: [docs/SPRINT1_SCOPE.ko.md](docs/SPRINT1_SCOPE.ko.md)
 
 ## 구성
 
@@ -118,7 +118,7 @@ Sprint 1은 한 가지 질문을 검증합니다.
 2. PoC 네임스페이스, catalog, agent를 배포합니다.
 3. same-node 재사용을 실행합니다.
 4. cross-node peer fetch를 실행합니다.
-5. 로그와 [docs/RESULTS.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/RESULTS.ko.md)를 검토합니다.
+5. 로그와 [docs/RESULTS.ko.md](docs/RESULTS.ko.md)를 검토합니다.
 
 ## 알려진 제한 사항
 
