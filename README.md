@@ -1,51 +1,54 @@
 # artifact-handoff-poc
 
-`artifact-handoff-poc` is a narrow experiment repository for validating node-local artifact handoff on top of a Kubernetes lab cluster.
+한국어: [README.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/README.md)
+English: [README.en.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/README.en.md)
 
-This repository is not responsible for VM creation or Kubernetes bootstrap. `multipass-k8s-lab` is the lab infrastructure repo. `artifact-handoff-poc` is the experiment repo that deploys a minimal artifact handoff stack onto that lab.
+`artifact-handoff-poc`은 Kubernetes 랩 클러스터 위에서 node-local artifact handoff를 검증하기 위한 범위를 좁힌 실험 저장소입니다.
 
-## Goal
+이 저장소는 VM 생성이나 Kubernetes 부트스트랩을 담당하지 않습니다. `multipass-k8s-lab`이 랩 인프라 저장소이고, `artifact-handoff-poc`은 그 랩 위에 최소 artifact handoff 스택을 배포하는 실험 저장소입니다.
 
-Sprint 1 validates one question:
+## 목표
 
-Can a 3-node K8s VM lab support a minimal node-local artifact handoff flow with same-node reuse and cross-node peer fetch?
+Sprint 1은 한 가지 질문을 검증합니다.
 
-## Repo Boundary
+3노드 K8s VM 랩에서 same-node 재사용과 cross-node peer fetch를 포함한 최소 node-local artifact handoff 흐름을 지원할 수 있는가?
 
-- `multipass-k8s-lab` owns VM lifecycle, kubeadm bootstrap, kubeconfig export, and reusable lab infrastructure.
-- `artifact-handoff-poc` owns the PoC implementation, Kubernetes manifests, experiment scripts, and result capture.
-- This repo does not implement Multipass provisioning, kubeadm bootstrap, or host setup logic.
+## 저장소 경계
 
-## Sprint 1 Scope
+- `multipass-k8s-lab`은 VM 라이프사이클, kubeadm 부트스트랩, kubeconfig 내보내기, 재사용 가능한 랩 인프라를 담당합니다.
+- `artifact-handoff-poc`은 PoC 구현, Kubernetes 매니페스트, 실험 스크립트, 결과 기록을 담당합니다.
+- 이 저장소는 Multipass 프로비저닝, kubeadm 부트스트랩, 호스트 설정 로직을 구현하지 않습니다.
 
-In scope:
+## Sprint 1 범위
 
-- one `artifact-agent` per node as a DaemonSet
-- one minimal central catalog service
-- hostPath-backed node-local artifact storage
-- parent job produces an artifact on node A
-- same-node child reuses it on node A
-- cross-node child on node B fetches it from node A through peer transfer
-- minimal digest verification and metadata tracking
+포함 범위:
 
-Out of scope:
+- 노드마다 하나의 `artifact-agent`를 DaemonSet으로 배치
+- 최소 중앙 catalog 서비스 하나
+- hostPath 기반 node-local artifact 저장소
+- parent job이 node A에서 artifact 생성
+- same-node child가 node A에서 이를 재사용
+- node B의 cross-node child가 node A에서 peer transfer로 가져옴
+- 최소 digest 검증과 메타데이터 추적
 
-- durable storage
-- production hardening
-- advanced GC
-- CRD/operator integration
-- Cilium-specific optimization
-- performance benchmarking
+제외 범위:
 
-More detail: [docs/SPRINT1_SCOPE.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/SPRINT1_SCOPE.md)
+- 내구성 있는 스토리지
+- 프로덕션 하드닝
+- 고급 GC
+- CRD/operator 통합
+- Cilium 전용 최적화
+- 성능 벤치마킹
 
-## Layout
+자세한 내용: [docs/SPRINT1_SCOPE.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/SPRINT1_SCOPE.ko.md)
+
+## 구성
 
 ```text
 .
 ├── app/
-│   ├── agent/      # Python HTTP agent used by the DaemonSet
-│   └── catalog/    # Python HTTP catalog used by the Deployment
+│   ├── agent/      # DaemonSet이 사용하는 Python HTTP agent
+│   └── catalog/    # Deployment가 사용하는 Python HTTP catalog
 ├── docs/
 ├── manifests/
 │   └── base/       # kustomize baseline
@@ -53,21 +56,21 @@ More detail: [docs/SPRINT1_SCOPE.md](/opt/go/src/github.com/HeaInSeo/artifact-ha
 └── test/
 ```
 
-## Components
+## 구성 요소
 
 ### artifact-agent
 
-- runs as a DaemonSet with `hostNetwork: true`
-- stores artifacts under `/var/lib/artifact-handoff`
-- serves local lookup and peer fetch over HTTP
-- registers metadata with the catalog
-- verifies artifact content against the declared SHA-256 digest
+- `hostNetwork: true`로 동작하는 DaemonSet
+- `/var/lib/artifact-handoff` 아래에 artifact 저장
+- 로컬 조회와 peer fetch를 HTTP로 제공
+- catalog에 메타데이터 등록
+- 선언된 SHA-256 digest와 artifact 내용이 일치하는지 검증
 
 ### catalog
 
-- single Deployment
-- stores minimal metadata in memory plus a JSON snapshot on `emptyDir`
-- tracks:
+- 단일 Deployment
+- 메모리 내 저장소와 `emptyDir` 위의 JSON 스냅샷에 최소 메타데이터 저장
+- 추적 항목:
   - `artifactId`
   - `digest`
   - `producerNode`
@@ -76,19 +79,19 @@ More detail: [docs/SPRINT1_SCOPE.md](/opt/go/src/github.com/HeaInSeo/artifact-ha
   - `state`
   - `replicaNodes`
 
-### workloads
+### 워크로드
 
 - `run-same-node.sh`: parent on node A, child on node A
 - `run-cross-node.sh`: parent on node A, child on node B
 
-## Prerequisites
+## 전제 조건
 
-1. `multipass-k8s-lab` exists as a sibling repository.
-2. The lab cluster is already prepared through that repository.
-3. `kubectl` is installed on the host.
-4. `python3` is available on the host for helper scripts.
+1. 형제 저장소로 `multipass-k8s-lab`이 존재해야 합니다.
+2. 랩 클러스터는 이미 그 저장소를 통해 준비되어 있어야 합니다.
+3. 호스트에 `kubectl`이 설치되어 있어야 합니다.
+4. 호스트에 헬퍼 스크립트를 위한 `python3`가 있어야 합니다.
 
-## Quick Start
+## 빠른 시작
 
 ```bash
 ./scripts/check-lab.sh
@@ -97,38 +100,38 @@ More detail: [docs/SPRINT1_SCOPE.md](/opt/go/src/github.com/HeaInSeo/artifact-ha
 ./scripts/run-cross-node.sh
 ```
 
-Optional cache re-hit check:
+선택적 캐시 재적중 확인:
 
 ```bash
 ./scripts/run-cross-node.sh --second-hit
 ```
 
-Cleanup:
+정리:
 
 ```bash
 ./scripts/cleanup.sh
 ```
 
-## Execution Order
+## 실행 순서
 
-1. Confirm the lab cluster through `multipass-k8s-lab`.
-2. Deploy the PoC namespace, catalog, and agents.
-3. Run same-node reuse.
-4. Run cross-node peer fetch.
-5. Review logs and [docs/RESULTS.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/RESULTS.md).
+1. `multipass-k8s-lab`으로 랩 클러스터를 확인합니다.
+2. PoC 네임스페이스, catalog, agent를 배포합니다.
+3. same-node 재사용을 실행합니다.
+4. cross-node peer fetch를 실행합니다.
+5. 로그와 [docs/RESULTS.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/RESULTS.ko.md)를 검토합니다.
 
-## Known Limitations
+## 알려진 제한 사항
 
-- catalog data is not durable
-- artifact storage uses hostPath directly
-- peer discovery is address-based and intentionally simple
-- no authn/authz or TLS between agents
-- no scheduler integration beyond explicit node pinning in the test jobs
+- catalog 데이터는 내구성이 없습니다.
+- artifact 저장소는 hostPath를 직접 사용합니다.
+- peer discovery는 주소 기반이며 의도적으로 단순합니다.
+- agent 간 통신에 authn/authz 또는 TLS가 없습니다.
+- 테스트 잡에서 명시적인 노드 고정을 하는 것 외에 별도 스케줄러 통합이 없습니다.
 
-## Next Steps
+## 다음 단계
 
-- replace the in-memory catalog with a more durable backing store
-- introduce cleanup and eviction rules
-- formalize metadata transitions and error states
-- evaluate scheduler hints or controller-driven placement
-- add richer failure-path tests
+- 메모리 기반 catalog를 더 내구성 있는 저장소로 교체
+- 정리 및 eviction 규칙 도입
+- 메타데이터 상태 전이와 오류 상태 정형화
+- scheduler 힌트나 controller 기반 배치 평가
+- 더 풍부한 실패 경로 테스트 추가
