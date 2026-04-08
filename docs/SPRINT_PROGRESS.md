@@ -14,7 +14,7 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E3`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -22,8 +22,8 @@ This is not a design document. It is a **progress board** and should be updated 
   - second edge-case kickoff track `D8~D9`: `2/2` complete, `100%`
   - second edge-case truth track `D10~D11`: `2/2` complete, `100%`
   - second edge-case cross-node follow-up track `D12~D13`: `2/2` complete, `100%`
-  - post-second-edge planning track `E1~E3`: `1/3` complete, about `33%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E3`: `42/44` complete, about `95%`
+  - post-second-edge planning track `E1~E3`: `2/3` complete, about `67%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E3`: `43/44` complete, about `98%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -55,6 +55,7 @@ This is not a design document. It is a **progress board** and should be updated 
   - `Sprint D12` validated that cross-node `catalog record missing + local artifact exists` surfaces as `catalog lookup failed` with `fetch-failed` metadata
   - `Sprint D13` fixed the closure judgment that the second edge-case family is closed for the current Sprint 1 validation scope, while orphan semantics remain out of scope
   - `Sprint E1` fixed the next priority as an orphan/local-leftover semantics note, with catalog top-level failure reflection left as the following review item
+  - `Sprint E3` fixed the recheck conclusion that catalog top-level failure reflection should still remain deferred even after the second edge-case family
 
 ## Completed Sprint Table
 
@@ -102,6 +103,7 @@ This is not a design document. It is a **progress board** and should be updated 
 | D12 | Complete | live cross-node evidence fixed for `catalog record missing + local artifact exists` |
 | D13 | Complete | second edge-case family closed for the current validation scope |
 | E1 | Complete | next priority fixed as an orphan semantics note after second-edge closure |
+| E3 | Complete | catalog top-level failure reflection still deferred after recheck |
 
 ## Current Backlog
 
@@ -144,6 +146,16 @@ Goal:
 Completion criteria:
 
 - either continued defer or a smaller follow-up is fixed in one short note
+
+### Sprint E4 - Post-Orphan Policy Boundary Check
+
+Goal:
+
+- after the orphan-semantics note and reflection recheck, decide whether the remaining policy boundary should expand further or stop here
+
+Completion criteria:
+
+- the next expansion or freeze judgment is fixed in one short note
 
 ## Update Rule
 

@@ -14,7 +14,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E3`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -22,8 +22,8 @@
   - second edge-case kickoff 트랙 `D8~D9` 기준: `2/2` 완료, `100%`
   - second edge-case truth 트랙 `D10~D11` 기준: `2/2` 완료, `100%`
   - second edge-case cross-node follow-up 트랙 `D12~D13` 기준: `2/2` 완료, `100%`
-  - post-second-edge planning 트랙 `E1~E3` 기준: `1/3` 완료, 약 `33%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E3` 기준: `42/44` 완료, 약 `95%`
+  - post-second-edge planning 트랙 `E1~E3` 기준: `2/3` 완료, 약 `67%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E3` 기준: `43/44` 완료, 약 `98%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -55,6 +55,7 @@
   - `Sprint D12`에서 cross-node `catalog record missing + local artifact exists`는 `catalog lookup failed`와 `fetch-failed` metadata로 드러난다는 사실을 실검증
   - `Sprint D13`에서 두 번째 edge-case family는 현재 Sprint 1 validation 범위에서는 여기서 닫고, orphan semantics는 후속 범위로 남긴다는 closure 판단을 고정
   - `Sprint E1`에서 다음 우선순위는 orphan/local-leftover semantics note이고, catalog top-level failure reflection은 그 다음 순서라는 gap review 판단을 고정
+  - `Sprint E3`에서 두 번째 edge-case family 결과를 반영해도 catalog top-level failure reflection은 계속 defer가 맞다는 재검토 결론을 고정
 
 ## 완료 스프린트 표
 
@@ -102,6 +103,7 @@
 | D12 | 완료 | cross-node `catalog record missing + local artifact exists` evidence와 failure 해석 고정 |
 | D13 | 완료 | 두 번째 edge-case family를 current validation scope에서 closure 처리 |
 | E1 | 완료 | post-second-edge 이후 다음 우선순위를 orphan semantics note로 고정 |
+| E3 | 완료 | catalog top-level failure reflection은 edge-case 결과 이후에도 defer 유지라는 재검토 결론 고정 |
 
 ## 현재 backlog
 
@@ -144,6 +146,16 @@
 완료 기준:
 
 - defer 유지 또는 작은 follow-up 필요 여부가 한 문서로 고정됨
+
+### Sprint E4 - Post-Orphan Policy Boundary Check
+
+목표:
+
+- orphan semantics note와 catalog reflection recheck 이후, 남은 policy boundary를 더 확장할지 멈출지 판단
+
+완료 기준:
+
+- 다음 확장 또는 freeze 판단이 한 문서로 고정됨
 
 ## 업데이트 규칙
 
