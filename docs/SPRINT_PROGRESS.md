@@ -14,7 +14,7 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -24,7 +24,8 @@ This is not a design document. It is a **progress board** and should be updated 
   - second edge-case cross-node follow-up track `D12~D13`: `2/2` complete, `100%`
   - post-second-edge planning track `E1~E4`: `4/4` complete, `100%`
   - post-E2 freeze track `E5`: `1/1` complete, `100%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5`: `46/46` complete, `100%`
+  - next execution planning track `F1~F3`: `1/3` complete, about `33%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~F3`: `47/49` complete, about `96%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -60,6 +61,7 @@ This is not a design document. It is a **progress board** and should be updated 
   - `Sprint E3` fixed the recheck conclusion that catalog top-level failure reflection should still remain deferred even after the second edge-case family
   - `Sprint E4` fixed the judgment that the broader policy boundary should not expand further, and that the only remaining narrow policy question should stay limited to `E2 - Orphan Semantics Note`
   - `Sprint E5` fixed the judgment that the current Sprint 1 policy/document cleanup should now freeze here and shift to the next validation/implementation question
+  - `Sprint F1` fixed the next real question as the smallest replica-aware fetch question: whether `replicaNodes` can become meaningful for fetch source selection
 
 ## Completed Sprint Table
 
@@ -111,34 +113,25 @@ This is not a design document. It is a **progress board** and should be updated 
 | E3 | Complete | catalog top-level failure reflection still deferred after recheck |
 | E4 | Complete | broader policy boundary should not expand further and should leave only `E2` open |
 | E5 | Complete | current policy/document cleanup scope frozen here before moving to next question selection |
+| F1 | Complete | next real question selected as the smallest form of replica-aware fetch |
 
 ## Current Backlog
 
 | Area | Item | Priority | Current Judgment |
 |---|---|---|---|
-| Implementation | catalog top-level failure reflection | Medium | still local-metadata-centric |
-| Implementation | replica-aware fetch policy | Low | intentionally out of current scope |
+| Implementation | replica-aware fetch policy | Medium | promoted as the next real question |
+| Implementation | catalog top-level failure reflection | Medium | still deferred |
 | Implementation | retry / recovery policy | Low | intentionally out of current scope |
 | Implementation | scheduler/controller integration evaluation | Low | still in script-assisted validation phase |
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
 
 ## Recommended Next 3 Sprints
 
-### Sprint F1 - Next Validation/Implementation Question Selection
-
-Goal:
-
-- choose the next real validation or implementation question after the current document/policy cleanup
-
-Completion criteria:
-
-- the next small execution question is fixed in one short note
-
 ### Sprint F2 - Next Backlog Ordering Note
 
 Goal:
 
-- reorder the implementation backlog using the current validation truth
+- reorder the remaining implementation backlog with `replica-aware fetch` as the new top priority
 
 Completion criteria:
 
@@ -148,11 +141,21 @@ Completion criteria:
 
 Goal:
 
-- add the smallest helper or implementation cut that starts the selected next question
+- add the smallest helper or implementation cut that starts the `replica-aware fetch` question
 
 Completion criteria:
 
 - one sprint-sized minimal execution cut is fixed without widening the current scope
+
+### Sprint F4 - Replica-Aware Fetch First Validation
+
+Goal:
+
+- run the smallest first replica-aware fetch validation
+
+Completion criteria:
+
+- the first replica-aware fetch evidence is written into the results docs
 
 ## Update Rule
 
