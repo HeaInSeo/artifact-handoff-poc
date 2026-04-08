@@ -14,7 +14,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -22,7 +22,8 @@
   - second edge-case kickoff 트랙 `D8~D9` 기준: `2/2` 완료, `100%`
   - second edge-case truth 트랙 `D10~D11` 기준: `2/2` 완료, `100%`
   - second edge-case cross-node follow-up 트랙 `D12~D13` 기준: `2/2` 완료, `100%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` 기준: `41/41` 완료, `100%`
+  - post-second-edge planning 트랙 `E1~E3` 기준: `1/3` 완료, 약 `33%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E3` 기준: `42/44` 완료, 약 `95%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -53,6 +54,7 @@
   - `Sprint D11`에서 두 번째 edge case는 same-node truth는 닫혔지만 cross-node view 전까지는 전체 family를 완전히 닫지 않는다는 재판단을 고정
   - `Sprint D12`에서 cross-node `catalog record missing + local artifact exists`는 `catalog lookup failed`와 `fetch-failed` metadata로 드러난다는 사실을 실검증
   - `Sprint D13`에서 두 번째 edge-case family는 현재 Sprint 1 validation 범위에서는 여기서 닫고, orphan semantics는 후속 범위로 남긴다는 closure 판단을 고정
+  - `Sprint E1`에서 다음 우선순위는 orphan/local-leftover semantics note이고, catalog top-level failure reflection은 그 다음 순서라는 gap review 판단을 고정
 
 ## 완료 스프린트 표
 
@@ -99,6 +101,7 @@
 | D11 | 완료 | 두 번째 edge case는 same-node는 닫혔지만 overall family는 cross-node 전까지 부분 open이라는 재판단 고정 |
 | D12 | 완료 | cross-node `catalog record missing + local artifact exists` evidence와 failure 해석 고정 |
 | D13 | 완료 | 두 번째 edge-case family를 current validation scope에서 closure 처리 |
+| E1 | 완료 | post-second-edge 이후 다음 우선순위를 orphan semantics note로 고정 |
 
 ## 현재 backlog
 
@@ -112,56 +115,6 @@
 
 ## 추천 다음 3개 스프린트
 
-### Sprint D8 - Second Edge Case Selection
-
-목표:
-
-- 남아 있는 `catalog record missing + local artifact exists` edge case를 다음 질문으로 바로 가져갈지 재판단
-
-완료 기준:
-
-- 다음 edge case 우선순위를 한 문서로 고정
-
-### Sprint D9 - Second Edge Case Implementation Cut
-
-목표:
-
-- `catalog record missing + local artifact exists`를 재현할 최소 helper 또는 절차를 추가
-
-완료 기준:
-
-- 두 번째 edge case를 실제로 검증할 준비가 됨
-
-### Sprint D10 - Second Edge Case Truth Tightening
-
-목표:
-
-- 선택된 두 번째 edge case를 실제로 재현하고 current behavior를 evidence로 고정
-
-완료 기준:
-
-- HTTP 응답, local metadata, interpretation이 RESULTS / VALIDATION_HISTORY에 반영됨
-
-### Sprint D11 - Second Edge Case Reassessment
-
-목표:
-
-- `D10` 결과를 기준으로 두 번째 edge case의 해석이 충분히 닫혔는지 재판단
-
-완료 기준:
-
-- 다음 질문 또는 종료 판단이 한 문서로 고정됨
-
-### Sprint D12 - Second Edge Cross-Node Check
-
-목표:
-
-- 필요하면 두 번째 edge case를 cross-node 관점에서도 실제로 확인
-
-완료 기준:
-
-- cross-node에서도 catalog absence가 어떤 의미를 갖는지 evidence 또는 defer 판단이 고정됨
-
 ### Sprint E1 - Post-Second-Edge Gap Review
 
 목표:
@@ -171,6 +124,26 @@
 완료 기준:
 
 - 다음 우선순위 질문이 한 문서로 고정됨
+
+### Sprint E2 - Orphan Semantics Note
+
+목표:
+
+- orphan/local-leftover semantics를 현재 validation 범위에서 어떻게 읽을지 note로 고정
+
+완료 기준:
+
+- 허용된 reuse truth와 policy out-of-scope 경계가 한 문서로 정리됨
+
+### Sprint E3 - Catalog Failure Reflection Recheck
+
+목표:
+
+- orphan semantics note 이후에도 catalog top-level failure reflection을 계속 미도입으로 둘지 재확인
+
+완료 기준:
+
+- defer 유지 또는 작은 follow-up 필요 여부가 한 문서로 고정됨
 
 ## 업데이트 규칙
 

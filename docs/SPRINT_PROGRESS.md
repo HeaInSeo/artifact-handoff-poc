@@ -14,7 +14,7 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -22,7 +22,8 @@ This is not a design document. It is a **progress board** and should be updated 
   - second edge-case kickoff track `D8~D9`: `2/2` complete, `100%`
   - second edge-case truth track `D10~D11`: `2/2` complete, `100%`
   - second edge-case cross-node follow-up track `D12~D13`: `2/2` complete, `100%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13`: `41/41` complete, `100%`
+  - post-second-edge planning track `E1~E3`: `1/3` complete, about `33%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E3`: `42/44` complete, about `95%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -53,6 +54,7 @@ This is not a design document. It is a **progress board** and should be updated 
   - `Sprint D11` fixed that the second edge case is closed for same-node truth, but the overall edge-case family remains partially open until the cross-node view is checked
   - `Sprint D12` validated that cross-node `catalog record missing + local artifact exists` surfaces as `catalog lookup failed` with `fetch-failed` metadata
   - `Sprint D13` fixed the closure judgment that the second edge-case family is closed for the current Sprint 1 validation scope, while orphan semantics remain out of scope
+  - `Sprint E1` fixed the next priority as an orphan/local-leftover semantics note, with catalog top-level failure reflection left as the following review item
 
 ## Completed Sprint Table
 
@@ -99,6 +101,7 @@ This is not a design document. It is a **progress board** and should be updated 
 | D11 | Complete | reassessment fixed that same-node is closed but the full edge-case family is still partially open |
 | D12 | Complete | live cross-node evidence fixed for `catalog record missing + local artifact exists` |
 | D13 | Complete | second edge-case family closed for the current validation scope |
+| E1 | Complete | next priority fixed as an orphan semantics note after second-edge closure |
 
 ## Current Backlog
 
@@ -112,56 +115,6 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Recommended Next 3 Sprints
 
-### Sprint D8 - Second Edge Case Selection
-
-Goal:
-
-- decide whether the remaining `catalog record missing + local artifact exists` case should become the next question immediately
-
-Completion criteria:
-
-- the next edge-case priority is fixed in one short note
-
-### Sprint D9 - Second Edge Case Implementation Cut
-
-Goal:
-
-- add the smallest helper or procedure needed to reproduce `catalog record missing + local artifact exists`
-
-Completion criteria:
-
-- the second edge case becomes ready for live validation
-
-### Sprint D10 - Second Edge Case Truth Tightening
-
-Goal:
-
-- reproduce the selected second edge case and fix the current behavior with live evidence
-
-Completion criteria:
-
-- the HTTP response, local metadata, and interpretation are added to RESULTS / VALIDATION_HISTORY
-
-### Sprint D11 - Second Edge Case Reassessment
-
-Goal:
-
-- decide whether the second edge case is sufficiently closed after `D10`
-
-Completion criteria:
-
-- the next question or closure judgment is fixed in one short note
-
-### Sprint D12 - Second Edge Cross-Node Check
-
-Goal:
-
-- if needed, confirm the second edge case from the cross-node view as well
-
-Completion criteria:
-
-- either cross-node evidence or a defer judgment is fixed
-
 ### Sprint E1 - Post-Second-Edge Gap Review
 
 Goal:
@@ -171,6 +124,26 @@ Goal:
 Completion criteria:
 
 - the next priority question is fixed in one short note
+
+### Sprint E2 - Orphan Semantics Note
+
+Goal:
+
+- fix how orphan/local-leftover semantics should be read in the current validation scope
+
+Completion criteria:
+
+- the boundary between observed reuse truth and out-of-scope policy is fixed in one note
+
+### Sprint E3 - Catalog Failure Reflection Recheck
+
+Goal:
+
+- recheck whether catalog top-level failure reflection should still remain deferred after the orphan-semantics note
+
+Completion criteria:
+
+- either continued defer or a smaller follow-up is fixed in one short note
 
 ## Update Rule
 
