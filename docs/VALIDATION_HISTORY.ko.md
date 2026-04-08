@@ -13,6 +13,11 @@
 3. 남아 있던 single-node 환경으로 same-node 만 부분 검증
 4. `multipass-k8s-lab` 쪽 image / join / runtime 문제 해결
 5. 3-node 회복 후 cross-node peer fetch 성립 확인
+6. `2026-04-06` 최신 코드 기준으로 same-node / cross-node / second-hit 재검증
+7. `2026-04-08` failure scenario 2종 검증
+8. `2026-04-08` local digest mismatch 검증
+9. `2026-04-08` peer digest mismatch branch 검증
+10. `2026-04-08` peer fetch HTTP attribution 보정
 
 즉, 이 저장소의 결과를 읽을 때는 "애플리케이션 로직 검증"과 "인프라 준비 상태"를 분리해서 봐야 합니다.
 
@@ -99,13 +104,202 @@
 - `docs/TROUBLESHOOTING_NOTES.md`: 인프라 회복과 최종 cross-node 성립까지 포함한 후속 메모
 - 이 문서: 전체 진행 경과를 시간순으로 정리한 학습용 히스토리
 
-## 6. 남은 기록 과제
+## 6. 최신 코드 기준 재검증
+
+`2026-04-06`에는 `multipass-k8s-lab` 환경이 이미 정상 동작 중인 상태에서, 최신 코드 기준으로 다시 검증을 수행했습니다.
+
+확인한 항목:
+
+- same-node fresh artifact id 검증 통과
+- cross-node fresh artifact id 검증 통과
+- second-hit local cache 검증 통과
+
+이번 재검증에서 확인된 추가 포인트:
+
+- child placement 입력은 이제 parent 완료 후 catalog의 `producerNode`를 읽는 스크립트가 보조한다.
+- catalog top-level state는 `produced`, replica state는 `replicated`로 반영된다.
+- local metadata는 `producerNode` / `producerAddress`와 `localNode` / `localAddress`를 함께 기록한다.
+
+또한 재검증 과정에서 두 가지 운영 이슈가 드러났다.
+
+1. host의 `python3`가 3.6 계열이라 script helper가 `text=True`를 사용할 수 없었고, 호환성 수정이 필요했다.
+2. 첫 cross-node 재실행은 이전 artifact cache와 old pod process 영향으로 `source=local`이 나와 실패했고, fresh `ARTIFACT_ID`와 pod restart 후 기대한 `peer-fetch`가 확인됐다.
+3. 이후 agent는 peer fetch 실패나 local verify 실패 시 local metadata에 `state=fetch-failed`와 `lastError`를 남기도록 보강됐다.
+
+## 7. failure scenario validation
+
+`2026-04-08`에는 B6에서 넣은 failure metadata recording이 실제로 찍히는지 두 개의 작은 시나리오로 확인했습니다.
+
+용어 기준:
+
+- 이 문서의 failure 용어는 [peer-fetch-failure-paths.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/research/peer-fetch-failure-paths.ko.md)를 기준으로 읽는다.
+- 대표 failure scenario를 한 장으로 다시 보려면 [FAILURE_MATRIX.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/FAILURE_MATRIX.ko.md)를 같이 본다.
+
+검증한 시나리오:
+
+1. `producer points to self`
+2. `peer fetch exception` (`Connection refused`)
+
+확인한 점:
+
+- 두 시나리오 모두 consumer node local metadata에 `state=fetch-failed`가 남았다.
+- `lastError` 값도 기대한 원인과 직접 연결됐다.
+  - self-producer 시나리오: `artifact missing locally and producer points to self`
+  - peer fetch exception 시나리오: `<urlopen error [Errno 111] Connection refused>`
+- 즉 B6에서 추가한 failure recording은 실환경에서도 최소 목적을 충족했다.
+
+아직 남는 점:
+
+- failure 정보는 local metadata에는 남지만 catalog top-level state에는 반영되지 않는다.
+- 따라서 현재 단계에서는 "consumer node local forensic trail"은 생겼지만, cluster-wide failure observability는 아직 제한적이다.
+
+## 8. 남은 기록 과제
 
 이번에 실제로 남겨 둘 만한 후속 작업은 다음입니다.
 
-- `docs/RESULTS.md` 를 초기 상태 기록과 최종 상태 기록으로 더 명확히 구분하기
-- same-node / cross-node / second-hit 을 각각 언제 실행했고 어떤 출력이 나왔는지 로그 스냅샷 정리
 - `multipass-k8s-lab` 의 infra 장애와 이 저장소의 validation 결과를 교차 참조하는 링크 추가
+
+## 9. local digest mismatch validation
+
+`2026-04-08`에는 failure scenario 검증을 한 단계 더 좁혀서, digest mismatch 계열 중 재현성이 높은 `local digest mismatch`를 실제로 확인했습니다.
+
+용어 기준:
+
+- `local digest mismatch`는 peer failure가 아니라 local verification failure이며 `source=local-verify`가 맞다.
+
+검증 방식:
+
+1. `lab-worker-0` agent에 정상 payload를 등록
+2. worker0 local storage의 `payload.bin`을 수동으로 손상
+3. `/internal/artifacts/{artifactId}` 경로로 local verify만 직접 호출
+4. local metadata snapshot 확인
+5. 이어서 공개 `/artifacts/{artifactId}` 경로가 같은 `lastError`를 유지하는지도 확인
+
+확인한 점:
+
+- `/internal/artifacts/...` 호출은 `404`와 함께 `local digest mismatch`를 반환했다.
+- worker0 local metadata에는 아래가 기록됐다.
+  - `state=fetch-failed`
+  - `source=local-verify`
+  - `lastError=local digest mismatch`
+- 즉 B6에서 넣은 failure recording은 digest mismatch 계열에서도 실제로 동작했다.
+
+이번 검증에서 같이 드러난 작은 구현 이슈:
+
+- 공개 `/artifacts/...` 경로는 처음에는 local digest mismatch 직후 peer fetch fallback으로 다시 들어가면서, self-loop 성격의 에러로 `lastError`가 덮일 수 있었다.
+- 이를 막기 위해 agent GET 경로를 아주 좁게 보정했고, worker0 agent pod 재시작 후에는 공개 경로도 `local digest mismatch`를 그대로 반환했다.
+
+아직 남는 점:
+
+- 이번 스프린트에서는 `peer digest mismatch`까지는 evidence를 남기지 못했다.
+- 따라서 digest mismatch coverage는 절반만 채워졌고, producer/consumer 간 payload 불일치를 더 직접적으로 만드는 후속 검증이 남아 있다.
+
+## 10. peer digest mismatch validation
+
+`2026-04-08`에는 digest mismatch coverage를 한 단계 더 넓혀서 `peer digest mismatch`도 확인했습니다. 다만 이번에는 "end-to-end HTTP 흐름"과 "live branch probe"의 결과를 분리해서 봐야 했습니다.
+
+용어 기준:
+
+- 여기서의 `peer digest mismatch`는 consumer-side verification failure를 뜻한다.
+- producer-side rejection과의 차이는 [peer-fetch-failure-paths.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/research/peer-fetch-failure-paths.ko.md)에 정리했다.
+
+1. end-to-end HTTP probe
+
+- producer artifact는 정상 생성한 뒤, catalog record의 `digest`만 고의로 `0000...`로 바꿨습니다.
+- 그 상태에서 worker1이 공개 `/artifacts/{artifactId}`를 호출하도록 했습니다.
+- 결과는 `409`와 함께 `catalog lookup failed`였고, consumer local metadata도 `source=catalog-lookup`, `lastError=catalog lookup failed`로 남았습니다.
+
+이 결과가 뜻하는 바:
+
+- 현재 producer의 `/internal/artifacts/...` 경로는 expected digest를 먼저 검사합니다.
+- 그래서 consumer 쪽 `peer_fetch()`가 payload를 읽고 직접 `peer digest mismatch`를 판단하기 전에, producer 쪽에서 요청이 먼저 막힙니다.
+- 즉 현재 구현에서는 end-to-end HTTP만으로 `peer digest mismatch` 메시지까지 도달하기가 어렵습니다.
+
+2. live peer-fetch branch probe
+
+- 같은 날 worker1 live pod 안에서 `peer_fetch()`를 직접 호출했습니다.
+- 이때 `fetch_catalog()`와 peer 응답만 아주 좁게 monkeypatch해서, consumer가 읽는 payload digest가 expected digest와 다르게 만들었습니다.
+- 그 결과 `ValueError: peer digest mismatch`가 발생했고, local metadata에는 아래가 남았습니다.
+  - `state=fetch-failed`
+  - `source=peer-fetch`
+  - `lastError=peer digest mismatch`
+
+정리:
+
+- branch 자체의 recording은 실제로 동작한다.
+- 하지만 현재 end-to-end HTTP 설계에서는 producer-side digest gate가 더 앞에 있어서, 같은 failure를 외부 경로로 바로 관찰하기는 어렵다.
+- 따라서 이번 스프린트는 `peer digest mismatch`를 "완전한 end-to-end pass"로 보기보다, "live branch evidence 확보 + current HTTP limitation 확인"으로 기록하는 것이 맞다.
+
+## 11. peer fetch HTTP attribution tightening
+
+`2026-04-08`에는 바로 이어서 B9에서 드러난 attribution 문제를 좁게 보정했습니다.
+
+용어 기준:
+
+- 이 섹션은 `peer digest mismatch`를 재정의하는 것이 아니라, producer-side rejection을 `peer fetch http 409: digest mismatch`로 더 정확히 드러내는 보정이다.
+
+핵심 수정:
+
+- 공개 `/artifacts/...` 경로에서 `fetch_catalog()`와 `peer_fetch()` 예외 처리를 분리했습니다.
+- producer-side `HTTPError`는 더 이상 `catalog lookup failed`로 뭉개지지 않게 했습니다.
+- peer 쪽 `HTTPError` body에 `{"error":"digest mismatch"}`가 있으면, consumer 응답과 local metadata 모두 `peer fetch http 409: digest mismatch`처럼 더 구체적인 메시지를 남기도록 했습니다.
+
+실검증:
+
+- fresh artifact `fail-peer-digest-http-b10-20260408`를 worker0에 생성
+- catalog digest를 `0000...`로 바꾼 뒤 worker1 공개 `/artifacts/{artifactId}` 호출
+- 결과:
+  - HTTP 응답: `409`
+  - 응답 본문: `peer fetch http 409: digest mismatch`
+  - local metadata:
+    - `state=fetch-failed`
+    - `source=peer-fetch`
+    - `producerNode=lab-worker-0`
+    - `lastError=peer fetch http 409: digest mismatch`
+
+정리:
+
+- producer-side digest gate는 여전히 앞단에 있다.
+- 하지만 이제 외부 관찰 기준으로는 이 failure가 `catalog lookup`이 아니라 `peer fetch HTTP failure`라는 점이 분명해졌다.
+- 즉 B9에서 확인한 "current HTTP limitation" 자체는 남아 있지만, B10에서는 적어도 attribution은 정확해졌다.
+
+## 12. post-freeze edge case truth tightening
+
+`2026-04-08`에는 failure-doc 정리 이후 첫 post-freeze validation으로, `D3`에서 선택한 edge case를 실제로 좁게 확인했습니다.
+
+선택한 질문:
+
+- `catalog record exists + local artifact missing`
+
+이번에는 same-node 경로를 먼저 확인했습니다.
+
+실행 방식:
+
+1. worker0에 fresh artifact `edge-local-miss-20260408-same` 생성
+2. catalog record는 유지
+3. worker0 hostPath artifact 디렉터리만 제거
+4. 같은 node에서 `/artifacts/{artifactId}` 재호출
+
+확인한 점:
+
+- catalog record는 그대로 `state=produced`로 남아 있었다.
+- same-node local availability는 사라졌기 때문에 local path는 miss가 났다.
+- agent는 peer fetch fallback으로 들어갔지만, producer가 self를 가리키므로 self-loop failure가 됐다.
+- worker0 local metadata에는 아래가 남았다.
+  - `state=fetch-failed`
+  - `source=peer-fetch`
+  - `lastError=artifact missing locally and producer points to self`
+
+이 기록이 중요한 이유:
+
+- catalog truth와 local availability가 같은 뜻이 아니라는 점을 실제 evidence로 확인했기 때문이다.
+- 즉 catalog에 producer record가 남아 있어도, 현재 node local copy가 사라지면 same-node 경로는 자동 성공이 아니라 failure로 드러난다.
+
+아직 남는 점:
+
+- 이번에는 same-node path만 먼저 확인했다.
+- cross-node에서 같은 edge case가 peer fetch recovery로 이어지는지는 후속 검증 후보다.
+- `catalog record missing + local artifact exists` edge case도 여전히 남아 있다.
 
 ## 참고
 

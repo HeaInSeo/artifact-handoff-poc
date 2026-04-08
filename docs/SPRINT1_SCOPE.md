@@ -47,12 +47,17 @@ Each artifact record tracks:
 - `state`
 - `replicaNodes`
 
+Failure semantics note: [docs/research/peer-fetch-failure-paths.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/research/peer-fetch-failure-paths.md)
+
+This scope document does not expand the full failure taxonomy. It only points to the note above for interpreting `state`, `fetch-failed`, and digest-mismatch semantics.
+
 ## Success Criteria
 
 - same-node child succeeds without remote fetch
 - cross-node child succeeds after peer fetch
 - second hit on node B can succeed from local cache when requested
 - digest mismatch is rejected
+- `producerNode` metadata is actually used as child-placement input
 - the flow is reproducible on top of `multipass-k8s-lab`
 
 ## Non-Goals

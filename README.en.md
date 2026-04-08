@@ -7,17 +7,36 @@ English: [README.en.md](README.en.md)
 
 This repository is not responsible for VM creation or Kubernetes bootstrap. `multipass-k8s-lab` is the lab infrastructure repo. `artifact-handoff-poc` is the experiment repo that deploys a minimal artifact handoff stack onto that lab.
 
+Its central concept is not generic file transfer but `artifact location awareness`. The goal is to record where a parent artifact lives and use that location to decide between same-node reuse and cross-node peer fetch.
+
+The current implementation is closer to **script-assisted location-aware validation** than to a full scheduler/controller-driven decision layer. It combines catalog metadata, experiment scripts, and node-local agents rather than a richer placement control plane.
+
+Project baseline: [docs/PROJECT_BASELINE.md](docs/PROJECT_BASELINE.md)
+
 ## Goal
 
 Sprint 1 validates one question:
 
 Can a 3-node K8s VM lab support a minimal node-local artifact handoff flow with same-node reuse and cross-node peer fetch?
 
+This is closer to "can location drive the handoff decision" than to "where should the file be copied."
+
 ## Repo Boundary
 
 - `multipass-k8s-lab` owns VM lifecycle, kubeadm bootstrap, kubeconfig export, and reusable lab infrastructure.
 - `artifact-handoff-poc` owns the PoC implementation, Kubernetes manifests, experiment scripts, and result capture.
 - This repo does not implement Multipass provisioning, kubeadm bootstrap, or host setup logic.
+
+## Why This Repository Exists
+
+In Kubernetes DAG or genomics-style workflows, handing large parent outputs to child workloads through a PV/PVC-first model can become heavy in both cost and operational complexity. This repository validates a narrower alternative: use a catalog/metadata layer to recognize the producer artifact's physical location first, then:
+
+- place the child on the same node to enable same-node reuse
+- or fall back to cross-node peer fetch from the producer node
+
+The repository exists to validate whether that minimal location-aware handoff flow works in a constrained lab.
+
+At the current stage, child placement is assisted by scripts that read `producerNode` from the catalog. A dedicated scheduler or controller is not part of the current scope.
 
 ## Sprint 1 Scope
 
@@ -41,6 +60,11 @@ Out of scope:
 - performance benchmarking
 
 More detail: [docs/SPRINT1_SCOPE.md](docs/SPRINT1_SCOPE.md)
+
+Research note entry point: [docs/research/README.md](docs/research/README.md)
+Failure semantics note: [docs/research/peer-fetch-failure-paths.md](docs/research/peer-fetch-failure-paths.md)
+Failure matrix: [docs/FAILURE_MATRIX.md](docs/FAILURE_MATRIX.md)
+Sprint progress board: [docs/SPRINT_PROGRESS.md](docs/SPRINT_PROGRESS.md)
 
 ## Layout
 
@@ -84,6 +108,8 @@ More detail: [docs/SPRINT1_SCOPE.md](docs/SPRINT1_SCOPE.md)
 - `run-same-node.sh`: parent on node A, child on node A
 - `run-cross-node.sh`: parent on node A, child on node B
 
+The current scripts read `producerNode` from the catalog after the parent run and use that metadata when building the child scenario, but the overall experiment flow is still organized by shell scripts.
+
 ## Prerequisites
 
 1. `multipass-k8s-lab` exists as a sibling repository.
@@ -126,7 +152,8 @@ Cleanup:
 - artifact storage uses hostPath directly
 - peer discovery is address-based and intentionally simple
 - no authn/authz or TLS between agents
-- no scheduler integration beyond explicit node pinning in the test jobs
+- placement is assisted by scripts that read catalog metadata, but there is still no dedicated scheduler/controller integration
+- the catalog top-level state is still a minimal `produced`-centric model rather than a richer transition system
 
 ## Next Steps
 
@@ -135,3 +162,5 @@ Cleanup:
 - formalize metadata transitions and error states
 - evaluate scheduler hints or controller-driven placement
 - add richer failure-path tests
+
+Any later step should still follow the scope guardrails in [docs/PROJECT_BASELINE.md](docs/PROJECT_BASELINE.md) and stay in small experiment increments.

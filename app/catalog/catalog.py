@@ -8,6 +8,26 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 PORT = int(os.environ.get("PORT", "8090"))
 STATE_FILE = os.environ.get("STATE_FILE", "/data/catalog.json")
+RECORD_REQUIRED_FIELDS = {"digest", "producerNode", "producerAddress", "localPath", "state"}
+RECORD_ALLOWED_STATES = {"produced"}
+REPLICA_REQUIRED_FIELDS = {"node", "address", "localPath", "state"}
+REPLICA_ALLOWED_STATES = {"replicated"}
+
+
+def validate_record_payload(payload: dict) -> None:
+    missing = sorted(RECORD_REQUIRED_FIELDS - set(payload.keys()))
+    if missing:
+        raise ValueError(f"missing fields: {', '.join(missing)}")
+    if payload["state"] not in RECORD_ALLOWED_STATES:
+        raise ValueError(f"unsupported state: {payload['state']}")
+
+
+def validate_replica_payload(payload: dict) -> None:
+    missing = sorted(REPLICA_REQUIRED_FIELDS - set(payload.keys()))
+    if missing:
+        raise ValueError(f"missing fields: {', '.join(missing)}")
+    if payload["state"] not in REPLICA_ALLOWED_STATES:
+        raise ValueError(f"unsupported replica state: {payload['state']}")
 
 
 class CatalogStore:
@@ -109,6 +129,11 @@ class Handler(BaseHTTPRequestHandler):
         artifact_id = self.path.split("/")[2]
         payload = self._read_json()
         payload["artifactId"] = artifact_id
+        try:
+            validate_record_payload(payload)
+        except ValueError as exc:
+            self._write_json(HTTPStatus.BAD_REQUEST, {"error": str(exc)})
+            return
         STORE.put(artifact_id, payload)
         self._write_json(HTTPStatus.OK, payload)
 
@@ -119,6 +144,11 @@ class Handler(BaseHTTPRequestHandler):
         parts = self.path.split("/")
         artifact_id = parts[2]
         payload = self._read_json()
+        try:
+            validate_replica_payload(payload)
+        except ValueError as exc:
+            self._write_json(HTTPStatus.BAD_REQUEST, {"error": str(exc)})
+            return
         record = STORE.add_replica(artifact_id, payload)
         if not record:
             self._write_json(HTTPStatus.NOT_FOUND, {"error": "artifact not found"})

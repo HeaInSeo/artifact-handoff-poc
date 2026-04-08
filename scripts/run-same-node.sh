@@ -7,6 +7,8 @@ NAMESPACE="${NAMESPACE:-artifact-handoff}"
 ARTIFACT_ID="${ARTIFACT_ID:-demo-artifact}"
 
 export KUBECONFIG="${KUBECONFIG_PATH}"
+export NAMESPACE
+export ARTIFACT_ID
 
 preferred_nodes="$(kubectl get nodes --no-headers -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints | awk '$2 !~ /NoSchedule/ {print $1}')"
 all_nodes="$(kubectl get nodes --no-headers -o custom-columns=NAME:.metadata.name)"
@@ -89,6 +91,31 @@ EOF
 
 kubectl wait -n "${NAMESPACE}" --for=condition=complete job/parent-same-node --timeout=180s
 
+producer_node="$(
+python3 - <<'PY'
+import json
+import os
+import subprocess
+import sys
+
+namespace = os.environ["NAMESPACE"]
+artifact_id = os.environ["ARTIFACT_ID"]
+raw = subprocess.check_output(
+    ["kubectl", "-n", namespace, "exec", "deploy/artifact-catalog", "--", "wget", "-qO-", f"http://127.0.0.1:8090/artifacts/{artifact_id}"],
+)
+record = json.loads(raw.decode("utf-8"))
+producer_node = record.get("producerNode", "")
+if not producer_node:
+    raise SystemExit("producerNode missing from catalog record")
+print(producer_node)
+PY
+)"
+
+if [[ -z "${producer_node}" ]]; then
+  echo "failed to resolve producer node from catalog" >&2
+  exit 1
+fi
+
 cat <<EOF | kubectl apply -f -
 apiVersion: batch/v1
 kind: Job
@@ -104,7 +131,7 @@ spec:
           operator: Exists
           effect: NoSchedule
       nodeSelector:
-        kubernetes.io/hostname: ${node_a}
+        kubernetes.io/hostname: ${producer_node}
       containers:
         - name: child
           image: python:3.12-alpine

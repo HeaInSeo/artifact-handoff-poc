@@ -17,6 +17,13 @@ NODE_NAME = os.environ.get("NODE_NAME", "unknown")
 NODE_IP = os.environ.get("NODE_IP", "127.0.0.1")
 
 
+class PeerFetchHTTPError(Exception):
+    def __init__(self, status: int, message: str):
+        super().__init__(message)
+        self.status = status
+        self.message = message
+
+
 def artifact_path(artifact_id: str) -> str:
     return os.path.join(STORAGE_DIR, artifact_id, "payload.bin")
 
@@ -35,6 +42,23 @@ def sha256_hex(payload: bytes) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
+def describe_http_error(exc: urllib.error.HTTPError) -> str:
+    detail = ""
+    try:
+        body = exc.read().decode("utf-8").strip()
+    except Exception:
+        body = ""
+    if body:
+        try:
+            payload = json.loads(body)
+            detail = payload.get("error", body)
+        except Exception:
+            detail = body
+    if detail:
+        return f"peer fetch http {exc.code}: {detail}"
+    return f"peer fetch http {exc.code}: {exc.reason}"
+
+
 def load_local_metadata(artifact_id: str):
     path = metadata_path(artifact_id)
     if not os.path.exists(path):
@@ -43,18 +67,58 @@ def load_local_metadata(artifact_id: str):
         return json.load(fh)
 
 
-def save_local(artifact_id: str, payload: bytes, digest: str, source: str):
+def save_local(
+    artifact_id: str,
+    payload: bytes,
+    digest: str,
+    source: str,
+    producer_node: str,
+    producer_address: str,
+):
     ensure_dir(artifact_id)
     with open(artifact_path(artifact_id), "wb") as fh:
         fh.write(payload)
+    state = "available-local"
+    if source == "peer-fetch":
+        state = "replicated"
     metadata = {
         "artifactId": artifact_id,
         "digest": digest,
-        "node": NODE_NAME,
-        "nodeAddress": f"http://{NODE_IP}:{PORT}",
+        "producerNode": producer_node,
+        "producerAddress": producer_address,
+        "localNode": NODE_NAME,
+        "localAddress": f"http://{NODE_IP}:{PORT}",
         "localPath": artifact_path(artifact_id),
         "source": source,
+        "state": state,
         "size": len(payload),
+    }
+    with open(metadata_path(artifact_id), "w", encoding="utf-8") as fh:
+        json.dump(metadata, fh, indent=2, sort_keys=True)
+    return metadata
+
+
+def save_failure_metadata(
+    artifact_id: str,
+    source: str,
+    error: str,
+    producer_node: str = "",
+    producer_address: str = "",
+):
+    ensure_dir(artifact_id)
+    payload_file = artifact_path(artifact_id)
+    if os.path.exists(payload_file):
+        os.remove(payload_file)
+    metadata = {
+        "artifactId": artifact_id,
+        "producerNode": producer_node,
+        "producerAddress": producer_address,
+        "localNode": NODE_NAME,
+        "localAddress": f"http://{NODE_IP}:{PORT}",
+        "localPath": payload_file,
+        "source": source,
+        "state": "fetch-failed",
+        "lastError": error,
     }
     with open(metadata_path(artifact_id), "w", encoding="utf-8") as fh:
         json.dump(metadata, fh, indent=2, sort_keys=True)
@@ -67,7 +131,7 @@ def register_catalog(artifact_id: str, digest: str):
         "producerNode": NODE_NAME,
         "producerAddress": f"http://{NODE_IP}:{PORT}",
         "localPath": artifact_path(artifact_id),
-        "state": "ready",
+        "state": "produced",
         "replicaNodes": [],
     }
     req = urllib.request.Request(
@@ -90,7 +154,7 @@ def register_replica(artifact_id: str):
         "node": NODE_NAME,
         "address": f"http://{NODE_IP}:{PORT}",
         "localPath": artifact_path(artifact_id),
-        "state": "ready",
+        "state": "replicated",
     }
     req = urllib.request.Request(
         f"{CATALOG_URL}/artifacts/{artifact_id}/replicas",
@@ -106,11 +170,22 @@ def local_hit(artifact_id: str):
     meta = load_local_metadata(artifact_id)
     if not meta:
         return None
+    if meta.get("state") == "fetch-failed":
+        raise ValueError(meta.get("lastError", "previous fetch failed"))
     with open(artifact_path(artifact_id), "rb") as fh:
         payload = fh.read()
     digest = sha256_hex(payload)
     if digest != meta["digest"]:
+        producer_node = meta.get("producerNode", "")
+        producer_address = meta.get("producerAddress", "")
         shutil.rmtree(os.path.dirname(artifact_path(artifact_id)), ignore_errors=True)
+        save_failure_metadata(
+            artifact_id,
+            "local-verify",
+            "local digest mismatch",
+            producer_node,
+            producer_address,
+        )
         raise ValueError("local digest mismatch")
     return payload, meta
 
@@ -119,16 +194,58 @@ def peer_fetch(artifact_id: str, expected_digest: str):
     record = fetch_catalog(artifact_id)
     producer = record.get("producerAddress")
     if not producer:
+        save_failure_metadata(artifact_id, "peer-fetch", "missing producerAddress")
         raise ValueError("missing producerAddress")
     if producer == f"http://{NODE_IP}:{PORT}":
+        save_failure_metadata(
+            artifact_id,
+            "peer-fetch",
+            "artifact missing locally and producer points to self",
+            record.get("producerNode", ""),
+            producer,
+        )
         raise ValueError("artifact missing locally and producer points to self")
     url = f"{producer}/internal/artifacts/{urllib.parse.quote(artifact_id)}?digest={expected_digest}"
-    with urllib.request.urlopen(url, timeout=10) as resp:
-        payload = resp.read()
+    try:
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            payload = resp.read()
+    except urllib.error.HTTPError as exc:
+        error = describe_http_error(exc)
+        save_failure_metadata(
+            artifact_id,
+            "peer-fetch",
+            error,
+            record.get("producerNode", ""),
+            record.get("producerAddress", ""),
+        )
+        raise PeerFetchHTTPError(exc.code, error)
+    except Exception as exc:
+        save_failure_metadata(
+            artifact_id,
+            "peer-fetch",
+            str(exc),
+            record.get("producerNode", ""),
+            record.get("producerAddress", ""),
+        )
+        raise
     actual_digest = sha256_hex(payload)
     if actual_digest != expected_digest:
+        save_failure_metadata(
+            artifact_id,
+            "peer-fetch",
+            "peer digest mismatch",
+            record.get("producerNode", ""),
+            record.get("producerAddress", ""),
+        )
         raise ValueError("peer digest mismatch")
-    save_local(artifact_id, payload, actual_digest, "peer-fetch")
+    save_local(
+        artifact_id,
+        payload,
+        actual_digest,
+        "peer-fetch",
+        record["producerNode"],
+        record["producerAddress"],
+    )
     register_replica(artifact_id)
     return payload, {
         "artifactId": artifact_id,
@@ -199,10 +316,18 @@ class Handler(BaseHTTPRequestHandler):
                     },
                 )
                 return
-            except Exception:
-                pass
+            except Exception as exc:
+                failure_meta = load_local_metadata(artifact_id)
+                if failure_meta and failure_meta.get("state") == "fetch-failed":
+                    self._write_json(HTTPStatus.NOT_FOUND, {"error": str(exc)})
+                    return
             try:
                 record = fetch_catalog(artifact_id)
+            except urllib.error.HTTPError as exc:
+                save_failure_metadata(artifact_id, "catalog-lookup", "catalog lookup failed")
+                self._write_json(exc.code, {"error": "catalog lookup failed"})
+                return
+            try:
                 payload, meta = peer_fetch(artifact_id, record["digest"])
                 self._write_bytes(
                     HTTPStatus.OK,
@@ -213,8 +338,8 @@ class Handler(BaseHTTPRequestHandler):
                     },
                 )
                 return
-            except urllib.error.HTTPError as exc:
-                self._write_json(exc.code, {"error": "catalog lookup failed"})
+            except PeerFetchHTTPError as exc:
+                self._write_json(exc.status, {"error": exc.message})
                 return
             except Exception as exc:
                 self._write_json(HTTPStatus.NOT_FOUND, {"error": str(exc)})
@@ -239,7 +364,14 @@ class Handler(BaseHTTPRequestHandler):
                 {"error": "digest mismatch", "expected": expected_digest, "actual": actual_digest},
             )
             return
-        meta = save_local(artifact_id, payload, actual_digest, "local-put")
+        meta = save_local(
+            artifact_id,
+            payload,
+            actual_digest,
+            "local-put",
+            NODE_NAME,
+            f"http://{NODE_IP}:{PORT}",
+        )
         register_catalog(artifact_id, actual_digest)
         self._write_json(HTTPStatus.OK, meta)
 

@@ -7,17 +7,36 @@ English: [README.en.md](README.en.md)
 
 이 저장소는 VM 생성이나 Kubernetes 부트스트랩을 담당하지 않습니다. `multipass-k8s-lab`이 랩 인프라 저장소이고, `artifact-handoff-poc`은 그 랩 위에 최소 artifact handoff 스택을 배포하는 실험 저장소입니다.
 
+이 저장소의 중심 개념은 단순 파일 전송이 아니라 `artifact location awareness`입니다. 즉 parent artifact가 어느 노드에 있는지 기록하고, 그 위치를 기준으로 same-node reuse 또는 cross-node peer fetch를 결정할 수 있는지를 검증합니다.
+
+현재 구현은 full scheduler/controller 기반 decision layer가 아니라, catalog metadata를 읽는 실험 스크립트와 node-local agent를 조합한 **script-assisted location-aware validation**에 가깝습니다.
+
+프로젝트 기준선: [docs/PROJECT_BASELINE.ko.md](docs/PROJECT_BASELINE.ko.md)
+
 ## 목표
 
 Sprint 1은 한 가지 질문을 검증합니다.
 
 3노드 K8s VM 랩에서 same-node 재사용과 cross-node peer fetch를 포함한 최소 node-local artifact handoff 흐름을 지원할 수 있는가?
 
+이 질문은 "파일을 중앙 저장소로 옮길 것인가"보다 "데이터 위치를 알고 그 위치를 handoff 결정에 활용할 수 있는가"에 더 가깝습니다.
+
 ## 저장소 경계
 
 - `multipass-k8s-lab`은 VM 라이프사이클, kubeadm 부트스트랩, kubeconfig 내보내기, 재사용 가능한 랩 인프라를 담당합니다.
 - `artifact-handoff-poc`은 PoC 구현, Kubernetes 매니페스트, 실험 스크립트, 결과 기록을 담당합니다.
 - 이 저장소는 Multipass 프로비저닝, kubeadm 부트스트랩, 호스트 설정 로직을 구현하지 않습니다.
+
+## 왜 이 저장소가 존재하는가
+
+Kubernetes 기반 DAG 또는 유전체 분석 워크로드에서는 부모가 만든 대용량 산출물을 자식에게 넘길 때 PV/PVC 중심 접근이 무겁거나 운영 복잡도가 커질 수 있습니다. 이 저장소는 그 대안으로, 부모 산출물의 물리적 위치를 catalog/metadata 계층에서 먼저 인식한 뒤:
+
+- 같은 노드에 자식을 붙여 same-node reuse를 유도하고
+- 그게 어렵다면 생산 노드 기준으로 cross-node peer fetch를 수행하는
+
+최소 location-aware handoff 흐름이 성립하는지 검증합니다.
+
+현재 단계에서 child placement는 catalog의 `producerNode`를 읽는 스크립트가 보조하며, 별도 scheduler/controller가 placement를 자동 결정하지는 않습니다.
 
 ## Sprint 1 범위
 
@@ -41,6 +60,11 @@ Sprint 1은 한 가지 질문을 검증합니다.
 - 성능 벤치마킹
 
 자세한 내용: [docs/SPRINT1_SCOPE.ko.md](docs/SPRINT1_SCOPE.ko.md)
+
+조사 메모 시작점: [docs/research/README.ko.md](docs/research/README.ko.md)
+failure semantics 메모: [docs/research/peer-fetch-failure-paths.ko.md](docs/research/peer-fetch-failure-paths.ko.md)
+failure matrix: [docs/FAILURE_MATRIX.ko.md](docs/FAILURE_MATRIX.ko.md)
+스프린트 진행 현황: [docs/SPRINT_PROGRESS.ko.md](docs/SPRINT_PROGRESS.ko.md)
 
 ## 구성
 
@@ -84,6 +108,8 @@ Sprint 1은 한 가지 질문을 검증합니다.
 - `run-same-node.sh`: parent on node A, child on node A
 - `run-cross-node.sh`: parent on node A, child on node B
 
+현재 스크립트는 parent 완료 후 catalog에서 `producerNode`를 읽어 child placement를 구성합니다. 다만 여전히 shell script가 실험 시나리오를 직접 조직하는 구조입니다.
+
 ## 전제 조건
 
 1. 형제 저장소로 `multipass-k8s-lab`이 존재해야 합니다.
@@ -126,7 +152,8 @@ Sprint 1은 한 가지 질문을 검증합니다.
 - artifact 저장소는 hostPath를 직접 사용합니다.
 - peer discovery는 주소 기반이며 의도적으로 단순합니다.
 - agent 간 통신에 authn/authz 또는 TLS가 없습니다.
-- 테스트 잡에서 명시적인 노드 고정을 하는 것 외에 별도 스케줄러 통합이 없습니다.
+- placement는 catalog metadata를 읽는 스크립트가 보조하지만, 별도 scheduler/controller 통합은 없습니다.
+- catalog top-level state는 아직 `produced` 중심의 최소 모델이며, richer transition은 아직 없습니다.
 
 ## 다음 단계
 
@@ -135,3 +162,5 @@ Sprint 1은 한 가지 질문을 검증합니다.
 - 메타데이터 상태 전이와 오류 상태 정형화
 - scheduler 힌트나 controller 기반 배치 평가
 - 더 풍부한 실패 경로 테스트 추가
+
+단, 이후 단계도 [docs/PROJECT_BASELINE.ko.md](docs/PROJECT_BASELINE.ko.md)의 범위 원칙을 유지하며 작은 실험 단위로 확장합니다.

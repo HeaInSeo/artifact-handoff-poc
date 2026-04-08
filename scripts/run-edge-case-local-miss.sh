@@ -4,26 +4,28 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 KUBECONFIG_PATH="${KUBECONFIG_PATH:-${ROOT_DIR}/../multipass-k8s-lab/kubeconfig}"
 NAMESPACE="${NAMESPACE:-artifact-handoff}"
-ARTIFACT_ID="${ARTIFACT_ID:-demo-artifact}"
-SECOND_HIT=0
+ARTIFACT_ID="${ARTIFACT_ID:-edge-case-local-miss}"
+MODE="${MODE:-same-node}"
 
-if [[ "${1:-}" == "--second-hit" ]]; then
-  SECOND_HIT=1
+if [[ "${1:-}" == "--cross-node" ]]; then
+  MODE="cross-node"
+elif [[ "${1:-}" == "--same-node" ]]; then
+  MODE="same-node"
 fi
 
 export KUBECONFIG="${KUBECONFIG_PATH}"
 export NAMESPACE
 export ARTIFACT_ID
+export MODE
 
 preferred_nodes="$(kubectl get nodes --no-headers -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints | awk '$2 !~ /NoSchedule/ {print $1}')"
 all_nodes="$(kubectl get nodes --no-headers -o custom-columns=NAME:.metadata.name)"
 node_a="${NODE_A:-$(printf '%s\n' "${preferred_nodes}" | sed -n '1p')}"
-node_b="${NODE_B:-$(printf '%s\n' "${preferred_nodes}" | sed -n '2p')}"
 if [[ -z "${node_a}" ]]; then
   node_a="$(printf '%s\n' "${all_nodes}" | sed -n '1p')"
 fi
 if [[ -z "${node_a}" ]]; then
-  echo "need at least one schedulable node for cross-node validation" >&2
+  echo "failed to resolve producer node" >&2
   exit 1
 fi
 
@@ -34,15 +36,15 @@ print(hashlib.sha256(payload).hexdigest())
 PY
 )"
 
-kubectl delete job -n "${NAMESPACE}" parent-cross-node --ignore-not-found >/dev/null
-kubectl delete job -n "${NAMESPACE}" child-cross-node --ignore-not-found >/dev/null
-kubectl delete job -n "${NAMESPACE}" child-cross-node-second --ignore-not-found >/dev/null
+kubectl delete job -n "${NAMESPACE}" edge-parent --ignore-not-found >/dev/null
+kubectl delete job -n "${NAMESPACE}" edge-prune-local --ignore-not-found >/dev/null
+kubectl delete job -n "${NAMESPACE}" edge-consumer --ignore-not-found >/dev/null
 
 cat <<EOF | kubectl apply -f -
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: parent-cross-node
+  name: edge-parent
   namespace: ${NAMESPACE}
 spec:
   template:
@@ -86,7 +88,7 @@ spec:
   backoffLimit: 0
 EOF
 
-kubectl wait -n "${NAMESPACE}" --for=condition=complete job/parent-cross-node --timeout=180s
+kubectl wait -n "${NAMESPACE}" --for=condition=complete job/edge-parent --timeout=180s
 
 producer_node="$(
 python3 - <<'PY'
@@ -112,17 +114,16 @@ if [[ -z "${producer_node}" ]]; then
   exit 1
 fi
 
-if [[ -n "${NODE_B:-}" ]]; then
-  node_b="${NODE_B}"
-else
-  node_b="$(printf '%s\n' "${preferred_nodes}" | awk -v producer="${producer_node}" '$1 != producer {print $1}' | sed -n '1p')"
-  if [[ -z "${node_b}" ]]; then
-    node_b="$(printf '%s\n' "${all_nodes}" | awk -v producer="${producer_node}" '$1 != producer {print $1}' | sed -n '1p')"
+consumer_node="${producer_node}"
+if [[ "${MODE}" == "cross-node" ]]; then
+  consumer_node="${NODE_B:-$(printf '%s\n' "${preferred_nodes}" | awk -v producer="${producer_node}" '$1 != producer {print $1}' | sed -n '1p')}"
+  if [[ -z "${consumer_node}" ]]; then
+    consumer_node="$(printf '%s\n' "${all_nodes}" | awk -v producer="${producer_node}" '$1 != producer {print $1}' | sed -n '1p')"
   fi
 fi
 
-if [[ -z "${node_b}" ]]; then
-  echo "failed to resolve a non-producer node for cross-node validation" >&2
+if [[ -z "${consumer_node}" ]]; then
+  echo "failed to resolve consumer node" >&2
   exit 1
 fi
 
@@ -130,7 +131,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: child-cross-node
+  name: edge-prune-local
   namespace: ${NAMESPACE}
 spec:
   template:
@@ -141,59 +142,37 @@ spec:
           operator: Exists
           effect: NoSchedule
       nodeSelector:
-        kubernetes.io/hostname: ${node_b}
+        kubernetes.io/hostname: ${consumer_node}
       containers:
-        - name: child
-          image: python:3.12-alpine
+        - name: prune
+          image: alpine:3.20
           env:
             - name: ARTIFACT_ID
               value: ${ARTIFACT_ID}
-            - name: ARTIFACT_DIGEST
-              value: ${artifact_digest}
-            - name: HOST_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.hostIP
           command:
             - sh
             - -ceu
             - |
-              python - <<'PY'
-              import hashlib
-              import os
-              import urllib.request
-              with urllib.request.urlopen(
-                  f"http://{os.environ['HOST_IP']}:8080/artifacts/{os.environ['ARTIFACT_ID']}",
-                  timeout=20,
-              ) as resp:
-                  payload = resp.read()
-                  source = resp.headers.get("X-Artifact-Source", "")
-              digest = hashlib.sha256(payload).hexdigest()
-              print(payload.decode("utf-8").strip())
-              print(f"source={source}")
-              print(f"digest={digest}")
-              if digest != os.environ["ARTIFACT_DIGEST"]:
-                  raise SystemExit("digest mismatch")
-              if source != "peer-fetch":
-                  raise SystemExit(f"expected peer-fetch source, got {source}")
-              PY
+              rm -rf "/host-storage/${ARTIFACT_ID}"
+              echo "removed /host-storage/${ARTIFACT_ID}"
+          volumeMounts:
+            - name: host-storage
+              mountPath: /host-storage
+      volumes:
+        - name: host-storage
+          hostPath:
+            path: /var/lib/artifact-handoff
+            type: DirectoryOrCreate
   backoffLimit: 0
 EOF
 
-kubectl wait -n "${NAMESPACE}" --for=condition=complete job/child-cross-node --timeout=180s
+kubectl wait -n "${NAMESPACE}" --for=condition=complete job/edge-prune-local --timeout=180s
 
-echo "== parent log =="
-kubectl logs -n "${NAMESPACE}" job/parent-cross-node
-echo
-echo "== child log =="
-kubectl logs -n "${NAMESPACE}" job/child-cross-node
-
-if [[ "${SECOND_HIT}" == "1" ]]; then
-  cat <<EOF | kubectl apply -f -
+cat <<EOF | kubectl apply -f -
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: child-cross-node-second
+  name: edge-consumer
   namespace: ${NAMESPACE}
 spec:
   template:
@@ -204,15 +183,13 @@ spec:
           operator: Exists
           effect: NoSchedule
       nodeSelector:
-        kubernetes.io/hostname: ${node_b}
+        kubernetes.io/hostname: ${consumer_node}
       containers:
-        - name: child
+        - name: consumer
           image: python:3.12-alpine
           env:
             - name: ARTIFACT_ID
               value: ${ARTIFACT_ID}
-            - name: ARTIFACT_DIGEST
-              value: ${artifact_digest}
             - name: HOST_IP
               valueFrom:
                 fieldRef:
@@ -222,28 +199,38 @@ spec:
             - -ceu
             - |
               python - <<'PY'
-              import hashlib
               import os
+              import sys
+              import urllib.error
               import urllib.request
-              with urllib.request.urlopen(
-                  f"http://{os.environ['HOST_IP']}:8080/artifacts/{os.environ['ARTIFACT_ID']}",
-                  timeout=20,
-              ) as resp:
-                  payload = resp.read()
-                  source = resp.headers.get("X-Artifact-Source", "")
-              digest = hashlib.sha256(payload).hexdigest()
-              print(payload.decode("utf-8").strip())
-              print(f"source={source}")
-              print(f"digest={digest}")
-              if digest != os.environ["ARTIFACT_DIGEST"]:
-                  raise SystemExit("digest mismatch")
-              if source != "local":
-                  raise SystemExit(f"expected local source, got {source}")
+
+              url = f"http://{os.environ['HOST_IP']}:8080/artifacts/{os.environ['ARTIFACT_ID']}"
+              try:
+                  with urllib.request.urlopen(url, timeout=20) as resp:
+                      body = resp.read().decode("utf-8", errors="replace")
+                      print(f"status={resp.status}")
+                      print(f"source={resp.headers.get('X-Artifact-Source', '')}")
+                      print(body)
+              except urllib.error.HTTPError as exc:
+                  body = exc.read().decode("utf-8", errors="replace")
+                  print(f"status={exc.code}")
+                  print(body)
+                  raise SystemExit(0)
               PY
   backoffLimit: 0
 EOF
-  kubectl wait -n "${NAMESPACE}" --for=condition=complete job/child-cross-node-second --timeout=180s
-  echo
-  echo "== second hit log =="
-  kubectl logs -n "${NAMESPACE}" job/child-cross-node-second
-fi
+
+kubectl wait -n "${NAMESPACE}" --for=condition=complete job/edge-consumer --timeout=180s
+
+echo "mode=${MODE}"
+echo "producer_node=${producer_node}"
+echo "consumer_node=${consumer_node}"
+echo
+echo "== parent log =="
+kubectl logs -n "${NAMESPACE}" job/edge-parent
+echo
+echo "== prune log =="
+kubectl logs -n "${NAMESPACE}" job/edge-prune-local
+echo
+echo "== consumer log =="
+kubectl logs -n "${NAMESPACE}" job/edge-consumer

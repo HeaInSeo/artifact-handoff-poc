@@ -7,9 +7,10 @@ Sprint 1의 목적은 작은 Kubernetes VM 랩에서 artifact handoff의 최소 
 목표는 프로덕션 시스템이 아닙니다. 목표는 다음을 보여 주는 작지만 실제적인 베이스라인입니다.
 
 1. parent가 node A에서 artifact를 생성한다.
-2. node A의 same-node child가 이를 로컬에서 재사용한다.
-3. node B의 cross-node child가 node A의 peer agent로부터 이를 가져온다.
-4. digest 검증과 최소 메타데이터가 강제된다.
+2. catalog가 parent artifact의 최소 위치 metadata를 기록한다.
+3. same-node child가 그 metadata를 바탕으로 producer node에서 로컬 재사용한다.
+4. cross-node child가 producer node와 다른 node에서 producer peer로부터 이를 가져온다.
+5. digest 검증과 최소 메타데이터가 강제된다.
 
 ## 책임 분리
 
@@ -47,12 +48,17 @@ Sprint 1의 목적은 작은 Kubernetes VM 랩에서 artifact handoff의 최소 
 - `state`
 - `replicaNodes`
 
+failure semantics 메모: [docs/research/peer-fetch-failure-paths.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/research/peer-fetch-failure-paths.ko.md)
+
+이 스프린트에서는 failure taxonomy 전체를 scope 문서에 풀지 않는다. 다만 `state`, `fetch-failed`, `digest mismatch` 해석은 위 메모를 기준으로 읽는다.
+
 ## 성공 기준
 
 - same-node child가 원격 fetch 없이 성공한다.
 - cross-node child가 peer fetch 이후 성공한다.
 - 요청 시 node B에서 두 번째 실행이 로컬 캐시로 성공할 수 있다.
 - digest 불일치는 거부된다.
+- child placement 입력에 `producerNode` metadata가 실제로 사용된다.
 - 전체 흐름이 `multipass-k8s-lab` 위에서 재현 가능하다.
 
 ## 비목표
