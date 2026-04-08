@@ -37,6 +37,11 @@ So, again, a separate helper is the narrower and safer choice.
 
 So this helper is the narrowest possible procedure that creates a fresh artifact, clears only the catalog state, and keeps the local artifact copy intact.
 
+Supported modes:
+
+- default: `same-node`
+- option: `--cross-node`
+
 ## What This Cut Intentionally Does Not Do
 
 - change agent behavior

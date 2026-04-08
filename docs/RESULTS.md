@@ -628,6 +628,58 @@ Local metadata snapshot:
 }
 ```
 
+### Scenario I: catalog record missing + local artifact exists (cross-node)
+
+- scenario: `catalog record missing + local artifact exists`
+- artifact id: `edge-catalog-miss-20260408-cross`
+- producer node: `lab-worker-0`
+- consumer node: `lab-worker-1`
+- reproduction:
+  - create a fresh artifact on worker0
+  - restart `artifact-catalog` to clear the emptyDir-backed catalog state
+  - request `/artifacts/{id}` from worker1
+- verdict: pass
+- interpretation:
+  - in the cross-node view, there is no local hit and no catalog truth, so the current implementation ends with `catalog lookup failed` and `fetch-failed` metadata.
+
+Key log:
+
+```text
+producer_node=lab-worker-0
+consumer_node=lab-worker-1
+
+== drop-catalog log ==
+restarted artifact-catalog to clear emptyDir-backed catalog state
+
+== consumer log ==
+status=404
+{
+  "error": "catalog lookup failed"
+}
+```
+
+Catalog lookup:
+
+```text
+HTTP/1.0 404 Not Found
+```
+
+Consumer local metadata snapshot:
+
+```json
+{
+  "artifactId": "edge-catalog-miss-20260408-cross",
+  "lastError": "catalog lookup failed",
+  "localAddress": "http://10.87.127.150:8080",
+  "localNode": "lab-worker-1",
+  "localPath": "/var/lib/artifact-handoff/edge-catalog-miss-20260408-cross/payload.bin",
+  "producerAddress": "",
+  "producerNode": "",
+  "source": "catalog-lookup",
+  "state": "fetch-failed"
+}
+```
+
 Local metadata snapshot:
 
 ```json

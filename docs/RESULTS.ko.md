@@ -628,6 +628,58 @@ local metadata snapshot:
 }
 ```
 
+### Scenario I: catalog record missing + local artifact exists (cross-node)
+
+- scenario 이름: `catalog record missing + local artifact exists`
+- artifact id: `edge-catalog-miss-20260408-cross`
+- producer node: `lab-worker-0`
+- consumer node: `lab-worker-1`
+- 재현 방식:
+  - worker0에 fresh artifact 생성
+  - `artifact-catalog`를 재시작해 emptyDir-backed catalog state를 비움
+  - worker1에서 `/artifacts/{id}` 호출
+- 판정 결과: pass
+- 해석:
+  - cross-node에서는 local hit가 없고 catalog truth도 비어 있으므로, 현재 구현은 `catalog lookup failed`와 `fetch-failed` metadata로 끝난다.
+
+핵심 로그:
+
+```text
+producer_node=lab-worker-0
+consumer_node=lab-worker-1
+
+== drop-catalog log ==
+restarted artifact-catalog to clear emptyDir-backed catalog state
+
+== consumer log ==
+status=404
+{
+  "error": "catalog lookup failed"
+}
+```
+
+catalog lookup:
+
+```text
+HTTP/1.0 404 Not Found
+```
+
+consumer local metadata snapshot:
+
+```json
+{
+  "artifactId": "edge-catalog-miss-20260408-cross",
+  "lastError": "catalog lookup failed",
+  "localAddress": "http://10.87.127.150:8080",
+  "localNode": "lab-worker-1",
+  "localPath": "/var/lib/artifact-handoff/edge-catalog-miss-20260408-cross/payload.bin",
+  "producerAddress": "",
+  "producerNode": "",
+  "source": "catalog-lookup",
+  "state": "fetch-failed"
+}
+```
+
 local metadata snapshot:
 
 ```json

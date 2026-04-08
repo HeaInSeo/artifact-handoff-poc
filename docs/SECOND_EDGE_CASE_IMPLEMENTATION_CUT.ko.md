@@ -39,6 +39,11 @@
 
 즉 이번 helper는 fresh artifact를 만든 뒤 catalog state만 비우고, local artifact copy는 그대로 남겨 두는 가장 좁은 재현 절차다.
 
+지원 모드:
+
+- 기본: `same-node`
+- 옵션: `--cross-node`
+
 ## 이번 cut에서 의도적으로 하지 않은 것
 
 - agent behavior 변경

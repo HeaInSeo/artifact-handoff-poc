@@ -14,15 +14,15 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
   - first edge-case completion track `D4~D7`: `4/4` complete, `100%`
   - second edge-case kickoff track `D8~D9`: `2/2` complete, `100%`
   - second edge-case truth track `D10~D11`: `2/2` complete, `100%`
-  - second edge-case cross-node follow-up track `D12~D13`: `0/2` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13`: `39/41` complete, about `95%`
+  - second edge-case cross-node follow-up track `D12~D13`: `1/2` complete, `50%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13`: `40/41` complete, about `98%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -51,6 +51,7 @@ This is not a design document. It is a **progress board** and should be updated 
   - `Sprint D9` added a dedicated helper to reproduce `catalog record missing + local artifact exists`
   - `Sprint D10` validated that same-node `catalog record missing + local artifact exists` surfaces as `source=local` success even when catalog lookup is `404`
   - `Sprint D11` fixed that the second edge case is closed for same-node truth, but the overall edge-case family remains partially open until the cross-node view is checked
+  - `Sprint D12` validated that cross-node `catalog record missing + local artifact exists` surfaces as `catalog lookup failed` with `fetch-failed` metadata
 
 ## Completed Sprint Table
 
@@ -95,6 +96,7 @@ This is not a design document. It is a **progress board** and should be updated 
 | D9 | Complete | dedicated helper and cut note added for the second edge case |
 | D10 | Complete | live same-node evidence fixed for `catalog record missing + local artifact exists` |
 | D11 | Complete | reassessment fixed that same-node is closed but the full edge-case family is still partially open |
+| D12 | Complete | live cross-node evidence fixed for `catalog record missing + local artifact exists` |
 
 ## Current Backlog
 

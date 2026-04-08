@@ -5,10 +5,18 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 KUBECONFIG_PATH="${KUBECONFIG_PATH:-${ROOT_DIR}/../multipass-k8s-lab/kubeconfig}"
 NAMESPACE="${NAMESPACE:-artifact-handoff}"
 ARTIFACT_ID="${ARTIFACT_ID:-edge-case-catalog-miss}"
+MODE="${MODE:-same-node}"
+
+if [[ "${1:-}" == "--cross-node" ]]; then
+  MODE="cross-node"
+elif [[ "${1:-}" == "--same-node" ]]; then
+  MODE="same-node"
+fi
 
 export KUBECONFIG="${KUBECONFIG_PATH}"
 export NAMESPACE
 export ARTIFACT_ID
+export MODE
 
 preferred_nodes="$(kubectl get nodes --no-headers -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints | awk '$2 !~ /NoSchedule/ {print $1}')"
 all_nodes="$(kubectl get nodes --no-headers -o custom-columns=NAME:.metadata.name)"
@@ -103,6 +111,19 @@ PY
 kubectl rollout restart -n "${NAMESPACE}" deploy/artifact-catalog >/dev/null
 kubectl rollout status -n "${NAMESPACE}" deploy/artifact-catalog --timeout=180s >/dev/null
 
+consumer_node="${producer_node}"
+if [[ "${MODE}" == "cross-node" ]]; then
+  consumer_node="${NODE_B:-$(printf '%s\n' "${preferred_nodes}" | awk -v producer="${producer_node}" '$1 != producer {print $1}' | sed -n '1p')}"
+  if [[ -z "${consumer_node}" ]]; then
+    consumer_node="$(printf '%s\n' "${all_nodes}" | awk -v producer="${producer_node}" '$1 != producer {print $1}' | sed -n '1p')"
+  fi
+fi
+
+if [[ -z "${consumer_node}" ]]; then
+  echo "failed to resolve consumer node" >&2
+  exit 1
+fi
+
 cat <<EOF | kubectl apply -f -
 apiVersion: batch/v1
 kind: Job
@@ -118,7 +139,7 @@ spec:
           operator: Exists
           effect: NoSchedule
       nodeSelector:
-        kubernetes.io/hostname: ${producer_node}
+        kubernetes.io/hostname: ${consumer_node}
       containers:
         - name: consumer
           image: python:3.12-alpine
@@ -157,7 +178,7 @@ EOF
 kubectl wait -n "${NAMESPACE}" --for=condition=complete job/edge2-consumer --timeout=180s
 
 echo "producer_node=${producer_node}"
-echo "consumer_node=${producer_node}"
+echo "consumer_node=${consumer_node}"
 echo
 echo "== parent log =="
 kubectl logs -n "${NAMESPACE}" job/edge2-parent

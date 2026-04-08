@@ -371,6 +371,40 @@
 - cross-node에서 같은 질문이 어떤 의미를 가지는지는 아직 열려 있다.
 - 이 동작을 허용된 reuse로 볼지, orphan/local-leftover side effect로 볼지는 후속 판단이 필요하다.
 
+## 15. second edge cross-node check
+
+`2026-04-08`에는 같은 두 번째 edge case를 cross-node 관점에서도 이어서 확인했다.
+
+질문:
+
+- `catalog record missing + local artifact exists` 상황에서 non-producer node는 어떤 결과를 내는가
+
+실행 방식:
+
+1. worker0에 fresh artifact `edge-catalog-miss-20260408-cross` 생성
+2. catalog에서 `producerNode`를 한 번 확인
+3. `artifact-catalog`를 재시작해 emptyDir-backed catalog state를 비움
+4. worker1에서 `/artifacts/{artifactId}` 호출
+
+확인한 점:
+
+- consumer 응답은 `404`였다.
+- 응답 본문은 `catalog lookup failed`였다.
+- catalog lookup도 실제로 `404 Not Found`였다.
+- worker1 local metadata는 아래처럼 남았다.
+  - `state=fetch-failed`
+  - `source=catalog-lookup`
+  - `lastError=catalog lookup failed`
+  - `producerNode`와 `producerAddress`는 비어 있었다.
+
+이 기록이 의미하는 바:
+
+- same-node에서는 surviving local copy가 catalog absence를 가릴 수 있다.
+- 하지만 cross-node에서는 local hit가 없기 때문에 catalog truth가 사라지면 lookup failure로 바로 드러난다.
+- 즉 같은 edge case family라도 node 위치에 따라 결과가 갈린다.
+
+이제 두 번째 edge case도 same-node / cross-node 두 관점이 모두 채워졌다.
+
 ## 참고
 
 인프라 쪽 상세 장애 흐름은 `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.ko.md` 에 별도로 정리합니다.

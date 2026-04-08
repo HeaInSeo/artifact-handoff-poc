@@ -374,6 +374,40 @@ What still remains:
 - the cross-node meaning of the same question is still open
 - it is still undecided whether this behavior should be treated as acceptable reuse or as an orphan/local-leftover side effect
 
+## 15. second edge cross-node check
+
+On `2026-04-08`, the same second edge case was extended into the cross-node view.
+
+Question:
+
+- under `catalog record missing + local artifact exists`, what result appears on a non-producer node
+
+Execution flow:
+
+1. create fresh artifact `edge-catalog-miss-20260408-cross` on worker0
+2. read `producerNode` from the catalog once
+3. restart `artifact-catalog` to clear the emptyDir-backed catalog state
+4. request `/artifacts/{artifactId}` from worker1
+
+What was confirmed:
+
+- the consumer response was `404`
+- the response body was `catalog lookup failed`
+- the catalog lookup was also actually `404 Not Found`
+- worker1 local metadata recorded:
+  - `state=fetch-failed`
+  - `source=catalog-lookup`
+  - `lastError=catalog lookup failed`
+  - empty `producerNode` and `producerAddress`
+
+What this means:
+
+- in the same-node view, a surviving local copy can mask catalog absence
+- but in the cross-node view, there is no local hit, so missing catalog truth surfaces directly as a lookup failure
+- so the same edge-case family diverges by node position
+
+At this point, the second edge case is now covered in both same-node and cross-node views.
+
 ## Reference
 
 Detailed infrastructure-side incident history is recorded separately in `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.md`.
