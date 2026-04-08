@@ -14,15 +14,15 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
   - first edge-case completion 트랙 `D4~D7` 기준: `4/4` 완료, `100%`
   - second edge-case kickoff 트랙 `D8~D9` 기준: `2/2` 완료, `100%`
   - second edge-case truth 트랙 `D10~D11` 기준: `2/2` 완료, `100%`
-  - second edge-case cross-node follow-up 트랙 `D12~D13` 기준: `1/2` 완료, `50%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` 기준: `40/41` 완료, 약 `98%`
+  - second edge-case cross-node follow-up 트랙 `D12~D13` 기준: `2/2` 완료, `100%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` 기준: `41/41` 완료, `100%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -52,6 +52,7 @@
   - `Sprint D10`에서 same-node `catalog record missing + local artifact exists`가 `catalog 404`와 동시에 `source=local` 성공으로 드러나는지 실검증
   - `Sprint D11`에서 두 번째 edge case는 same-node truth는 닫혔지만 cross-node view 전까지는 전체 family를 완전히 닫지 않는다는 재판단을 고정
   - `Sprint D12`에서 cross-node `catalog record missing + local artifact exists`는 `catalog lookup failed`와 `fetch-failed` metadata로 드러난다는 사실을 실검증
+  - `Sprint D13`에서 두 번째 edge-case family는 현재 Sprint 1 validation 범위에서는 여기서 닫고, orphan semantics는 후속 범위로 남긴다는 closure 판단을 고정
 
 ## 완료 스프린트 표
 
@@ -97,6 +98,7 @@
 | D10 | 완료 | same-node `catalog record missing + local artifact exists` evidence와 해석 고정 |
 | D11 | 완료 | 두 번째 edge case는 same-node는 닫혔지만 overall family는 cross-node 전까지 부분 open이라는 재판단 고정 |
 | D12 | 완료 | cross-node `catalog record missing + local artifact exists` evidence와 failure 해석 고정 |
+| D13 | 완료 | 두 번째 edge-case family를 current validation scope에서 closure 처리 |
 
 ## 현재 backlog
 
@@ -160,15 +162,15 @@
 
 - cross-node에서도 catalog absence가 어떤 의미를 갖는지 evidence 또는 defer 판단이 고정됨
 
-### Sprint D13 - Second Edge Family Closure Note
+### Sprint E1 - Post-Second-Edge Gap Review
 
 목표:
 
-- `D12` 이후 두 번째 edge-case family를 여기서 닫을지 판단을 고정
+- 두 번째 edge-case family closure 이후 다음 validation/implementation 질문을 다시 좁게 고르기
 
 완료 기준:
 
-- closure 또는 추가 후속 질문이 한 문서로 정리됨
+- 다음 우선순위 질문이 한 문서로 고정됨
 
 ## 업데이트 규칙
 
