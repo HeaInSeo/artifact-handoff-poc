@@ -764,6 +764,80 @@ replica metadata snapshot:
 - 그러나 agent의 `peer_fetch()`는 여전히 `record.get("producerAddress")`를 직접 사용한다.
 - 따라서 현재 상태는 replica-aware fetch가 아니라 **replica-ready but still producer-biased** 상태로 읽는 것이 맞다.
 
+## Producer-Bias Validation Kickoff
+
+`2026-04-08`에는 producer-only bias를 더 직접적으로 드러내는 첫 live evidence를 확보했습니다.
+
+scenario:
+
+- artifact id: `producer-bias-20260408c`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- third consumer node: `lab-master-0`
+- helper:
+  - [run-producer-bias-check.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-producer-bias-check.sh)
+
+실행 방식:
+
+- 먼저 cross-node seed로 first replica와 `replicaNodes`를 준비
+- 그 다음 catalog top-level `producerAddress`만 `http://10.255.255.1:8080`으로 변경
+- producer도 first replica도 아닌 third node에서 `/artifacts/{id}` 호출
+
+판정:
+
+- `producer-only bias`: pass
+- `replica-aware source selection`: still not implemented
+
+핵심 로그:
+
+```text
+== step 4: third-node request ==
+status=404
+{
+  "error": "<urlopen error timed out>"
+}
+```
+
+catalog snapshot after producer rewrite:
+
+```json
+{
+  "artifactId": "producer-bias-20260408c",
+  "producerAddress": "http://10.255.255.1:8080",
+  "replicaNodes": [
+    {
+      "address": "http://10.87.127.150:8080",
+      "localPath": "/var/lib/artifact-handoff/producer-bias-20260408c/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    }
+  ]
+}
+```
+
+third-node consumer local metadata:
+
+```json
+{
+  "artifactId": "producer-bias-20260408c",
+  "lastError": "<urlopen error timed out>",
+  "localAddress": "http://10.87.127.18:8080",
+  "localNode": "lab-master-0",
+  "localPath": "/var/lib/artifact-handoff/producer-bias-20260408c/payload.bin",
+  "producerAddress": "http://10.255.255.1:8080",
+  "producerNode": "lab-worker-0",
+  "source": "peer-fetch",
+  "state": "fetch-failed"
+}
+```
+
+현재 코드 기준 해석:
+
+- third-node consumer에는 local copy가 없기 때문에 peer-fetch path로 들어간다.
+- 하지만 현재 `peer_fetch()`는 `replicaNodes`를 source 후보로 사용하지 않는다.
+- 그래서 first replica가 존재해도 broken producer endpoint만 따라가다가 실패한다.
+- 이 기록은 current implementation이 아직 **producer-biased**, not replica-aware 임을 더 직접적으로 보여 준다.
+
 ## 참고
 
 - 이 저장소의 베이스라인과 스크립트는 `multipass-k8s-lab`이 준비한 랩 클러스터를 대상으로 동작하도록 설계되었습니다.

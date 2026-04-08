@@ -14,7 +14,7 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -27,8 +27,9 @@ This is not a design document. It is a **progress board** and should be updated 
   - next execution planning track `F1~F3`: `3/3` complete, `100%`
   - replica-aware first validation track `F4~F5`: `2/2` complete, `100%`
   - replica-aware decision track `F6`: `1/1` complete, `100%`
-  - replica-aware execution track `F7~G1`: `0/2` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~G1`: `52/54` complete, about `96%`
+  - producer-bias validation track `F7`: `1/1` complete, `100%`
+  - replica-aware minimal-cut / review track `F8~G1`: `0/2` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~G1`: `53/55` complete, about `96%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -70,6 +71,7 @@ This is not a design document. It is a **progress board** and should be updated 
   - `Sprint F4` fixed the first live evidence that replica-ready state exists, while actual fetch source selection still remains producer-biased
   - `Sprint F5` fixed the follow-up order as `validation first, cut second`, and narrowed the next judgment step to `F6 - Replica-Aware Decision Note`
   - `Sprint F6` fixed the decision that the next immediate execution should validate the producer bias first, and only then move into the smallest replica source-selection cut
+  - `Sprint F7` fixed the first live evidence that a third-node consumer still follows only the broken top-level `producerAddress` and fails even while a first replica remains available
 
 ## Completed Sprint Table
 
@@ -127,6 +129,7 @@ This is not a design document. It is a **progress board** and should be updated 
 | F4 | Complete | first live evidence fixed that replica-ready state exists while actual fetch remains producer-biased |
 | F5 | Complete | replica-aware follow-up order fixed as validation first, cut second |
 | F6 | Complete | next immediate execution fixed as producer-bias validation, with the minimal cut left for the following step |
+| F7 | Complete | live evidence fixed that a third-node consumer still follows only the broken producerAddress instead of the existing replica |
 
 ## Current Backlog
 
@@ -140,16 +143,6 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Recommended Next 3 Sprints
 
-### Sprint F7 - Producer-Bias Validation Kickoff
-
-Goal:
-
-- start one scenario that exposes the current producer-only bias more directly
-
-Completion criteria:
-
-- live validation or equivalently narrow evidence is reflected in `RESULTS` and `VALIDATION_HISTORY`
-
 ### Sprint F8 - Replica Source-Selection Minimal Cut
 
 Goal:
@@ -159,6 +152,16 @@ Goal:
 Completion criteria:
 
 - a helper or minimum implementation adjustment is added so the next live validation becomes possible
+
+### Sprint F9 - Replica Source-Selection Validation
+
+Goal:
+
+- validate whether `F8` produces a real source-selection change
+
+Completion criteria:
+
+- replica source-selection evidence is reflected in `RESULTS` and `VALIDATION_HISTORY`
 
 ### Sprint G1 - Post-Replica-Aware Gap Review
 

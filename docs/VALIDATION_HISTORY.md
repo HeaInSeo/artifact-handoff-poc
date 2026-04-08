@@ -446,6 +446,51 @@ Meaning of this sprint:
 - so the next question is no longer “does replica metadata exist”
 - it is now “can that metadata be connected to actual fetch source selection”
 
+## 17. producer-bias validation kickoff
+
+On `2026-04-08`, the first live validation that more directly exposes the producer-only bias was performed.
+
+Question:
+
+- even when the first replica and `replicaNodes` are already prepared,
+- does a non-producer third-node consumer still follow only a broken `producerAddress`?
+
+execution helper:
+
+- [run-producer-bias-check.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-producer-bias-check.sh)
+
+What was confirmed:
+
+- artifact id: `producer-bias-20260408c`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- third consumer node: `lab-master-0`
+- the catalog still kept the replica record:
+  - `replicaNodes[0].node=lab-worker-1`
+  - `replicaNodes[0].state=replicated`
+- after rewriting the top-level `producerAddress` to a broken endpoint, the third-node request became:
+  - `status=404`
+  - `error=<urlopen error timed out>`
+- the third-node local metadata was recorded as:
+  - `source=peer-fetch`
+  - `state=fetch-failed`
+  - `producerAddress=http://10.255.255.1:8080`
+  - `lastError=<urlopen error timed out>`
+
+What this means:
+
+- the current implementation can prepare the replica-ready state
+- but actual peer-fetch source selection is still tied to the top-level `producerAddress`
+- so `replicaNodes` is still an observation, not yet a control input
+
+The next question is no longer:
+
+- does the producer-only bias exist?
+
+It is now:
+
+- what is the smallest cut that connects `replicaNodes` to actual source selection?
+
 ## Reference
 
 Detailed infrastructure-side incident history is recorded separately in `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.md`.

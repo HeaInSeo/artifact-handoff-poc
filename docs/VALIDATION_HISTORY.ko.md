@@ -443,6 +443,53 @@
 - 따라서 다음 질문은 “replica metadata가 존재하는가”가 아니라
   “이 metadata를 실제 fetch source selection에 연결할 수 있는가”로 좁혀진다
 
+## 17. producer-bias validation kickoff
+
+`2026-04-08`에는 producer-only bias를 더 직접적으로 보여 주는 첫 live validation을 수행했다.
+
+질문:
+
+- first replica와 `replicaNodes`가 이미 준비된 상태에서도,
+- non-producer third node consumer는 여전히 broken `producerAddress`만 따라가는가
+
+실행 helper:
+
+- [run-producer-bias-check.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-producer-bias-check.sh)
+
+실제 확인한 점:
+
+- artifact id: `producer-bias-20260408c`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- third consumer node: `lab-master-0`
+- catalog는 replica record를 유지했지만:
+  - `replicaNodes[0].node=lab-worker-1`
+  - `replicaNodes[0].state=replicated`
+- top-level `producerAddress`를 깨진 endpoint로 바꾸자 third-node 요청은:
+  - `status=404`
+  - `error=<urlopen error timed out>`
+- third-node local metadata는:
+  - `source=peer-fetch`
+  - `state=fetch-failed`
+  - `producerAddress=http://10.255.255.1:8080`
+  - `lastError=<urlopen error timed out>`
+
+이 기록이 의미하는 바:
+
+- 현재 구현은 replica-ready state를 만들 수는 있다.
+- 하지만 actual peer-fetch source selection은 여전히 top-level `producerAddress`에 묶여 있다.
+- 따라서 `replicaNodes`는 아직 observation이고, control input은 아니다.
+
+이제 다음 질문은:
+
+- producer-only bias가 존재하는가
+
+가 아니라,
+
+- `replicaNodes`를 actual source selection에 연결하는 가장 작은 cut는 무엇인가
+
+로 더 좁혀진다.
+
 ## 참고
 
 인프라 쪽 상세 장애 흐름은 `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.ko.md` 에 별도로 정리합니다.

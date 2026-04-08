@@ -764,6 +764,80 @@ current-code interpretation:
 - but the agent `peer_fetch()` still reads `record.get("producerAddress")` directly
 - so the current state should be read as **replica-ready but still producer-biased**, not yet replica-aware fetch
 
+## Producer-Bias Validation Kickoff
+
+On `2026-04-08`, the first live evidence that more directly exposes the producer-only bias was collected.
+
+scenario:
+
+- artifact id: `producer-bias-20260408c`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- third consumer node: `lab-master-0`
+- helper:
+  - [run-producer-bias-check.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-producer-bias-check.sh)
+
+execution flow:
+
+- first prepare the first replica and populated `replicaNodes`
+- then rewrite only the catalog top-level `producerAddress` to `http://10.255.255.1:8080`
+- then call `/artifacts/{id}` from a third node that is neither the producer nor the first replica
+
+verdict:
+
+- `producer-only bias`: pass
+- `replica-aware source selection`: still not implemented
+
+key log:
+
+```text
+== step 4: third-node request ==
+status=404
+{
+  "error": "<urlopen error timed out>"
+}
+```
+
+catalog snapshot after producer rewrite:
+
+```json
+{
+  "artifactId": "producer-bias-20260408c",
+  "producerAddress": "http://10.255.255.1:8080",
+  "replicaNodes": [
+    {
+      "address": "http://10.87.127.150:8080",
+      "localPath": "/var/lib/artifact-handoff/producer-bias-20260408c/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    }
+  ]
+}
+```
+
+third-node consumer local metadata:
+
+```json
+{
+  "artifactId": "producer-bias-20260408c",
+  "lastError": "<urlopen error timed out>",
+  "localAddress": "http://10.87.127.18:8080",
+  "localNode": "lab-master-0",
+  "localPath": "/var/lib/artifact-handoff/producer-bias-20260408c/payload.bin",
+  "producerAddress": "http://10.255.255.1:8080",
+  "producerNode": "lab-worker-0",
+  "source": "peer-fetch",
+  "state": "fetch-failed"
+}
+```
+
+current code interpretation:
+
+- the third-node consumer has no local copy, so it enters the peer-fetch path
+- but `peer_fetch()` still does not use `replicaNodes` as a source candidate
+- so even when the first replica exists, the request still follows only the broken producer endpoint and fails
+- this gives a more direct confirmation that the current implementation is still **producer-biased**, not replica-aware
+
 ## Notes
 
 - The repository baseline and scripts are intended to run against a lab cluster prepared by `multipass-k8s-lab`.
