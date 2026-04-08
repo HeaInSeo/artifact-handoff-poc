@@ -12,6 +12,8 @@
 
 이 문서는 설계 본문이 아니라 **진행 상태판**이다. 따라서 스프린트가 끝날 때마다 갱신한다.
 
+현재 완료 범위와 남은 스프린트를 한 번에 보려면 [PROJECT_COMPLETION_VIEW.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PROJECT_COMPLETION_VIEW.ko.md)를 같이 본다.
+
 ## 현재 요약
 
 - 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`
