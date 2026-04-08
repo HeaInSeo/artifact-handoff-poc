@@ -14,7 +14,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -28,8 +28,9 @@
   - replica-aware first validation 트랙 `F4~F5` 기준: `2/2` 완료, `100%`
   - replica-aware decision 트랙 `F6` 기준: `1/1` 완료, `100%`
   - producer-bias validation 트랙 `F7` 기준: `1/1` 완료, `100%`
-  - replica-aware minimal-cut / review 트랙 `F8~G1` 기준: `0/2` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~G1` 기준: `53/55` 완료, 약 `96%`
+  - replica source-selection minimal cut 트랙 `F8` 기준: `1/1` 완료, `100%`
+  - replica-aware validation / review 트랙 `F9~G1` 기준: `0/2` 완료, `0%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~G1` 기준: `54/56` 완료, 약 `96%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -72,6 +73,7 @@
   - `Sprint F5`에서 replica-aware 후속 순서를 `validation first, cut second`로 고정하고, 다음 판단 메모를 `F6 - Replica-Aware Decision Note`로 좁힘
   - `Sprint F6`에서 다음 즉시 실행은 producer-bias validation을 먼저 두고, 최소 replica source-selection cut는 그 다음으로 미루는 것이 맞다는 decision을 고정
   - `Sprint F7`에서 first replica와 `replicaNodes`가 살아 있어도 third-node consumer는 broken `producerAddress`만 따라가다 실패한다는 live evidence를 확보
+  - `Sprint F8`에서 `peer_fetch()`의 remote candidate set을 `producerAddress` 하나에서 `producer + replicaNodes`로 확장하는 최소 cut를 추가
 
 ## 완료 스프린트 표
 
@@ -130,6 +132,7 @@
 | F5 | 완료 | replica-aware 후속 순서를 validation first, cut second 로 고정 |
 | F6 | 완료 | 다음 즉시 실행을 producer-bias validation으로 고정하고 최소 cut는 그 다음으로 미룸 |
 | F7 | 완료 | third-node consumer가 replica 대신 broken producerAddress만 따라가 실패한다는 live evidence 확보 |
+| F8 | 완료 | `peer_fetch()` remote candidate set을 producer + replicaNodes 로 넓히는 최소 cut 추가 |
 
 ## 현재 backlog
 
@@ -142,16 +145,6 @@
 | 운영 | 새 문서 추가 시 bilingual pair 유지 | 높음 | 정책 고정 완료, 계속 실행 필요 |
 
 ## 추천 다음 3개 스프린트
-
-### Sprint F8 - Replica Source-Selection Minimal Cut
-
-목표:
-
-- `F7` evidence를 바탕으로 `replicaNodes`를 actual source selection에 연결하는 가장 작은 cut를 정의하거나 시작
-
-완료 기준:
-
-- helper 또는 최소 구현 보정이 추가되어 다음 live validation이 가능해짐
 
 ### Sprint F9 - Replica Source-Selection Validation
 
@@ -167,11 +160,21 @@
 
 목표:
 
-- 첫 replica-aware 흐름 이후 남은 backlog와 범위를 다시 점검
+- 첫 replica-aware 구현/검증 흐름 이후 남은 backlog와 범위를 다시 점검
 
 완료 기준:
 
 - replica-aware 다음의 더 큰 질문이 한 문서로 고정됨
+
+### Sprint G2 - Post-Replica-Aware Backlog Ordering
+
+목표:
+
+- replica-aware 첫 구현/검증 이후 남은 구현 backlog를 다시 순서화
+
+완료 기준:
+
+- 다음 2~3개 후속 질문의 우선순위가 한 문서로 고정됨
 
 ## 업데이트 규칙
 

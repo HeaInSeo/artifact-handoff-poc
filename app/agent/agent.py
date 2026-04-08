@@ -149,6 +149,48 @@ def fetch_catalog(artifact_id: str):
         return json.loads(resp.read().decode("utf-8"))
 
 
+def fetch_candidates(record: dict):
+    current_address = f"http://{NODE_IP}:{PORT}"
+    seen = set()
+    candidates = []
+
+    producer_address = record.get("producerAddress", "")
+    producer_node = record.get("producerNode", "")
+    if producer_address and producer_address != current_address:
+        candidates.append(
+            {
+                "kind": "producer",
+                "node": producer_node,
+                "address": producer_address,
+            }
+        )
+        seen.add(producer_address)
+
+    for replica in record.get("replicaNodes", []):
+        address = replica.get("address", "")
+        if not address or address == current_address or address in seen:
+            continue
+        candidates.append(
+            {
+                "kind": "replica",
+                "node": replica.get("node", ""),
+                "address": address,
+            }
+        )
+        seen.add(address)
+
+    return candidates
+
+
+def fetch_from_candidate(candidate: dict, artifact_id: str, expected_digest: str):
+    url = (
+        f"{candidate['address']}/internal/artifacts/"
+        f"{urllib.parse.quote(artifact_id)}?digest={expected_digest}"
+    )
+    with urllib.request.urlopen(url, timeout=10) as resp:
+        return resp.read()
+
+
 def register_replica(artifact_id: str):
     payload = {
         "node": NODE_NAME,
@@ -192,25 +234,56 @@ def local_hit(artifact_id: str):
 
 def peer_fetch(artifact_id: str, expected_digest: str):
     record = fetch_catalog(artifact_id)
-    producer = record.get("producerAddress")
-    if not producer:
-        save_failure_metadata(artifact_id, "peer-fetch", "missing producerAddress")
-        raise ValueError("missing producerAddress")
-    if producer == f"http://{NODE_IP}:{PORT}":
+    candidates = fetch_candidates(record)
+    current_address = f"http://{NODE_IP}:{PORT}"
+    producer_address = record.get("producerAddress", "")
+    if not candidates:
+        if not producer_address:
+            save_failure_metadata(artifact_id, "peer-fetch", "missing producerAddress")
+            raise ValueError("missing producerAddress")
+        if producer_address == current_address:
+            save_failure_metadata(
+                artifact_id,
+                "peer-fetch",
+                "artifact missing locally and producer points to self",
+                record.get("producerNode", ""),
+                producer_address,
+            )
+            raise ValueError("artifact missing locally and producer points to self")
         save_failure_metadata(
             artifact_id,
             "peer-fetch",
-            "artifact missing locally and producer points to self",
+            "artifact missing locally and no remote fetch candidate available",
             record.get("producerNode", ""),
-            producer,
+            producer_address,
         )
-        raise ValueError("artifact missing locally and producer points to self")
-    url = f"{producer}/internal/artifacts/{urllib.parse.quote(artifact_id)}?digest={expected_digest}"
-    try:
-        with urllib.request.urlopen(url, timeout=10) as resp:
-            payload = resp.read()
-    except urllib.error.HTTPError as exc:
-        error = describe_http_error(exc)
+        raise ValueError("artifact missing locally and no remote fetch candidate available")
+
+    last_error = None
+    last_status = None
+    payload = None
+    for candidate in candidates:
+        try:
+            candidate_payload = fetch_from_candidate(candidate, artifact_id, expected_digest)
+        except urllib.error.HTTPError as exc:
+            last_error = describe_http_error(exc)
+            last_status = exc.code
+            continue
+        except Exception as exc:
+            last_error = str(exc)
+            last_status = None
+            continue
+
+        actual_digest = sha256_hex(candidate_payload)
+        if actual_digest != expected_digest:
+            last_error = "peer digest mismatch"
+            last_status = None
+            continue
+        payload = candidate_payload
+        break
+
+    if payload is None:
+        error = last_error or "peer fetch failed"
         save_failure_metadata(
             artifact_id,
             "peer-fetch",
@@ -218,30 +291,14 @@ def peer_fetch(artifact_id: str, expected_digest: str):
             record.get("producerNode", ""),
             record.get("producerAddress", ""),
         )
-        raise PeerFetchHTTPError(exc.code, error)
-    except Exception as exc:
-        save_failure_metadata(
-            artifact_id,
-            "peer-fetch",
-            str(exc),
-            record.get("producerNode", ""),
-            record.get("producerAddress", ""),
-        )
-        raise
-    actual_digest = sha256_hex(payload)
-    if actual_digest != expected_digest:
-        save_failure_metadata(
-            artifact_id,
-            "peer-fetch",
-            "peer digest mismatch",
-            record.get("producerNode", ""),
-            record.get("producerAddress", ""),
-        )
-        raise ValueError("peer digest mismatch")
+        if last_status is not None:
+            raise PeerFetchHTTPError(last_status, error)
+        raise ValueError(error)
+
     save_local(
         artifact_id,
         payload,
-        actual_digest,
+        expected_digest,
         "peer-fetch",
         record["producerNode"],
         record["producerAddress"],
