@@ -14,7 +14,7 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E3`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E3`, `E4`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -22,8 +22,8 @@ This is not a design document. It is a **progress board** and should be updated 
   - second edge-case kickoff track `D8~D9`: `2/2` complete, `100%`
   - second edge-case truth track `D10~D11`: `2/2` complete, `100%`
   - second edge-case cross-node follow-up track `D12~D13`: `2/2` complete, `100%`
-  - post-second-edge planning track `E1~E3`: `2/3` complete, about `67%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E3`: `43/44` complete, about `98%`
+  - post-second-edge planning track `E1~E4`: `3/4` complete, `75%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E4`: `44/45` complete, about `98%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -56,6 +56,7 @@ This is not a design document. It is a **progress board** and should be updated 
   - `Sprint D13` fixed the closure judgment that the second edge-case family is closed for the current Sprint 1 validation scope, while orphan semantics remain out of scope
   - `Sprint E1` fixed the next priority as an orphan/local-leftover semantics note, with catalog top-level failure reflection left as the following review item
   - `Sprint E3` fixed the recheck conclusion that catalog top-level failure reflection should still remain deferred even after the second edge-case family
+  - `Sprint E4` fixed the judgment that the broader policy boundary should not expand further, and that the only remaining narrow policy question should stay limited to `E2 - Orphan Semantics Note`
 
 ## Completed Sprint Table
 
@@ -104,6 +105,7 @@ This is not a design document. It is a **progress board** and should be updated 
 | D13 | Complete | second edge-case family closed for the current validation scope |
 | E1 | Complete | next priority fixed as an orphan semantics note after second-edge closure |
 | E3 | Complete | catalog top-level failure reflection still deferred after recheck |
+| E4 | Complete | broader policy boundary should not expand further and should leave only `E2` open |
 
 ## Current Backlog
 
@@ -113,19 +115,10 @@ This is not a design document. It is a **progress board** and should be updated 
 | Implementation | replica-aware fetch policy | Low | intentionally out of current scope |
 | Implementation | retry / recovery policy | Low | intentionally out of current scope |
 | Implementation | scheduler/controller integration evaluation | Low | still in script-assisted validation phase |
+| Policy note | orphan/local-leftover semantics note | Medium | still not fixed as a separate note |
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
 
 ## Recommended Next 3 Sprints
-
-### Sprint E1 - Post-Second-Edge Gap Review
-
-Goal:
-
-- choose the next narrow validation or implementation question after closing the second edge-case family
-
-Completion criteria:
-
-- the next priority question is fixed in one short note
 
 ### Sprint E2 - Orphan Semantics Note
 
@@ -137,25 +130,25 @@ Completion criteria:
 
 - the boundary between observed reuse truth and out-of-scope policy is fixed in one note
 
-### Sprint E3 - Catalog Failure Reflection Recheck
+### Sprint E5 - Post-E2 Freeze Check
 
 Goal:
 
-- recheck whether catalog top-level failure reflection should still remain deferred after the orphan-semantics note
+- after the orphan semantics note is closed, recheck whether the current policy/document scope should stop there
 
 Completion criteria:
 
-- either continued defer or a smaller follow-up is fixed in one short note
+- one short note fixes whether further expansion is unnecessary
 
-### Sprint E4 - Post-Orphan Policy Boundary Check
+### Sprint F1 - Next Validation/Implementation Question Selection
 
 Goal:
 
-- after the orphan-semantics note and reflection recheck, decide whether the remaining policy boundary should expand further or stop here
+- choose the next real validation or implementation question after the current document/policy cleanup
 
 Completion criteria:
 
-- the next expansion or freeze judgment is fixed in one short note
+- the next small execution question is fixed in one short note
 
 ## Update Rule
 
