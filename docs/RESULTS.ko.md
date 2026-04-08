@@ -575,6 +575,59 @@ catalog snapshot:
 }
 ```
 
+### Scenario H: catalog record missing + local artifact exists (same-node)
+
+- scenario 이름: `catalog record missing + local artifact exists`
+- artifact id: `edge-catalog-miss-20260408-v2`
+- producer node: `lab-worker-0`
+- consumer node: `lab-worker-0`
+- 재현 방식:
+  - worker0에 fresh artifact 생성
+  - `artifact-catalog`를 재시작해 emptyDir-backed catalog state를 비움
+  - local artifact copy는 그대로 유지
+  - 같은 node에서 `/artifacts/{id}` 호출
+- 판정 결과: pass
+- 해석:
+  - 현재 구현에서는 same-node 공개 경로가 local hit를 catalog lookup보다 먼저 보기 때문에, catalog record가 사라져도 `source=local`로 그대로 성공한다.
+
+핵심 로그:
+
+```text
+producer_node=lab-worker-0
+consumer_node=lab-worker-0
+
+== drop-catalog log ==
+restarted artifact-catalog to clear emptyDir-backed catalog state
+
+== consumer log ==
+status=200
+source=local
+artifact-handoff sprint1 sample payload
+```
+
+catalog lookup:
+
+```text
+HTTP/1.0 404 Not Found
+```
+
+local metadata snapshot:
+
+```json
+{
+  "artifactId": "edge-catalog-miss-20260408-v2",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localAddress": "http://10.87.127.94:8080",
+  "localNode": "lab-worker-0",
+  "localPath": "/var/lib/artifact-handoff/edge-catalog-miss-20260408-v2/payload.bin",
+  "producerAddress": "http://10.87.127.94:8080",
+  "producerNode": "lab-worker-0",
+  "size": 40,
+  "source": "local-put",
+  "state": "available-local"
+}
+```
+
 local metadata snapshot:
 
 ```json

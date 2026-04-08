@@ -575,6 +575,59 @@ Catalog snapshot:
 }
 ```
 
+### Scenario H: catalog record missing + local artifact exists (same-node)
+
+- scenario: `catalog record missing + local artifact exists`
+- artifact id: `edge-catalog-miss-20260408-v2`
+- producer node: `lab-worker-0`
+- consumer node: `lab-worker-0`
+- reproduction:
+  - create a fresh artifact on worker0
+  - restart `artifact-catalog` to clear the emptyDir-backed catalog state
+  - keep the local artifact copy intact
+  - request `/artifacts/{id}` again from the same node
+- verdict: pass
+- interpretation:
+  - in the current implementation, the public same-node path checks local hit before catalog lookup, so the request still succeeds as `source=local` even after the catalog record disappears.
+
+Key log:
+
+```text
+producer_node=lab-worker-0
+consumer_node=lab-worker-0
+
+== drop-catalog log ==
+restarted artifact-catalog to clear emptyDir-backed catalog state
+
+== consumer log ==
+status=200
+source=local
+artifact-handoff sprint1 sample payload
+```
+
+Catalog lookup:
+
+```text
+HTTP/1.0 404 Not Found
+```
+
+Local metadata snapshot:
+
+```json
+{
+  "artifactId": "edge-catalog-miss-20260408-v2",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localAddress": "http://10.87.127.94:8080",
+  "localNode": "lab-worker-0",
+  "localPath": "/var/lib/artifact-handoff/edge-catalog-miss-20260408-v2/payload.bin",
+  "producerAddress": "http://10.87.127.94:8080",
+  "producerNode": "lab-worker-0",
+  "size": 40,
+  "source": "local-put",
+  "state": "available-local"
+}
+```
+
 Local metadata snapshot:
 
 ```json

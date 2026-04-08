@@ -14,14 +14,14 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
   - first edge-case completion 트랙 `D4~D7` 기준: `4/4` 완료, `100%`
   - second edge-case kickoff 트랙 `D8~D9` 기준: `2/2` 완료, `100%`
-  - second edge-case truth 트랙 `D10~D11` 기준: `0/2` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D11` 기준: `37/39` 완료, 약 `95%`
+  - second edge-case truth 트랙 `D10~D11` 기준: `1/2` 완료, `50%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D11` 기준: `38/39` 완료, 약 `97%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -48,6 +48,7 @@
   - `Sprint D7`에서 cross-node `catalog record exists + local artifact missing`가 실제로 `peer-fetch` recovery로 이어지는지 확인
   - `Sprint D8`에서 두 번째 edge case를 `catalog record missing + local artifact exists`로 선택하고 다음 helper cut 기준을 고정
   - `Sprint D9`에서 `catalog record missing + local artifact exists`를 재현하는 전용 helper를 추가
+  - `Sprint D10`에서 same-node `catalog record missing + local artifact exists`가 `catalog 404`와 동시에 `source=local` 성공으로 드러나는지 실검증
 
 ## 완료 스프린트 표
 
@@ -90,6 +91,7 @@
 | D7 | 완료 | cross-node `catalog record exists + local artifact missing` evidence와 recovery 해석 고정 |
 | D8 | 완료 | 두 번째 edge case를 `catalog record missing + local artifact exists`로 선택 |
 | D9 | 완료 | 두 번째 edge case를 재현하는 전용 helper와 cut 문서 추가 |
+| D10 | 완료 | same-node `catalog record missing + local artifact exists` evidence와 해석 고정 |
 
 ## 현재 backlog
 
@@ -142,6 +144,16 @@
 완료 기준:
 
 - 다음 질문 또는 종료 판단이 한 문서로 고정됨
+
+### Sprint D12 - Second Edge Cross-Node Check
+
+목표:
+
+- 필요하면 두 번째 edge case를 cross-node 관점에서도 실제로 확인
+
+완료 기준:
+
+- cross-node에서도 catalog absence가 어떤 의미를 갖는지 evidence 또는 defer 판단이 고정됨
 
 ## 업데이트 규칙
 

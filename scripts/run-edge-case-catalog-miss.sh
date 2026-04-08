@@ -100,20 +100,8 @@ print(producer_node)
 PY
 )"
 
-ARTIFACT_ID="${ARTIFACT_ID}" kubectl -n "${NAMESPACE}" exec deploy/artifact-catalog -- python3 -c '
-import json
-import os
-
-path = "/data/catalog.json"
-with open(path, "r", encoding="utf-8") as fh:
-    records = json.load(fh)
-records.pop(os.environ["ARTIFACT_ID"], None)
-tmp = path + ".tmp"
-with open(tmp, "w", encoding="utf-8") as fh:
-    json.dump(records, fh, indent=2, sort_keys=True)
-os.replace(tmp, path)
-print("removed", os.environ["ARTIFACT_ID"])
-'
+kubectl rollout restart -n "${NAMESPACE}" deploy/artifact-catalog >/dev/null
+kubectl rollout status -n "${NAMESPACE}" deploy/artifact-catalog --timeout=180s >/dev/null
 
 cat <<EOF | kubectl apply -f -
 apiVersion: batch/v1
@@ -175,7 +163,7 @@ echo "== parent log =="
 kubectl logs -n "${NAMESPACE}" job/edge2-parent
 echo
 echo "== drop-catalog log =="
-echo "removed ${ARTIFACT_ID} from catalog.json"
+echo "restarted artifact-catalog to clear emptyDir-backed catalog state"
 echo
 echo "== consumer log =="
 kubectl logs -n "${NAMESPACE}" job/edge2-consumer

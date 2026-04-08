@@ -334,6 +334,43 @@
 
 이제 같은 edge case에 대해 same-node / cross-node 두 관점이 모두 채워졌다.
 
+## 14. second edge case truth tightening
+
+`2026-04-08`에는 두 번째 edge case를 same-node 기준으로 실제 확인했다.
+
+질문:
+
+- `catalog record missing + local artifact exists` 상황에서 same-node 공개 경로는 어떻게 동작하는가
+
+실행 방식:
+
+1. worker0에 fresh artifact `edge-catalog-miss-20260408-v2` 생성
+2. catalog에서 `producerNode`를 한 번 확인
+3. `artifact-catalog`를 재시작해 emptyDir-backed catalog state를 비움
+4. local artifact copy는 그대로 둔 채 worker0에서 `/artifacts/{artifactId}` 호출
+
+확인한 점:
+
+- catalog lookup은 실제로 `404 Not Found`였다.
+- 하지만 same-node consumer 응답은 `200`이었다.
+- 응답 source는 `local`로 관찰됐다.
+- worker0 local metadata는 그대로 아래 상태를 유지했다.
+  - `state=available-local`
+  - `source=local-put`
+  - `producerNode=lab-worker-0`
+
+이 기록이 의미하는 바:
+
+- 현재 구현에서 공개 same-node `/artifacts/...` 경로는 local hit를 catalog lookup보다 먼저 확인한다.
+- 그래서 catalog truth가 사라져도, local artifact와 local metadata가 유효하면 요청은 그대로 성공한다.
+- 즉 이 edge case는 현재 단계에서 lookup failure가 아니라 local-first reuse로 드러난다.
+
+아직 남는 점:
+
+- 이번에는 same-node path만 확인했다.
+- cross-node에서 같은 질문이 어떤 의미를 가지는지는 아직 열려 있다.
+- 이 동작을 허용된 reuse로 볼지, orphan/local-leftover side effect로 볼지는 후속 판단이 필요하다.
+
 ## 참고
 
 인프라 쪽 상세 장애 흐름은 `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.ko.md` 에 별도로 정리합니다.

@@ -33,16 +33,11 @@
 
 1. fresh artifact를 producer node에 생성
 2. catalog에서 `producerNode`를 읽어 producer truth를 한 번 확인
-3. catalog pod 안의 `catalog.json`에서 해당 artifact record만 제거
+3. `artifact-catalog`를 재시작해 emptyDir-backed catalog state를 비움
 4. local artifact copy는 그대로 둔 채 same-node에서 `/artifacts/{id}` GET 수행
 5. parent / drop-catalog / consumer 로그를 그대로 남김
 
-즉 이번 helper는:
-
-- local artifact는 남겨 두고
-- catalog truth만 의도적으로 제거하는
-
-가장 좁은 재현 절차다.
+즉 이번 helper는 fresh artifact를 만든 뒤 catalog state만 비우고, local artifact copy는 그대로 남겨 두는 가장 좁은 재현 절차다.
 
 ## 이번 cut에서 의도적으로 하지 않은 것
 

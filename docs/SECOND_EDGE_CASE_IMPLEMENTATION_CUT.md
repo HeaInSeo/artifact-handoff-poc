@@ -31,14 +31,11 @@ So, again, a separate helper is the narrower and safer choice.
 
 1. create a fresh artifact on a producer node
 2. read `producerNode` back from the catalog once
-3. remove only that artifact record from `catalog.json` inside the catalog pod
+3. restart `artifact-catalog` to clear the emptyDir-backed catalog state
 4. keep the local artifact copy intact and run `/artifacts/{id}` GET on the same node
 5. leave the parent / drop-catalog / consumer logs visible for collection
 
-So this helper is the narrowest possible procedure that:
-
-- keeps the local artifact copy
-- intentionally removes only the catalog truth
+So this helper is the narrowest possible procedure that creates a fresh artifact, clears only the catalog state, and keeps the local artifact copy intact.
 
 ## What This Cut Intentionally Does Not Do
 

@@ -337,6 +337,43 @@ What this means:
 
 At this point, the same edge case is now covered in both same-node and cross-node views.
 
+## 14. second edge case truth tightening
+
+On `2026-04-08`, the second edge case was checked live from the same-node view.
+
+Question:
+
+- under `catalog record missing + local artifact exists`, how does the public same-node path behave
+
+Execution flow:
+
+1. create fresh artifact `edge-catalog-miss-20260408-v2` on worker0
+2. read `producerNode` from the catalog once
+3. restart `artifact-catalog` to clear the emptyDir-backed catalog state
+4. keep the local artifact copy intact and request `/artifacts/{artifactId}` from worker0
+
+What was confirmed:
+
+- the catalog lookup was actually `404 Not Found`
+- but the same-node consumer response was still `200`
+- the observed response source was `local`
+- worker0 local metadata stayed as:
+  - `state=available-local`
+  - `source=local-put`
+  - `producerNode=lab-worker-0`
+
+What this means:
+
+- in the current implementation, the public same-node `/artifacts/...` path checks local hit before catalog lookup
+- so even when catalog truth disappears, a valid local artifact plus local metadata still lets the request succeed
+- at this stage, the edge case surfaces not as a lookup failure, but as local-first reuse
+
+What still remains:
+
+- this sprint checked only the same-node path
+- the cross-node meaning of the same question is still open
+- it is still undecided whether this behavior should be treated as acceptable reuse or as an orphan/local-leftover side effect
+
 ## Reference
 
 Detailed infrastructure-side incident history is recorded separately in `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.md`.
