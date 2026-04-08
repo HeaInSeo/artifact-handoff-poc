@@ -14,12 +14,12 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
-  - edge-case tightening 트랙 `D4~D6` 기준: `3/3` 완료, `100%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D6` 기준: `34/34` 완료, `100%`
+  - first edge-case completion 트랙 `D4~D7` 기준: `4/4` 완료, `100%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D7` 기준: `35/35` 완료, `100%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -43,6 +43,7 @@
   - `Sprint D4`에서 선택된 edge case를 재현하는 전용 helper script를 추가
   - `Sprint D5`에서 same-node `catalog record exists + local artifact missing`를 실검증하고 current behavior를 결과 문서에 반영
   - `Sprint D6`에서 같은 edge case를 cross-node recovery까지 이어서 보는 것이 다음 최소 단계라는 판단을 고정
+  - `Sprint D7`에서 cross-node `catalog record exists + local artifact missing`가 실제로 `peer-fetch` recovery로 이어지는지 확인
 
 ## 완료 스프린트 표
 
@@ -82,6 +83,7 @@
 | D4 | 완료 | 선택된 edge case를 재현하는 전용 validation helper script 추가 |
 | D5 | 완료 | same-node `catalog record exists + local artifact missing` evidence와 해석 고정 |
 | D6 | 완료 | 같은 edge case의 다음 질문은 cross-node recovery check라는 재판단 고정 |
+| D7 | 완료 | cross-node `catalog record exists + local artifact missing` evidence와 recovery 해석 고정 |
 
 ## 현재 backlog
 
@@ -95,16 +97,6 @@
 
 ## 추천 다음 3개 스프린트
 
-### Sprint D7 - Cross-Node Edge Recovery Check
-
-목표:
-
-- 같은 edge case를 cross-node 관점에서도 확인해 peer fetch recovery가 실제로 이어지는지 검증
-
-완료 기준:
-
-- `catalog record exists + local artifact missing` cross-node evidence 1건 확보
-
 ### Sprint D8 - Second Edge Case Selection
 
 목표:
@@ -115,15 +107,15 @@
 
 - 다음 edge case 우선순위를 한 문서로 고정
 
-### Sprint D9 - Cross-Node Edge Results Refresh
+### Sprint D9 - Second Edge Case Implementation Cut
 
 목표:
 
-- `D7` evidence를 RESULTS / VALIDATION_HISTORY / edge-case note에 최신 기준으로 반영
+- `catalog record missing + local artifact exists`를 재현할 최소 helper 또는 절차를 추가
 
 완료 기준:
 
-- cross-node edge evidence가 결과 문서와 히스토리 문서에 모두 반영
+- 두 번째 edge case를 실제로 검증할 준비가 됨
 
 ## 업데이트 규칙
 

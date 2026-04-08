@@ -304,6 +304,39 @@ What still remains:
 - the cross-node version, where the same edge case may recover through peer fetch, remains a follow-up candidate
 - the `catalog record missing + local artifact exists` edge case also remains open
 
+## 13. cross-node edge recovery check
+
+On `2026-04-08`, the same edge case was extended into the cross-node view.
+
+Question:
+
+- under `catalog record exists + local artifact missing`, can a non-producer node recover successfully through peer fetch
+
+Execution flow:
+
+1. create fresh artifact `edge-local-miss-20260408-cross` on worker0
+2. keep the catalog record intact
+3. remove only the consumer-node hostPath artifact directory on worker1
+4. request `/artifacts/{artifactId}` from worker1
+
+What was confirmed:
+
+- the consumer response was `200`
+- the observed response source was `peer-fetch`
+- worker1 local metadata remained as:
+  - `state=replicated`
+  - `source=peer-fetch`
+  - `producerNode=lab-worker-0`
+- the catalog still kept `state=produced` and added worker1 into `replicaNodes` with `state=replicated`
+
+What this means:
+
+- in the same-node view, losing the local artifact can surface as a self-loop failure
+- in the cross-node view, the same producer truth can still lead to peer-fetch recovery
+- so catalog truth and current-node local availability are separate, and the observed result depends on node position
+
+At this point, the same edge case is now covered in both same-node and cross-node views.
+
 ## Reference
 
 Detailed infrastructure-side incident history is recorded separately in `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.md`.

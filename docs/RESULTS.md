@@ -526,6 +526,72 @@ Local metadata snapshot:
 }
 ```
 
+### Scenario G: catalog record exists + local artifact missing (cross-node)
+
+- scenario: `catalog record exists + local artifact missing`
+- artifact id: `edge-local-miss-20260408-cross`
+- producer node: `lab-worker-0`
+- consumer node: `lab-worker-1`
+- reproduction:
+  - create a fresh artifact on worker0
+  - keep the catalog record intact
+  - remove only `/var/lib/artifact-handoff/edge-local-miss-20260408-cross` from worker1
+  - request `/artifacts/{id}` from worker1
+- verdict: pass
+- interpretation:
+  - producer truth remains intact, and a non-producer node can recover through peer fetch
+
+Key log:
+
+```text
+mode=cross-node
+producer_node=lab-worker-0
+consumer_node=lab-worker-1
+
+== consumer log ==
+status=200
+source=peer-fetch
+artifact-handoff sprint1 sample payload
+```
+
+Catalog snapshot:
+
+```json
+{
+  "artifactId": "edge-local-miss-20260408-cross",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localPath": "/var/lib/artifact-handoff/edge-local-miss-20260408-cross/payload.bin",
+  "producerAddress": "http://10.87.127.94:8080",
+  "producerNode": "lab-worker-0",
+  "replicaNodes": [
+    {
+      "address": "http://10.87.127.150:8080",
+      "localPath": "/var/lib/artifact-handoff/edge-local-miss-20260408-cross/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    }
+  ],
+  "state": "produced"
+}
+```
+
+Local metadata snapshot:
+
+```json
+{
+  "artifactId": "edge-local-miss-20260408-cross",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localAddress": "http://10.87.127.150:8080",
+  "localNode": "lab-worker-1",
+  "localPath": "/var/lib/artifact-handoff/edge-local-miss-20260408-cross/payload.bin",
+  "producerAddress": "http://10.87.127.94:8080",
+  "producerNode": "lab-worker-0",
+  "size": 40,
+  "source": "peer-fetch",
+  "state": "replicated"
+}
+```
+
 ## Notes
 
 - The repository baseline and scripts are intended to run against a lab cluster prepared by `multipass-k8s-lab`.

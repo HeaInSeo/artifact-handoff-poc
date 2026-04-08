@@ -301,6 +301,39 @@
 - cross-node에서 같은 edge case가 peer fetch recovery로 이어지는지는 후속 검증 후보다.
 - `catalog record missing + local artifact exists` edge case도 여전히 남아 있다.
 
+## 13. cross-node edge recovery check
+
+`2026-04-08`에는 같은 edge case를 cross-node 관점에서도 이어서 확인했습니다.
+
+질문:
+
+- `catalog record exists + local artifact missing` 상황에서 non-producer node는 peer fetch recovery로 성공하는가
+
+실행 방식:
+
+1. worker0에 fresh artifact `edge-local-miss-20260408-cross` 생성
+2. catalog record는 유지
+3. consumer node인 worker1의 hostPath artifact 디렉터리만 제거
+4. worker1에서 `/artifacts/{artifactId}` 호출
+
+확인한 점:
+
+- consumer 응답은 `200`이었다.
+- 응답 header 성격은 `source=peer-fetch`로 관찰됐다.
+- worker1 local metadata는 아래처럼 남았다.
+  - `state=replicated`
+  - `source=peer-fetch`
+  - `producerNode=lab-worker-0`
+- catalog는 여전히 `state=produced`를 유지했고, `replicaNodes`에 worker1이 `replicated` 상태로 기록됐다.
+
+이 기록이 의미하는 바:
+
+- same-node에서는 local artifact 상실이 self-loop failure로 드러날 수 있다.
+- 하지만 cross-node에서는 같은 producer truth를 기준으로 peer fetch recovery가 성립할 수 있다.
+- 즉 catalog truth와 current-node local availability는 분리돼 있고, node 위치에 따라 결과가 달라진다.
+
+이제 같은 edge case에 대해 same-node / cross-node 두 관점이 모두 채워졌다.
+
 ## 참고
 
 인프라 쪽 상세 장애 흐름은 `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.ko.md` 에 별도로 정리합니다.

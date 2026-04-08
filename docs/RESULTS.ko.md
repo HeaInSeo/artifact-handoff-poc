@@ -526,6 +526,72 @@ local metadata snapshot:
 }
 ```
 
+### Scenario G: catalog record exists + local artifact missing (cross-node)
+
+- scenario 이름: `catalog record exists + local artifact missing`
+- artifact id: `edge-local-miss-20260408-cross`
+- producer node: `lab-worker-0`
+- consumer node: `lab-worker-1`
+- 재현 방식:
+  - worker0에 fresh artifact 생성
+  - catalog record는 유지
+  - consumer node인 worker1의 `/var/lib/artifact-handoff/edge-local-miss-20260408-cross` 디렉터리만 제거
+  - worker1에서 `/artifacts/{id}` 호출
+- 판정 결과: pass
+- 해석:
+  - producer truth는 그대로 유지되고, non-producer node에서는 peer fetch recovery가 실제로 성립합니다.
+
+핵심 로그:
+
+```text
+mode=cross-node
+producer_node=lab-worker-0
+consumer_node=lab-worker-1
+
+== consumer log ==
+status=200
+source=peer-fetch
+artifact-handoff sprint1 sample payload
+```
+
+catalog snapshot:
+
+```json
+{
+  "artifactId": "edge-local-miss-20260408-cross",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localPath": "/var/lib/artifact-handoff/edge-local-miss-20260408-cross/payload.bin",
+  "producerAddress": "http://10.87.127.94:8080",
+  "producerNode": "lab-worker-0",
+  "replicaNodes": [
+    {
+      "address": "http://10.87.127.150:8080",
+      "localPath": "/var/lib/artifact-handoff/edge-local-miss-20260408-cross/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    }
+  ],
+  "state": "produced"
+}
+```
+
+local metadata snapshot:
+
+```json
+{
+  "artifactId": "edge-local-miss-20260408-cross",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localAddress": "http://10.87.127.150:8080",
+  "localNode": "lab-worker-1",
+  "localPath": "/var/lib/artifact-handoff/edge-local-miss-20260408-cross/payload.bin",
+  "producerAddress": "http://10.87.127.94:8080",
+  "producerNode": "lab-worker-0",
+  "size": 40,
+  "source": "peer-fetch",
+  "state": "replicated"
+}
+```
+
 ## 참고
 
 - 이 저장소의 베이스라인과 스크립트는 `multipass-k8s-lab`이 준비한 랩 클러스터를 대상으로 동작하도록 설계되었습니다.
