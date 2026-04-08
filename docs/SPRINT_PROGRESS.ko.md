@@ -14,7 +14,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -25,8 +25,8 @@
   - post-second-edge planning 트랙 `E1~E4` 기준: `4/4` 완료, `100%`
   - post-E2 freeze track `E5` 기준: `1/1` 완료, `100%`
   - next execution planning 트랙 `F1~F3` 기준: `3/3` 완료, `100%`
-  - replica-aware first validation 트랙 `F4~F5` 기준: `0/2` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~F5` 기준: `49/51` 완료, 약 `96%`
+  - replica-aware first validation 트랙 `F4~F5` 기준: `1/2` 완료, `50%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~F5` 기준: `50/51` 완료, 약 `98%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -65,6 +65,7 @@
   - `Sprint F1`에서 다음 실제 질문은 `replicaNodes`를 fetch source selection에 의미 있게 연결할 수 있는지 검토하는 가장 작은 replica-aware fetch 질문으로 고정
   - `Sprint F2`에서 구현 backlog를 다시 순서화하고, `replica-aware fetch`를 1순위, `catalog top-level failure reflection`을 2순위로 고정
   - `Sprint F3`에서 replica-aware fetch를 위한 가장 작은 실행 cut로, first replica와 `replicaNodes` 준비 상태를 반복 가능하게 만드는 전용 helper를 추가
+  - `Sprint F4`에서 live 검증으로 `replicaNodes`와 replica metadata가 실제로 준비되는 것은 확인했지만, actual fetch source selection은 여전히 `producerAddress` 중심이라는 첫 evidence를 고정
 
 ## 완료 스프린트 표
 
@@ -119,6 +120,7 @@
 | F1 | 완료 | 다음 실제 질문을 `replica-aware fetch`의 가장 작은 형태로 선택 |
 | F2 | 완료 | 구현 backlog를 `replica-aware fetch` 우선 순서로 재정렬 |
 | F3 | 완료 | replica-aware fetch 준비 상태를 만드는 최소 execution cut 추가 |
+| F4 | 완료 | replica-ready 상태는 live로 확인했지만 actual fetch는 아직 producer-biased라는 첫 evidence 고정 |
 
 ## 현재 backlog
 

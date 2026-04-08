@@ -148,6 +148,10 @@ Goal:
 
 - after the first replica-aware fetch result, reorder the next follow-up questions
 
+Completion criteria:
+
+- the next 2 questions after the first replica-aware fetch validation are fixed in one short note
+
 ### Sprint F6 - Replica-Aware Decision Note
 
 Goal:
@@ -157,10 +161,6 @@ Goal:
 Completion criteria:
 
 - the next direction of replica-aware fetch is fixed in one short note
-
-Completion criteria:
-
-- the next 2 questions after the first replica-aware fetch validation are fixed in one short note
 
 ## Update Rule
 

@@ -405,6 +405,44 @@
 
 이제 두 번째 edge case도 same-node / cross-node 두 관점이 모두 채워졌다.
 
+## 16. replica-aware fetch first validation
+
+`2026-04-08`에는 `replica-aware fetch`로 넘어가기 위한 첫 live evidence를 확보했다.
+
+이번 스프린트의 목적은 replica-aware fetch를 바로 구현하는 것이 아니라,
+현재 시스템이 최소한 아래 상태까지는 실제로 만들 수 있는지 확인하는 것이었다.
+
+1. producer 생성
+2. first replica 생성
+3. catalog `replicaNodes` populated
+4. replica node local metadata가 `replicated`
+
+실행 helper:
+
+- [run-replica-aware-prep.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-replica-aware-prep.sh)
+
+실제 확인한 점:
+
+- child log는 `source=peer-fetch`
+- catalog snapshot에는 `replicaNodes[0]`가 `lab-worker-1`로 기록
+- replica node local metadata에는:
+  - `localNode=lab-worker-1`
+  - `producerNode=lab-worker-0`
+  - `state=replicated`
+  - `source=peer-fetch`
+
+이 단계에서 같이 확인한 중요한 코드 사실:
+
+- agent `peer_fetch()`는 여전히 `record.get("producerAddress")`를 직접 fetch source로 사용한다
+- 즉 `replicaNodes`는 기록되지만, 아직 actual source selection에는 참여하지 않는다
+
+이번 스프린트의 의미:
+
+- replica-aware fetch는 아직 구현되지 않았다
+- 하지만 replica-ready state는 live로 검증됐다
+- 따라서 다음 질문은 “replica metadata가 존재하는가”가 아니라
+  “이 metadata를 실제 fetch source selection에 연결할 수 있는가”로 좁혀진다
+
 ## 참고
 
 인프라 쪽 상세 장애 흐름은 `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.ko.md` 에 별도로 정리합니다.

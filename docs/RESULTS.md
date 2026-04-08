@@ -697,6 +697,73 @@ Local metadata snapshot:
 }
 ```
 
+## Replica-Aware Fetch First Validation
+
+On `2026-04-08`, the first live evidence for the replica-aware fetch track was collected.
+
+The key finding has two parts:
+
+- `replicaNodes` and replica local metadata are actually prepared
+- but the current fetch path still remains centered on `producerAddress`
+
+scenario:
+
+- artifact id: `replica-aware-20260408`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- helper:
+  - [run-replica-aware-prep.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-replica-aware-prep.sh)
+
+verdict:
+
+- `replica-ready state`: pass
+- `replica-aware source selection`: not yet
+
+key log:
+
+```text
+== child log ==
+artifact-handoff sprint1 sample payload
+source=peer-fetch
+digest=d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1
+```
+
+catalog snapshot:
+
+```json
+{
+  "artifactId": "replica-aware-20260408",
+  "producerAddress": "http://10.87.127.94:8080",
+  "producerNode": "lab-worker-0",
+  "replicaNodes": [
+    {
+      "address": "http://10.87.127.150:8080",
+      "localPath": "/var/lib/artifact-handoff/replica-aware-20260408/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    }
+  ]
+}
+```
+
+replica metadata snapshot:
+
+```json
+{
+  "localNode": "lab-worker-1",
+  "producerNode": "lab-worker-0",
+  "replicaNode": "lab-worker-1",
+  "source": "peer-fetch",
+  "state": "replicated"
+}
+```
+
+current-code interpretation:
+
+- the catalog keeps `replicaNodes`
+- but the agent `peer_fetch()` still reads `record.get("producerAddress")` directly
+- so the current state should be read as **replica-ready but still producer-biased**, not yet replica-aware fetch
+
 ## Notes
 
 - The repository baseline and scripts are intended to run against a lab cluster prepared by `multipass-k8s-lab`.

@@ -408,6 +408,44 @@ What this means:
 
 At this point, the second edge case is now covered in both same-node and cross-node views.
 
+## 16. replica-aware fetch first validation
+
+On `2026-04-08`, the first live evidence for the `replica-aware fetch` track was collected.
+
+The purpose of this sprint was not to implement replica-aware fetch immediately.
+It was to confirm that the current system can at least create the following state:
+
+1. producer created
+2. first replica created
+3. catalog `replicaNodes` populated
+4. replica-node local metadata marked as `replicated`
+
+helper used:
+
+- [run-replica-aware-prep.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-replica-aware-prep.sh)
+
+What was actually confirmed:
+
+- the child log showed `source=peer-fetch`
+- the catalog snapshot recorded `replicaNodes[0]` as `lab-worker-1`
+- replica-node local metadata showed:
+  - `localNode=lab-worker-1`
+  - `producerNode=lab-worker-0`
+  - `state=replicated`
+  - `source=peer-fetch`
+
+An important code fact was also confirmed in the same sprint:
+
+- agent `peer_fetch()` still reads `record.get("producerAddress")` directly as the fetch source
+- so `replicaNodes` is recorded, but it still does not participate in actual source selection
+
+Meaning of this sprint:
+
+- replica-aware fetch is still not implemented
+- but the replica-ready state is now live-validated
+- so the next question is no longer “does replica metadata exist”
+- it is now “can that metadata be connected to actual fetch source selection”
+
 ## Reference
 
 Detailed infrastructure-side incident history is recorded separately in `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.md`.

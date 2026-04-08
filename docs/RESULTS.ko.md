@@ -697,6 +697,73 @@ local metadata snapshot:
 }
 ```
 
+## Replica-Aware Fetch First Validation
+
+`2026-04-08`에는 `replica-aware fetch` 트랙의 첫 live evidence를 확보했습니다.
+
+핵심 결론은 두 가지입니다.
+
+- `replicaNodes`와 replica local metadata는 실제로 준비된다
+- 하지만 current fetch path는 아직 `producerAddress` 중심이다
+
+scenario:
+
+- artifact id: `replica-aware-20260408`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- helper:
+  - [run-replica-aware-prep.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-replica-aware-prep.sh)
+
+판정:
+
+- `replica-ready state`: pass
+- `replica-aware source selection`: not yet
+
+핵심 로그:
+
+```text
+== child log ==
+artifact-handoff sprint1 sample payload
+source=peer-fetch
+digest=d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1
+```
+
+catalog snapshot:
+
+```json
+{
+  "artifactId": "replica-aware-20260408",
+  "producerAddress": "http://10.87.127.94:8080",
+  "producerNode": "lab-worker-0",
+  "replicaNodes": [
+    {
+      "address": "http://10.87.127.150:8080",
+      "localPath": "/var/lib/artifact-handoff/replica-aware-20260408/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    }
+  ]
+}
+```
+
+replica metadata snapshot:
+
+```json
+{
+  "localNode": "lab-worker-1",
+  "producerNode": "lab-worker-0",
+  "replicaNode": "lab-worker-1",
+  "source": "peer-fetch",
+  "state": "replicated"
+}
+```
+
+현재 코드 기준 해석:
+
+- catalog는 `replicaNodes`를 유지한다.
+- 그러나 agent의 `peer_fetch()`는 여전히 `record.get("producerAddress")`를 직접 사용한다.
+- 따라서 현재 상태는 replica-aware fetch가 아니라 **replica-ready but still producer-biased** 상태로 읽는 것이 맞다.
+
 ## 참고
 
 - 이 저장소의 베이스라인과 스크립트는 `multipass-k8s-lab`이 준비한 랩 클러스터를 대상으로 동작하도록 설계되었습니다.
