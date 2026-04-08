@@ -14,7 +14,7 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -26,8 +26,9 @@ This is not a design document. It is a **progress board** and should be updated 
   - post-E2 freeze track `E5`: `1/1` complete, `100%`
   - next execution planning track `F1~F3`: `3/3` complete, `100%`
   - replica-aware first validation track `F4~F5`: `2/2` complete, `100%`
-  - replica-aware decision track `F6`: `0/1` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~F6`: `51/52` complete, about `98%`
+  - replica-aware decision track `F6`: `1/1` complete, `100%`
+  - replica-aware execution track `F7~G1`: `0/2` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~G1`: `52/54` complete, about `96%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -68,6 +69,7 @@ This is not a design document. It is a **progress board** and should be updated 
   - `Sprint F3` added the smallest execution cut for replica-aware fetch: a dedicated helper that makes the first replica and `replicaNodes` state repeatable for validation
   - `Sprint F4` fixed the first live evidence that replica-ready state exists, while actual fetch source selection still remains producer-biased
   - `Sprint F5` fixed the follow-up order as `validation first, cut second`, and narrowed the next judgment step to `F6 - Replica-Aware Decision Note`
+  - `Sprint F6` fixed the decision that the next immediate execution should validate the producer bias first, and only then move into the smallest replica source-selection cut
 
 ## Completed Sprint Table
 
@@ -124,6 +126,7 @@ This is not a design document. It is a **progress board** and should be updated 
 | F3 | Complete | smallest execution cut added for preparing replica-aware fetch validation |
 | F4 | Complete | first live evidence fixed that replica-ready state exists while actual fetch remains producer-biased |
 | F5 | Complete | replica-aware follow-up order fixed as validation first, cut second |
+| F6 | Complete | next immediate execution fixed as producer-bias validation, with the minimal cut left for the following step |
 
 ## Current Backlog
 
@@ -137,25 +140,25 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Recommended Next 3 Sprints
 
-### Sprint F6 - Replica-Aware Decision Note
+### Sprint F7 - Producer-Bias Validation Kickoff
 
 Goal:
 
-- make the final choice between one more producer-bias validation step and moving directly into the smallest source-selection cut
+- start one scenario that exposes the current producer-only bias more directly
 
 Completion criteria:
 
-- the next immediate execution direction for replica-aware fetch is fixed in one short note
+- live validation or equivalently narrow evidence is reflected in `RESULTS` and `VALIDATION_HISTORY`
 
-### Sprint F7 - Producer-Bias Validation Or Cut Kickoff
+### Sprint F8 - Replica Source-Selection Minimal Cut
 
 Goal:
 
-- start either the producer-only bias validation or the smallest source-selection cut according to the `F6` decision
+- define or start the smallest cut that connects `replicaNodes` to actual source selection, based on `F7` evidence
 
 Completion criteria:
 
-- the next real execution sprint becomes concrete enough to run without more meta-planning
+- a helper or minimum implementation adjustment is added so the next live validation becomes possible
 
 ### Sprint G1 - Post-Replica-Aware Gap Review
 

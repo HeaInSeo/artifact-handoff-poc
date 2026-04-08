@@ -14,7 +14,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -26,8 +26,9 @@
   - post-E2 freeze track `E5` 기준: `1/1` 완료, `100%`
   - next execution planning 트랙 `F1~F3` 기준: `3/3` 완료, `100%`
   - replica-aware first validation 트랙 `F4~F5` 기준: `2/2` 완료, `100%`
-  - replica-aware decision 트랙 `F6` 기준: `0/1` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~F6` 기준: `51/52` 완료, 약 `98%`
+  - replica-aware decision 트랙 `F6` 기준: `1/1` 완료, `100%`
+  - replica-aware execution track `F7~G1` 기준: `0/2` 완료, `0%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~G1` 기준: `52/54` 완료, 약 `96%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -68,6 +69,7 @@
   - `Sprint F3`에서 replica-aware fetch를 위한 가장 작은 실행 cut로, first replica와 `replicaNodes` 준비 상태를 반복 가능하게 만드는 전용 helper를 추가
   - `Sprint F4`에서 live 검증으로 `replicaNodes`와 replica metadata가 실제로 준비되는 것은 확인했지만, actual fetch source selection은 여전히 `producerAddress` 중심이라는 첫 evidence를 고정
   - `Sprint F5`에서 replica-aware 후속 순서를 `validation first, cut second`로 고정하고, 다음 판단 메모를 `F6 - Replica-Aware Decision Note`로 좁힘
+  - `Sprint F6`에서 다음 즉시 실행은 producer-bias validation을 먼저 두고, 최소 replica source-selection cut는 그 다음으로 미루는 것이 맞다는 decision을 고정
 
 ## 완료 스프린트 표
 
@@ -124,6 +126,7 @@
 | F3 | 완료 | replica-aware fetch 준비 상태를 만드는 최소 execution cut 추가 |
 | F4 | 완료 | replica-ready 상태는 live로 확인했지만 actual fetch는 아직 producer-biased라는 첫 evidence 고정 |
 | F5 | 완료 | replica-aware 후속 순서를 validation first, cut second 로 고정 |
+| F6 | 완료 | 다음 즉시 실행을 producer-bias validation으로 고정하고 최소 cut는 그 다음으로 미룸 |
 
 ## 현재 backlog
 
@@ -137,25 +140,25 @@
 
 ## 추천 다음 3개 스프린트
 
-### Sprint F6 - Replica-Aware Decision Note
+### Sprint F7 - Producer-Bias Validation Kickoff
 
 목표:
 
-- producer-bias validation을 먼저 할지, 바로 최소 source-selection cut로 갈지 최종 결정
+- producer-only bias를 더 직접적으로 드러내는 scenario 1개를 실제로 시작
 
 완료 기준:
 
-- replica-aware fetch의 다음 즉시 실행 방향이 한 문서로 고정됨
+- live validation 또는 동등한 좁은 evidence가 `RESULTS` / `VALIDATION_HISTORY`에 반영됨
 
-### Sprint F7 - Producer-Bias Validation Or Cut Kickoff
+### Sprint F8 - Replica Source-Selection Minimal Cut
 
 목표:
 
-- `F6` 판단에 따라 producer-only bias validation 또는 최소 source-selection cut를 실제로 시작
+- `F7` evidence를 바탕으로 `replicaNodes`를 actual source selection에 연결하는 가장 작은 cut를 정의하거나 시작
 
 완료 기준:
 
-- 다음 실제 실행 스프린트가 더 이상의 메타 정리 없이 바로 진행 가능할 정도로 구체화됨
+- helper 또는 최소 구현 보정이 추가되어 다음 live validation이 가능해짐
 
 ### Sprint G1 - Post-Replica-Aware Gap Review
 
