@@ -14,7 +14,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -24,8 +24,8 @@
   - second edge-case cross-node follow-up 트랙 `D12~D13` 기준: `2/2` 완료, `100%`
   - post-second-edge planning 트랙 `E1~E4` 기준: `4/4` 완료, `100%`
   - post-E2 freeze track `E5` 기준: `1/1` 완료, `100%`
-  - next execution planning 트랙 `F1~F3` 기준: `1/3` 완료, 약 `33%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~F3` 기준: `47/49` 완료, 약 `96%`
+  - next execution planning 트랙 `F1~F3` 기준: `2/3` 완료, 약 `67%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~F3` 기준: `48/49` 완료, 약 `98%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -62,6 +62,7 @@
   - `Sprint E4`에서 broader policy boundary는 더 확장하지 않고, 남은 좁은 정책 질문은 `E2 - Orphan Semantics Note` 하나로 제한하는 것이 맞다는 판단을 고정
   - `Sprint E5`에서 현재 Sprint 1 범위의 policy/document cleanup은 여기서 freeze하고, 다음부터는 다음 validation/implementation 질문 선택으로 넘어가는 것이 맞다는 판단을 고정
   - `Sprint F1`에서 다음 실제 질문은 `replicaNodes`를 fetch source selection에 의미 있게 연결할 수 있는지 검토하는 가장 작은 replica-aware fetch 질문으로 고정
+  - `Sprint F2`에서 구현 backlog를 다시 순서화하고, `replica-aware fetch`를 1순위, `catalog top-level failure reflection`을 2순위로 고정
 
 ## 완료 스프린트 표
 
@@ -114,6 +115,7 @@
 | E4 | 완료 | broader policy boundary는 확장하지 않고 `E2`만 남기는 것이 맞다는 판단 고정 |
 | E5 | 완료 | 현재 policy/document cleanup scope를 여기서 freeze하고 다음 질문 선택 단계로 전환 |
 | F1 | 완료 | 다음 실제 질문을 `replica-aware fetch`의 가장 작은 형태로 선택 |
+| F2 | 완료 | 구현 backlog를 `replica-aware fetch` 우선 순서로 재정렬 |
 
 ## 현재 backlog
 
@@ -126,16 +128,6 @@
 | 운영 | 새 문서 추가 시 bilingual pair 유지 | 높음 | 정책 고정 완료, 계속 실행 필요 |
 
 ## 추천 다음 3개 스프린트
-
-### Sprint F2 - Next Backlog Ordering Note
-
-목표:
-
-- `replica-aware fetch`를 1순위로 두고 나머지 구현 backlog를 현재 truth 기준으로 다시 순서화
-
-완료 기준:
-
-- 다음 2~3개 구현/검증 질문의 우선순위가 한 문서로 고정됨
 
 ### Sprint F3 - Next Execution Cut
 
@@ -156,6 +148,16 @@
 완료 기준:
 
 - 결과 문서에 첫 replica-aware fetch evidence가 반영됨
+
+### Sprint F5 - Replica-Aware Follow-Up Ordering
+
+목표:
+
+- 첫 replica-aware fetch 결과 이후 다음 후속 질문을 다시 정렬
+
+완료 기준:
+
+- replica-aware fetch 이후의 다음 2개 질문이 한 문서로 고정됨
 
 ## 업데이트 규칙
 
