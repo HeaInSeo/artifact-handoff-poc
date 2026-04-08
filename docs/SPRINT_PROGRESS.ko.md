@@ -14,12 +14,13 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
   - first edge-case completion 트랙 `D4~D7` 기준: `4/4` 완료, `100%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D7` 기준: `35/35` 완료, `100%`
+  - second edge-case kickoff 트랙 `D8~D9` 기준: `1/2` 완료, `50%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D9` 기준: `36/37` 완료, 약 `97%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -44,6 +45,7 @@
   - `Sprint D5`에서 same-node `catalog record exists + local artifact missing`를 실검증하고 current behavior를 결과 문서에 반영
   - `Sprint D6`에서 같은 edge case를 cross-node recovery까지 이어서 보는 것이 다음 최소 단계라는 판단을 고정
   - `Sprint D7`에서 cross-node `catalog record exists + local artifact missing`가 실제로 `peer-fetch` recovery로 이어지는지 확인
+  - `Sprint D8`에서 두 번째 edge case를 `catalog record missing + local artifact exists`로 선택하고 다음 helper cut 기준을 고정
 
 ## 완료 스프린트 표
 
@@ -84,6 +86,7 @@
 | D5 | 완료 | same-node `catalog record exists + local artifact missing` evidence와 해석 고정 |
 | D6 | 완료 | 같은 edge case의 다음 질문은 cross-node recovery check라는 재판단 고정 |
 | D7 | 완료 | cross-node `catalog record exists + local artifact missing` evidence와 recovery 해석 고정 |
+| D8 | 완료 | 두 번째 edge case를 `catalog record missing + local artifact exists`로 선택 |
 
 ## 현재 backlog
 
@@ -116,6 +119,16 @@
 완료 기준:
 
 - 두 번째 edge case를 실제로 검증할 준비가 됨
+
+### Sprint D10 - Second Edge Case Truth Tightening
+
+목표:
+
+- 선택된 두 번째 edge case를 실제로 재현하고 current behavior를 evidence로 고정
+
+완료 기준:
+
+- HTTP 응답, local metadata, interpretation이 RESULTS / VALIDATION_HISTORY에 반영됨
 
 ## 업데이트 규칙
 
