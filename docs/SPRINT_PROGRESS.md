@@ -14,7 +14,7 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -23,7 +23,8 @@ This is not a design document. It is a **progress board** and should be updated 
   - second edge-case truth track `D10~D11`: `2/2` complete, `100%`
   - second edge-case cross-node follow-up track `D12~D13`: `2/2` complete, `100%`
   - post-second-edge planning track `E1~E4`: `4/4` complete, `100%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E4`: `45/45` complete, `100%`
+  - post-E2 freeze track `E5`: `1/1` complete, `100%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5`: `46/46` complete, `100%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -58,6 +59,7 @@ This is not a design document. It is a **progress board** and should be updated 
   - `Sprint E2` fixed the note that same-node local-first reuse should be accepted as current behavior truth, but not yet treated as orphan-policy approval
   - `Sprint E3` fixed the recheck conclusion that catalog top-level failure reflection should still remain deferred even after the second edge-case family
   - `Sprint E4` fixed the judgment that the broader policy boundary should not expand further, and that the only remaining narrow policy question should stay limited to `E2 - Orphan Semantics Note`
+  - `Sprint E5` fixed the judgment that the current Sprint 1 policy/document cleanup should now freeze here and shift to the next validation/implementation question
 
 ## Completed Sprint Table
 
@@ -108,6 +110,7 @@ This is not a design document. It is a **progress board** and should be updated 
 | E2 | Complete | same-node local reuse fixed as current behavior truth, but not as orphan-policy approval |
 | E3 | Complete | catalog top-level failure reflection still deferred after recheck |
 | E4 | Complete | broader policy boundary should not expand further and should leave only `E2` open |
+| E5 | Complete | current policy/document cleanup scope frozen here before moving to next question selection |
 
 ## Current Backlog
 
@@ -120,16 +123,6 @@ This is not a design document. It is a **progress board** and should be updated 
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
 
 ## Recommended Next 3 Sprints
-
-### Sprint E5 - Post-E2 Freeze Check
-
-Goal:
-
-- after the orphan semantics note is closed, recheck whether the current policy/document scope should stop there
-
-Completion criteria:
-
-- one short note fixes whether further expansion is unnecessary
 
 ### Sprint F1 - Next Validation/Implementation Question Selection
 
@@ -150,6 +143,16 @@ Goal:
 Completion criteria:
 
 - the next 2-3 implementation or validation questions are fixed in one short note
+
+### Sprint F3 - Next Execution Cut
+
+Goal:
+
+- add the smallest helper or implementation cut that starts the selected next question
+
+Completion criteria:
+
+- one sprint-sized minimal execution cut is fixed without widening the current scope
 
 ## Update Rule
 
