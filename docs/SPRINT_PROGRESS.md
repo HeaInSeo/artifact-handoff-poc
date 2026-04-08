@@ -14,13 +14,14 @@ This is not a design document. It is a **progress board** and should be updated 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
   - first edge-case completion track `D4~D7`: `4/4` complete, `100%`
-  - second edge-case kickoff track `D8~D9`: `1/2` complete, `50%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D9`: `36/37` complete, about `97%`
+  - second edge-case kickoff track `D8~D9`: `2/2` complete, `100%`
+  - second edge-case truth track `D10~D11`: `0/2` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D11`: `37/39` complete, about `95%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -46,6 +47,7 @@ This is not a design document. It is a **progress board** and should be updated 
   - `Sprint D6` fixed that the next smallest question is the cross-node recovery view of the same edge case
   - `Sprint D7` confirmed that the cross-node view of the same edge case recovers through `peer-fetch`
   - `Sprint D8` selected `catalog record missing + local artifact exists` as the second edge-case question and fixed the minimum cut for the next helper
+  - `Sprint D9` added a dedicated helper to reproduce `catalog record missing + local artifact exists`
 
 ## Completed Sprint Table
 
@@ -87,6 +89,7 @@ This is not a design document. It is a **progress board** and should be updated 
 | D6 | Complete | next question narrowed to the cross-node recovery view of the same edge case |
 | D7 | Complete | cross-node evidence fixed for `catalog record exists + local artifact missing` |
 | D8 | Complete | second edge case selected as `catalog record missing + local artifact exists` |
+| D9 | Complete | dedicated helper and cut note added for the second edge case |
 
 ## Current Backlog
 
@@ -129,6 +132,16 @@ Goal:
 Completion criteria:
 
 - the HTTP response, local metadata, and interpretation are added to RESULTS / VALIDATION_HISTORY
+
+### Sprint D11 - Second Edge Case Reassessment
+
+Goal:
+
+- decide whether the second edge case is sufficiently closed after `D10`
+
+Completion criteria:
+
+- the next question or closure judgment is fixed in one short note
 
 ## Update Rule
 
