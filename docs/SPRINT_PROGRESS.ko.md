@@ -16,7 +16,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -35,9 +35,10 @@
   - post-replica-aware review 트랙 `G1~G2` 기준: `2/2` 완료, `100%`
   - current post-replica-aware follow-up 트랙 `H1~H3` 기준: `3/3` 완료, `100%`
   - next post-H3 reset track `I1~I2` 기준: `2/2` 완료, `100%`
-  - next implementation selection track `I3` 기준: `0/1` 완료, `0%`
+  - next implementation selection track `I3` 기준: `1/1` 완료, `100%`
   - next execution cut track `J1` 기준: `0/1` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~J1` 기준: `62/64` 완료, 약 `97%`
+  - post-I3 refresh track `J2` 기준: `0/1` 완료, `0%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~J2` 기준: `63/65` 완료, 약 `97%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -89,6 +90,7 @@
   - `Sprint H3`에서 producer-first ordering은 현재 구현 truth로 보되, 더 넓은 policy commitment로는 아직 읽지 않는다는 판단을 고정
   - `Sprint I1`에서 replica-aware 첫 사이클 이후 다음 실제 implementation backlog는 multi-replica policy 우선, retry/recovery 그 다음으로 재설정
   - `Sprint I2`에서 completion overview와 progress board가 backlog reset 이후 직접 남은 질문을 `I3`, `J1` 기준으로 다시 가리키도록 정리
+  - `Sprint I3`에서 next real implementation question은 retry/recovery가 아니라 multi-replica policy로 고정
 
 ## 완료 스프린트 표
 
@@ -156,6 +158,7 @@
 | H3 | 완료 | producer-first ordering을 current implementation truth로 고정하되 broader policy commitment로는 아직 보지 않음 |
 | I1 | 완료 | replica-aware 이후 실제 implementation backlog를 multi-replica policy 우선으로 재설정 |
 | I2 | 완료 | backlog reset 이후 completion view와 progress board의 남은 질문 세트를 다시 정리 |
+| I3 | 완료 | 다음 실제 implementation 질문을 multi-replica policy로 고정 |
 
 ## 현재 backlog
 
@@ -168,16 +171,6 @@
 | 운영 | 새 문서 추가 시 bilingual pair 유지 | 높음 | 정책 고정 완료, 계속 실행 필요 |
 
 ## 추천 다음 3개 스프린트
-
-### I3 - Next Implementation Question Selection
-
-목표:
-
-- `I1`, `I2` 이후 다음 실제 implementation 질문을 하나로 다시 좁힘
-
-완료 기준:
-
-- 다음 implementation 질문이 한 문서로 고정됨
 
 ### J1 - Post-I3 Execution Cut
 
@@ -198,6 +191,16 @@
 완료 기준:
 
 - completion 문서와 progress board가 같은 다음 질문 세트를 가리킴
+
+### K1 - Post-J1 Validation Entry
+
+목표:
+
+- `J1` execution cut 이후 어떤 validation question으로 들어갈지 entry note를 정리
+
+완료 기준:
+
+- 다음 validation entry가 한 문서로 고정됨
 
 ## 업데이트 규칙
 

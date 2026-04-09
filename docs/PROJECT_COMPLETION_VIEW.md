@@ -36,16 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### I3 - Next Implementation Question Selection
-
-Goal:
-
-- after `I1` and `I2`, narrow the next real implementation question again
-
-Completion criteria:
-
-- the next implementation question is fixed in one document
-
 ### J1 - Post-I3 Execution Cut
 
 Goal:
@@ -66,11 +56,21 @@ Completion criteria:
 
 - the completion document and progress board point to the same next-question set
 
+### K1 - Post-J1 Validation Entry
+
+Goal:
+
+- define which validation question should follow after the `J1` execution cut
+
+Completion criteria:
+
+- the next validation entry is fixed in one document
+
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `62/64`
+- complete: `63/65`
 - about `97%`
 
 Important:
@@ -142,6 +142,7 @@ This layer is largely closed.
 - replica ordering semantics note
 - post-H3 backlog reset
 - post-H3 completion-view refresh
+- next implementation question selection
 
 This layer can now be treated as closed once.
 
@@ -155,4 +156,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability/ordering/reset/refresh pass. The next directly remaining core sprint is `I3 - Next Implementation Question Selection`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability/ordering/reset/refresh/selection pass. The next directly remaining core sprint is `J1 - Post-I3 Execution Cut`.

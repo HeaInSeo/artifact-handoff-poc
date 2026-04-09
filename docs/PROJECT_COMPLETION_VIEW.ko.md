@@ -38,16 +38,6 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### I3 - Next Implementation Question Selection
-
-목표:
-
-- `I1`, `I2` 이후 다음 실제 implementation 질문을 하나로 다시 좁힘
-
-완료 기준:
-
-- 다음 implementation 질문이 한 문서로 고정됨
-
 ### J1 - Post-I3 Execution Cut
 
 목표:
@@ -68,11 +58,21 @@
 
 - completion 문서와 progress board가 같은 다음 질문 세트를 가리킴
 
+### K1 - Post-J1 Validation Entry
+
+목표:
+
+- `J1` execution cut 이후 어떤 validation question으로 들어갈지 entry note를 정리
+
+완료 기준:
+
+- 다음 validation entry가 한 문서로 고정됨
+
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `62/64`
+- 완료: `63/65`
 - 약 `97%`
 
 중요:
@@ -144,6 +144,7 @@
 - replica ordering semantics note
 - post-H3 backlog reset
 - post-H3 completion-view refresh
+- next implementation question selection
 
 이 층위는 이제 한 차례 닫힌 것으로 볼 수 있다.
 
@@ -157,4 +158,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh/observability/ordering/reset/refresh까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `I3 - Next Implementation Question Selection`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh/observability/ordering/reset/refresh/selection까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `J1 - Post-I3 Execution Cut`이다.

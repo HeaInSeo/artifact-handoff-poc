@@ -16,7 +16,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -35,9 +35,10 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - post-replica-aware review track `G1~G2`: `2/2` complete, `100%`
   - current post-replica-aware follow-up track `H1~H3`: `3/3` complete, `100%`
   - next post-H3 reset track `I1~I2`: `2/2` complete, `100%`
-  - next implementation selection track `I3`: `0/1` complete, `0%`
+  - next implementation selection track `I3`: `1/1` complete, `100%`
   - next execution cut track `J1`: `0/1` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~J1`: `62/64` complete, about `97%`
+  - post-I3 refresh track `J2`: `0/1` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~J2`: `63/65` complete, about `97%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -89,6 +90,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - `Sprint H3` fixed that producer-first ordering should be read as current implementation truth, but not yet as a broader policy commitment
   - `Sprint I1` reset the next real implementation backlog so that multi-replica policy comes first and retry/recovery comes second
   - `Sprint I2` realigned the completion overview and progress board so they now point directly to `I3` and `J1`
+  - `Sprint I3` fixed the next real implementation question as multi-replica policy rather than retry/recovery
 
 ## Completed Sprint Table
 
@@ -156,6 +158,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | H3 | Complete | fixed that producer-first ordering is current implementation truth, but not yet a broader policy commitment |
 | I1 | Complete | reset the post-H3 implementation backlog with multi-replica policy first |
 | I2 | Complete | realigned completion and progress after the post-H3 backlog reset |
+| I3 | Complete | fixed the next real implementation question as multi-replica policy |
 
 ## Current Backlog
 
@@ -168,16 +171,6 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
 
 ## Recommended Next 3 Sprints
-
-### I3 - Next Implementation Question Selection
-
-Goal:
-
-- after `I1` and `I2`, narrow the next real implementation question again
-
-Completion criteria:
-
-- the next implementation question is fixed in one document
 
 ### J1 - Post-I3 Execution Cut
 
@@ -198,6 +191,16 @@ Goal:
 Completion criteria:
 
 - the completion document and progress board point to the same next-question set
+
+### K1 - Post-J1 Validation Entry
+
+Goal:
+
+- define which validation question should follow after the `J1` execution cut
+
+Completion criteria:
+
+- the next validation entry is fixed in one document
 
 ## Update Rule
 
