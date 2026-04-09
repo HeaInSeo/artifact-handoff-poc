@@ -22,6 +22,7 @@
 4. replica-aware fetch 준비 상태 검증
 5. producer-only bias 실증
 6. `replicaNodes`를 remote candidate set에 연결하는 최소 구현 cut
+7. multi-replica 상태를 준비하는 최소 execution cut
 
 즉 현재 저장소는:
 
@@ -37,16 +38,6 @@
 ## 현재 문서화된 로드맵 기준 남은 스프린트
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
-
-### J1 - Post-I3 Execution Cut
-
-목표:
-
-- `I3`에서 고른 다음 implementation 질문의 가장 작은 execution cut를 정의
-
-완료 기준:
-
-- 다음 execution cut가 한 문서 또는 helper로 고정됨
 
 ### J2 - Post-I3 Completion Refresh
 
@@ -72,7 +63,7 @@
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `63/65`
+- 완료: `64/66`
 - 약 `97%`
 
 중요:
@@ -137,6 +128,7 @@
 - producer-only bias evidence
 - minimal source-selection cut
 - replica fallback after producer failure
+- minimum multi-replica execution cut
 - post-replica-aware gap review
 - post-replica-aware backlog ordering
 - post-replica-aware completion view refresh
@@ -158,4 +150,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh/observability/ordering/reset/refresh/selection까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `J1 - Post-I3 Execution Cut`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 multi-replica policy를 여는 최소 execution cut까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `J2 - Post-I3 Completion Refresh`다.

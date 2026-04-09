@@ -22,6 +22,7 @@ The major completed areas so far are:
 4. validation of the replica-ready state
 5. direct evidence of the producer-only bias
 6. the minimum implementation cut that connects `replicaNodes` to the remote candidate set
+7. the minimum execution cut that prepares a repeatable multi-replica state
 
 In other words, the repository already has substantial fixed evidence for:
 
@@ -35,16 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 ## Remaining Sprints In The Current Documented Roadmap
 
 According to the current progress board, the directly remaining sprints are:
-
-### J1 - Post-I3 Execution Cut
-
-Goal:
-
-- define the smallest execution cut for the next implementation question chosen in `I3`
-
-Completion criteria:
-
-- the next execution cut is fixed in one document or helper
 
 ### J2 - Post-I3 Completion Refresh
 
@@ -70,7 +61,7 @@ Completion criteria:
 
 The currently documented roadmap should be read like this:
 
-- complete: `63/65`
+- complete: `64/66`
 - about `97%`
 
 Important:
@@ -135,6 +126,7 @@ This layer is largely closed.
 - producer-only bias evidence
 - minimal source-selection cut
 - replica fallback after producer failure
+- minimum multi-replica execution cut
 - post-replica-aware gap review
 - post-replica-aware backlog ordering
 - post-replica-aware completion-view refresh
@@ -156,4 +148,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability/ordering/reset/refresh/selection pass. The next directly remaining core sprint is `J1 - Post-I3 Execution Cut`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the minimum execution cut that opens the multi-replica question. The next directly remaining core sprint is `J2 - Post-I3 Completion Refresh`.

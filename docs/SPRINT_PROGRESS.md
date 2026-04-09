@@ -16,7 +16,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -36,9 +36,10 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - current post-replica-aware follow-up track `H1~H3`: `3/3` complete, `100%`
   - next post-H3 reset track `I1~I2`: `2/2` complete, `100%`
   - next implementation selection track `I3`: `1/1` complete, `100%`
-  - next execution cut track `J1`: `0/1` complete, `0%`
+  - next execution cut track `J1`: `1/1` complete, `100%`
   - post-I3 refresh track `J2`: `0/1` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~J2`: `63/65` complete, about `97%`
+  - post-J1 validation entry track `K1`: `0/1` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~K1`: `64/66` complete, about `97%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -91,6 +92,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - `Sprint I1` reset the next real implementation backlog so that multi-replica policy comes first and retry/recovery comes second
   - `Sprint I2` realigned the completion overview and progress board so they now point directly to `I3` and `J1`
   - `Sprint I3` fixed the next real implementation question as multi-replica policy rather than retry/recovery
+  - `Sprint J1` added the smallest helper cut that makes producer + first replica + second replica state repeatable
 
 ## Completed Sprint Table
 
@@ -159,6 +161,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | I1 | Complete | reset the post-H3 implementation backlog with multi-replica policy first |
 | I2 | Complete | realigned completion and progress after the post-H3 backlog reset |
 | I3 | Complete | fixed the next real implementation question as multi-replica policy |
+| J1 | Complete | added the minimum execution cut that prepares producer + first replica + second replica state |
 
 ## Current Backlog
 
@@ -171,16 +174,6 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
 
 ## Recommended Next 3 Sprints
-
-### J1 - Post-I3 Execution Cut
-
-Goal:
-
-- define the smallest execution cut for the next implementation question chosen in `I3`
-
-Completion criteria:
-
-- the next execution cut is fixed in one document or helper
 
 ### J2 - Post-I3 Completion Refresh
 
@@ -201,6 +194,16 @@ Goal:
 Completion criteria:
 
 - the next validation entry is fixed in one document
+
+### K2 - Multi-Replica First Validation
+
+Goal:
+
+- validate the first multi-replica policy question using the `J1` helper
+
+Completion criteria:
+
+- the first multi-replica evidence is recorded in the results documents
 
 ## Update Rule
 
