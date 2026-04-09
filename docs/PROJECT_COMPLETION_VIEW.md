@@ -36,16 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### I2 - Post-H3 Completion View Refresh
-
-Goal:
-
-- realign the completion view and progress board after `H2` and `H3`
-
-Completion criteria:
-
-- the completion document and progress board point to the same remaining question set
-
 ### I3 - Next Implementation Question Selection
 
 Goal:
@@ -66,11 +56,21 @@ Completion criteria:
 
 - the next execution cut is fixed in one document or helper
 
+### J2 - Post-I3 Completion Refresh
+
+Goal:
+
+- realign the completion view and progress board after `I3` and `J1`
+
+Completion criteria:
+
+- the completion document and progress board point to the same next-question set
+
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `61/63`
+- complete: `62/64`
 - about `97%`
 
 Important:
@@ -141,6 +141,7 @@ This layer is largely closed.
 - replica-aware observability follow-up
 - replica ordering semantics note
 - post-H3 backlog reset
+- post-H3 completion-view refresh
 
 This layer can now be treated as closed once.
 
@@ -154,4 +155,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability/ordering/backlog-reset pass. The next directly remaining core sprint is `I2 - Post-H3 Completion View Refresh`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability/ordering/reset/refresh pass. The next directly remaining core sprint is `I3 - Next Implementation Question Selection`.

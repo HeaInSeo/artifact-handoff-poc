@@ -38,16 +38,6 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### I2 - Post-H3 Completion View Refresh
-
-목표:
-
-- `H2`, `H3` 이후 completion view와 progress board의 남은 질문 구성을 다시 맞춤
-
-완료 기준:
-
-- completion 문서와 progress board가 같은 남은 질문 세트를 가리킴
-
 ### I3 - Next Implementation Question Selection
 
 목표:
@@ -68,11 +58,21 @@
 
 - 다음 execution cut가 한 문서 또는 helper로 고정됨
 
+### J2 - Post-I3 Completion Refresh
+
+목표:
+
+- `I3`, `J1` 이후 completion view와 progress board의 남은 질문 구성을 다시 맞춤
+
+완료 기준:
+
+- completion 문서와 progress board가 같은 다음 질문 세트를 가리킴
+
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `61/63`
+- 완료: `62/64`
 - 약 `97%`
 
 중요:
@@ -143,6 +143,7 @@
 - replica-aware observability follow-up
 - replica ordering semantics note
 - post-H3 backlog reset
+- post-H3 completion-view refresh
 
 이 층위는 이제 한 차례 닫힌 것으로 볼 수 있다.
 
@@ -156,4 +157,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh/observability/ordering/backlog reset까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `I2 - Post-H3 Completion View Refresh`다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh/observability/ordering/reset/refresh까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `I3 - Next Implementation Question Selection`이다.
