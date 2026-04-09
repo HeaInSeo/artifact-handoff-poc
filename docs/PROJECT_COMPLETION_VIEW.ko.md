@@ -39,21 +39,21 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### K1 - Post-J1 Validation Entry
+### K2 - Multi-Replica First Validation
 
 목표:
 
-- `J1` execution cut 이후 어떤 validation question으로 들어갈지 entry note를 정리
+- `J1` helper를 기준으로 multi-replica policy의 첫 validation question을 실제로 검증
 
 완료 기준:
 
-- 다음 validation entry가 한 문서로 고정됨
+- 첫 multi-replica validation evidence가 결과 문서에 반영됨
 
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `65/67`
+- 완료: `66/68`
 - 약 `97%`
 
 중요:
@@ -140,4 +140,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 multi-replica policy를 여는 최소 execution cut와 그 직후 completion refresh까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `K1 - Post-J1 Validation Entry`다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, 그리고 그 다음 validation entry selection까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `K2 - Multi-Replica First Validation`이다.

@@ -16,7 +16,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -38,9 +38,10 @@
   - next implementation selection track `I3` 기준: `1/1` 완료, `100%`
   - next execution cut track `J1` 기준: `1/1` 완료, `100%`
   - post-I3 refresh track `J2` 기준: `1/1` 완료, `100%`
-  - post-J1 validation entry track `K1` 기준: `0/1` 완료, `0%`
+  - post-J1 validation entry track `K1` 기준: `1/1` 완료, `100%`
   - multi-replica first validation track `K2` 기준: `0/1` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~K2` 기준: `65/67` 완료, 약 `97%`
+  - post-K2 backlog review track `L1` 기준: `0/1` 완료, `0%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~L1` 기준: `66/68` 완료, 약 `97%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -95,6 +96,7 @@
   - `Sprint I3`에서 next real implementation question은 retry/recovery가 아니라 multi-replica policy로 고정
   - `Sprint J1`에서 producer + first replica + second replica 상태를 반복 가능하게 만드는 multi-replica 전용 helper cut를 추가
   - `Sprint J2`에서 `J1` 이후 직접 남은 질문은 `K1 - Post-J1 Validation Entry`, 그 다음 실검증은 `K2 - Multi-Replica First Validation`이라는 구조로 completion view와 progress board를 다시 맞춤
+  - `Sprint K1`에서 first multi-replica validation question을 `producer broken + first replica unavailable + second replica fallback success` 시나리오로 고정
 
 ## 완료 스프린트 표
 
@@ -165,6 +167,7 @@
 | I3 | 완료 | 다음 실제 implementation 질문을 multi-replica policy로 고정 |
 | J1 | 완료 | producer + first replica + second replica 상태를 준비하는 최소 execution cut 추가 |
 | J2 | 완료 | `J1` 이후 남은 직접 질문 세트를 `K1`, `K2` 기준으로 다시 정렬 |
+| K1 | 완료 | first multi-replica validation question을 second-replica fallback 시나리오로 고정 |
 
 ## 현재 backlog
 
@@ -177,16 +180,6 @@
 | 운영 | 새 문서 추가 시 bilingual pair 유지 | 높음 | 정책 고정 완료, 계속 실행 필요 |
 
 ## 추천 다음 3개 스프린트
-
-### K1 - Post-J1 Validation Entry
-
-목표:
-
-- `J1` execution cut 이후 어떤 validation question으로 들어갈지 entry note를 정리
-
-완료 기준:
-
-- 다음 validation entry가 한 문서로 고정됨
 
 ### K2 - Multi-Replica First Validation
 
@@ -207,6 +200,16 @@
 완료 기준:
 
 - 다음 후속 질문 세트가 한 문서로 고정됨
+
+### L2 - Post-K2 Completion Refresh
+
+목표:
+
+- `K2`, `L1` 이후 completion view와 progress board를 다시 정렬
+
+완료 기준:
+
+- completion 문서와 progress board가 같은 다음 질문 세트를 가리킴
 
 ## 업데이트 규칙
 

@@ -37,21 +37,21 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### K1 - Post-J1 Validation Entry
+### K2 - Multi-Replica First Validation
 
 Goal:
 
-- define which validation question should follow after the `J1` execution cut
+- validate the first multi-replica policy question using the `J1` helper
 
 Completion criteria:
 
-- the next validation entry is fixed in one document
+- the first multi-replica validation evidence is recorded in the results documents
 
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `65/67`
+- complete: `66/68`
 - about `97%`
 
 Important:
@@ -138,4 +138,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the minimum execution cut plus the immediate completion refresh that open the multi-replica question. The next directly remaining core sprint is `K1 - Post-J1 Validation Entry`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, and the follow-up validation-entry selection. The next directly remaining core sprint is `K2 - Multi-Replica First Validation`.
