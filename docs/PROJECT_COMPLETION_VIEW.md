@@ -36,16 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### H2 - Replica-Aware Observability Follow-Up
-
-Goal:
-
-- decide whether actual fetch-endpoint observability should be handled now or deferred under the current metadata model
-
-Completion criteria:
-
-- the need for an observability follow-up is fixed in one document
-
 ### H3 - Replica Ordering Semantics Note
 
 Goal:
@@ -66,12 +56,22 @@ Completion criteria:
 
 - the next implementation question is fixed in one document
 
+### I2 - Post-H3 Completion View Refresh
+
+Goal:
+
+- realign the completion view and progress board after `H2` and `H3`
+
+Completion criteria:
+
+- the completion document and progress board point to the same remaining question set
+
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `58/60`
-- about `97%`
+- complete: `59/60`
+- about `98%`
 
 Important:
 
@@ -138,6 +138,7 @@ This layer is largely closed.
 - post-replica-aware gap review
 - post-replica-aware backlog ordering
 - post-replica-aware completion-view refresh
+- replica-aware observability follow-up
 
 This layer can now be treated as closed once.
 
@@ -151,4 +152,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh pass. The next directly remaining core sprint is `H2 - Replica-Aware Observability Follow-Up`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability pass. The next directly remaining core sprint is `H3 - Replica Ordering Semantics Note`.
