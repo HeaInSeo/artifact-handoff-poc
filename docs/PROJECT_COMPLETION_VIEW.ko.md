@@ -34,6 +34,7 @@
 - edge-case truth
 - replica-ready state
 - producer-only bias evidence
+- second-replica fallback evidence
 
 까지는 실제 문서와 실검증으로 상당히 고정된 상태다.
 
@@ -41,21 +42,21 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### K2 - Multi-Replica First Validation
+### L1 - Post-K2 Backlog Review
 
 목표:
 
-- `J1` helper를 기준으로 multi-replica policy의 첫 validation question을 실제로 검증
+- first multi-replica validation 이후 남은 backlog를 다시 좁게 정리
 
 완료 기준:
 
-- 첫 multi-replica validation evidence가 결과 문서에 반영됨
+- 다음 후속 질문 세트가 한 문서로 고정됨
 
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `66/68`
+- 완료: `67/69`
 - 약 `97%`
 
 중요:
@@ -140,6 +141,7 @@
 - post-H3 backlog reset
 - post-H3 completion-view refresh
 - next implementation question selection
+- first multi-replica validation
 
 이 층위는 이제 한 차례 닫힌 것으로 볼 수 있다.
 
@@ -153,4 +155,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, 그리고 그 다음 validation entry selection까지는 상당히 진행됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 남은 핵심 스프린트는 `K2 - Multi-Replica First Validation`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, 그리고 first multi-replica validation evidence까지는 상당히 진행됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 남은 핵심 스프린트는 `L1 - Post-K2 Backlog Review`다.

@@ -17,7 +17,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -40,9 +40,10 @@
   - next execution cut track `J1` 기준: `1/1` 완료, `100%`
   - post-I3 refresh track `J2` 기준: `1/1` 완료, `100%`
   - post-J1 validation entry track `K1` 기준: `1/1` 완료, `100%`
-  - multi-replica first validation track `K2` 기준: `0/1` 완료, `0%`
+  - multi-replica first validation track `K2` 기준: `1/1` 완료, `100%`
   - post-K2 backlog review track `L1` 기준: `0/1` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~L1` 기준: `66/68` 완료, 약 `97%`
+  - post-K2 completion refresh track `L2` 기준: `0/1` 완료, `0%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~L2` 기준: `67/69` 완료, 약 `97%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -98,6 +99,7 @@
   - `Sprint J1`에서 producer + first replica + second replica 상태를 반복 가능하게 만드는 multi-replica 전용 helper cut를 추가
   - `Sprint J2`에서 `J1` 이후 직접 남은 질문은 `K1 - Post-J1 Validation Entry`, 그 다음 실검증은 `K2 - Multi-Replica First Validation`이라는 구조로 completion view와 progress board를 다시 맞춤
   - `Sprint K1`에서 first multi-replica validation question을 `producer broken + first replica unavailable + second replica fallback success` 시나리오로 고정
+  - `Sprint K2`에서 broken producer와 broken first replica 뒤에도 second replica fallback이 실제로 `status=200 source=peer-fetch`로 이어진다는 first live evidence를 확보
   - 전체 backlog 완료 일정은 별도 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에 `6주 / 4개 병렬 트랙` 기준으로 고정
 
 ## 완료 스프린트 표
@@ -170,6 +172,7 @@
 | J1 | 완료 | producer + first replica + second replica 상태를 준비하는 최소 execution cut 추가 |
 | J2 | 완료 | `J1` 이후 남은 직접 질문 세트를 `K1`, `K2` 기준으로 다시 정렬 |
 | K1 | 완료 | first multi-replica validation question을 second-replica fallback 시나리오로 고정 |
+| K2 | 완료 | broken producer + broken first replica 뒤 second replica fallback success를 live로 확인 |
 
 ## 현재 backlog
 
@@ -193,16 +196,6 @@
 
 ## 추천 다음 3개 스프린트
 
-### K2 - Multi-Replica First Validation
-
-목표:
-
-- `J1` helper를 기준으로 multi-replica policy의 첫 validation question을 실제로 검증
-
-완료 기준:
-
-- 첫 multi-replica validation evidence가 결과 문서에 반영됨
-
 ### L1 - Post-K2 Backlog Review
 
 목표:
@@ -222,6 +215,16 @@
 완료 기준:
 
 - completion 문서와 progress board가 같은 다음 질문 세트를 가리킴
+
+### M1 - Post-L2 Implementation Reset
+
+목표:
+
+- first multi-replica validation이 닫힌 뒤 다음 implementation backlog를 다시 재설정
+
+완료 기준:
+
+- 다음 실제 implementation 질문이 한 문서로 고정됨
 
 ## 업데이트 규칙
 

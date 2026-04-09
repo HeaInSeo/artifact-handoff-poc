@@ -17,7 +17,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -40,9 +40,10 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - next execution cut track `J1`: `1/1` complete, `100%`
   - post-I3 refresh track `J2`: `1/1` complete, `100%`
   - post-J1 validation entry track `K1`: `1/1` complete, `100%`
-  - multi-replica first validation track `K2`: `0/1` complete, `0%`
+  - multi-replica first validation track `K2`: `1/1` complete, `100%`
   - post-K2 backlog review track `L1`: `0/1` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~L1`: `66/68` complete, about `97%`
+  - post-K2 completion refresh track `L2`: `0/1` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~L2`: `67/69` complete, about `97%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -98,6 +99,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - `Sprint J1` added the smallest helper cut that makes producer + first replica + second replica state repeatable
   - `Sprint J2` realigned the completion view and progress board so the next direct question is `K1`, followed by `K2` as the first multi-replica validation sprint
   - `Sprint K1` fixed the first multi-replica validation question as the scenario where producer and first replica both fail before the second replica fallback succeeds
+  - `Sprint K2` collected the first live evidence that a producer-node consumer can still succeed through a second-replica fallback after both the producer candidate and the first replica candidate fail
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -170,6 +172,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | J1 | Complete | added the minimum execution cut that prepares producer + first replica + second replica state |
 | J2 | Complete | realigned the next directly remaining question set around `K1` and `K2` |
 | K1 | Complete | fixed the first multi-replica validation question as the second-replica fallback scenario |
+| K2 | Complete | live validation confirmed second-replica fallback after producer and first-replica failure |
 
 ## Current Backlog
 
@@ -193,16 +196,6 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Recommended Next 3 Sprints
 
-### K2 - Multi-Replica First Validation
-
-Goal:
-
-- validate the first multi-replica policy question using the `J1` helper
-
-Completion criteria:
-
-- the first multi-replica evidence is recorded in the results documents
-
 ### L1 - Post-K2 Backlog Review
 
 Goal:
@@ -217,11 +210,21 @@ Completion criteria:
 
 Goal:
 
-- realign the completion view and progress board after `K2` and `L1`
+- realign the completion view and the progress board after `K2` and `L1`
 
 Completion criteria:
 
 - the completion document and the progress board point to the same next-question set
+
+### M1 - Post-L2 Implementation Reset
+
+Goal:
+
+- reset the next implementation backlog again after the first multi-replica validation closes
+
+Completion criteria:
+
+- the next real implementation question is fixed in one note
 
 ## Update Rule
 

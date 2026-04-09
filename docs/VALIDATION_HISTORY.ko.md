@@ -527,6 +527,46 @@
 이제 replica-aware fetch 첫 구현/검증 사이클은 한 차례 닫히고,
 다음 질문은 남은 backlog와 범위를 다시 정리하는 쪽으로 이동한다.
 
+## 19. multi-replica first validation
+
+`2026-04-09`에는 first multi-replica validation으로, current candidate iteration이 second replica까지 실제로 이어지는지 확인했다.
+
+질문:
+
+- broken producer
+- unavailable first replica
+- live second replica
+
+조건에서 current source-selection path가 실제로 second replica까지 fallback 하는가
+
+실행 기준:
+
+- [run-multi-replica-prep.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-multi-replica-prep.sh)로 two-replica 상태 준비
+- top-level `producerAddress`를 `http://10.255.255.1:8080`으로 변경
+- first replica address를 `http://10.255.255.2:8080`으로 변경
+- producer node local artifact를 삭제해 local hit를 차단
+- producer node에서 `/artifacts/{id}` 재호출
+
+실제 확인한 점:
+
+- artifact id: `multi-replica-k2-20260409`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- second replica node: `lab-master-0`
+- 요청 결과:
+  - `status=200`
+  - `source=peer-fetch`
+- producer-node local metadata:
+  - `state=replicated`
+  - `source=peer-fetch`
+  - `producerAddress=http://10.255.255.1:8080`
+
+이 기록이 의미하는 바:
+
+- current source-selection path는 producer candidate와 first replica candidate가 모두 실패한 뒤에도 second replica candidate까지 이어질 수 있다.
+- 따라서 multi-replica 상태가 actual live fetch path에서 처음으로 확인됐다.
+- 다만 이 스프린트는 broader multi-replica ordering policy 전체를 닫는 것이 아니라, **second replica fallback path가 실제로 존재한다**는 첫 evidence를 남기는 데 목적이 있었다.
+
 ## 참고
 
 인프라 쪽 상세 장애 흐름은 `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.ko.md` 에 별도로 정리합니다.

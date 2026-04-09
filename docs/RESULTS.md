@@ -911,6 +911,87 @@ current code interpretation:
 - so `replicaNodes` now participates in the actual source-selection path
 - however, local metadata still keeps `producerAddress` as the origin producer field, so it does not necessarily identify the actual fetch endpoint
 
+## Multi-Replica First Validation
+
+On `2026-04-09`, the first multi-replica validation checked whether candidate iteration really continues as far as the second replica.
+
+scenario:
+
+- artifact id: `multi-replica-k2-20260409`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- second replica node: `lab-master-0`
+- reference:
+  - [run-multi-replica-prep.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-multi-replica-prep.sh)
+
+execution flow:
+
+- first prepare a two-replica state
+- rewrite the catalog top-level `producerAddress` to `http://10.255.255.1:8080`
+- rewrite the first replica address to `http://10.255.255.2:8080`
+- remove the producer node's local artifact to block the local hit
+- request `/artifacts/{id}` again from the producer node
+
+verdict:
+
+- `second replica fallback after producer and first replica failure`: pass
+- `multi-replica candidate iteration`: first live pass
+
+key log:
+
+```text
+== request ==
+status=200
+source=peer-fetch
+artifact-handoff sprint1 sample payload
+```
+
+catalog snapshot after producer + first replica rewrite:
+
+```json
+{
+  "artifactId": "multi-replica-k2-20260409",
+  "producerAddress": "http://10.255.255.1:8080",
+  "replicaNodes": [
+    {
+      "address": "http://10.255.255.2:8080",
+      "localPath": "/var/lib/artifact-handoff/multi-replica-k2-20260409/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    },
+    {
+      "address": "http://10.87.127.18:8080",
+      "localPath": "/var/lib/artifact-handoff/multi-replica-k2-20260409/payload.bin",
+      "node": "lab-master-0",
+      "state": "replicated"
+    }
+  ]
+}
+```
+
+producer-node consumer local metadata:
+
+```json
+{
+  "artifactId": "multi-replica-k2-20260409",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localAddress": "http://10.87.127.94:8080",
+  "localNode": "lab-worker-0",
+  "localPath": "/var/lib/artifact-handoff/multi-replica-k2-20260409/payload.bin",
+  "producerAddress": "http://10.255.255.1:8080",
+  "producerNode": "lab-worker-0",
+  "size": 40,
+  "source": "peer-fetch",
+  "state": "replicated"
+}
+```
+
+current code interpretation:
+
+- the current source-selection path can now continue beyond producer failure and first-replica failure to a second replica candidate
+- so multi-replica candidate iteration has now been confirmed on a real live path
+- this does not yet close the broader multi-replica ordering policy
+
 ## Notes
 
 - The repository baseline and scripts are intended to run against a lab cluster prepared by `multipass-k8s-lab`.

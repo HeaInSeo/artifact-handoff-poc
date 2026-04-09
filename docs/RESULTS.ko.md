@@ -911,6 +911,87 @@ third-node consumer local metadata:
 - 따라서 `replicaNodes`는 이제 actual source-selection path에 참여한다.
 - 다만 local metadata의 `producerAddress`는 여전히 origin producer field이므로, 실제 fetch endpoint를 그대로 뜻하지는 않는다.
 
+## Multi-Replica First Validation
+
+`2026-04-09`에는 first multi-replica validation으로, second replica까지 실제 candidate iteration이 이어지는지 live로 확인했습니다.
+
+scenario:
+
+- artifact id: `multi-replica-k2-20260409`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- second replica node: `lab-master-0`
+- reference:
+  - [run-multi-replica-prep.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-multi-replica-prep.sh)
+
+실행 방식:
+
+- 먼저 two-replica 상태를 준비
+- catalog top-level `producerAddress`를 `http://10.255.255.1:8080`으로 변경
+- first replica address를 `http://10.255.255.2:8080`으로 변경
+- producer node의 local artifact를 삭제해 local hit를 막음
+- producer node에서 다시 `/artifacts/{id}` 호출
+
+판정:
+
+- `second replica fallback after producer and first replica failure`: pass
+- `multi-replica candidate iteration`: first live pass
+
+핵심 로그:
+
+```text
+== request ==
+status=200
+source=peer-fetch
+artifact-handoff sprint1 sample payload
+```
+
+catalog snapshot after producer + first replica rewrite:
+
+```json
+{
+  "artifactId": "multi-replica-k2-20260409",
+  "producerAddress": "http://10.255.255.1:8080",
+  "replicaNodes": [
+    {
+      "address": "http://10.255.255.2:8080",
+      "localPath": "/var/lib/artifact-handoff/multi-replica-k2-20260409/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    },
+    {
+      "address": "http://10.87.127.18:8080",
+      "localPath": "/var/lib/artifact-handoff/multi-replica-k2-20260409/payload.bin",
+      "node": "lab-master-0",
+      "state": "replicated"
+    }
+  ]
+}
+```
+
+producer-node consumer local metadata:
+
+```json
+{
+  "artifactId": "multi-replica-k2-20260409",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localAddress": "http://10.87.127.94:8080",
+  "localNode": "lab-worker-0",
+  "localPath": "/var/lib/artifact-handoff/multi-replica-k2-20260409/payload.bin",
+  "producerAddress": "http://10.255.255.1:8080",
+  "producerNode": "lab-worker-0",
+  "size": 40,
+  "source": "peer-fetch",
+  "state": "replicated"
+}
+```
+
+현재 코드 기준 해석:
+
+- current source-selection path는 producer failure 뒤 first replica failure를 지나 second replica candidate까지 이어질 수 있다.
+- 따라서 multi-replica 상태에서도 candidate iteration이 실제 live path로 확인됐다.
+- 다만 이 기록이 broader multi-replica ordering policy 전체를 닫는 것은 아니다.
+
 ## 참고
 
 - 이 저장소의 베이스라인과 스크립트는 `multipass-k8s-lab`이 준비한 랩 클러스터를 대상으로 동작하도록 설계되었습니다.

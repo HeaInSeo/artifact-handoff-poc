@@ -528,6 +528,46 @@ What this means:
 The first replica-aware implementation/validation cycle can now be treated as closed once,
 and the next question moves toward reviewing the remaining backlog and scope.
 
+## 19. multi-replica first validation
+
+On `2026-04-09`, the first multi-replica validation checked whether the current candidate iteration really continues as far as the second replica.
+
+Question:
+
+- broken producer
+- unavailable first replica
+- live second replica
+
+Does the current source-selection path really fall back to the second replica under that condition
+
+Execution basis:
+
+- prepare a two-replica state with [run-multi-replica-prep.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-multi-replica-prep.sh)
+- rewrite the top-level `producerAddress` to `http://10.255.255.1:8080`
+- rewrite the first replica address to `http://10.255.255.2:8080`
+- remove the producer-node local artifact to block the local hit
+- request `/artifacts/{id}` again from the producer node
+
+What was confirmed:
+
+- artifact id: `multi-replica-k2-20260409`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- second replica node: `lab-master-0`
+- request result:
+  - `status=200`
+  - `source=peer-fetch`
+- producer-node local metadata:
+  - `state=replicated`
+  - `source=peer-fetch`
+  - `producerAddress=http://10.255.255.1:8080`
+
+What this means:
+
+- the current source-selection path can continue past both a failed producer candidate and a failed first-replica candidate to a second replica candidate
+- this is the first live confirmation of a true multi-replica path
+- this sprint does not close the broader multi-replica ordering policy; it only establishes that a second-replica fallback path now exists
+
 ## Reference
 
 Detailed infrastructure-side incident history is recorded separately in `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.md`.

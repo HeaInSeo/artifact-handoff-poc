@@ -34,26 +34,27 @@ In other words, the repository already has substantial fixed evidence for:
 - edge-case truth
 - replica-ready state
 - producer-only bias evidence
+- second-replica fallback evidence
 
 ## Remaining Sprints In The Current Documented Roadmap
 
 According to the current progress board, the directly remaining sprints are:
 
-### K2 - Multi-Replica First Validation
+### L1 - Post-K2 Backlog Review
 
 Goal:
 
-- validate the first multi-replica policy question using the `J1` helper
+- narrow the remaining backlog again after the first multi-replica validation
 
 Completion criteria:
 
-- the first multi-replica validation evidence is recorded in the results documents
+- the next follow-up question set is fixed in one note
 
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `66/68`
+- complete: `67/69`
 - about `97%`
 
 Important:
@@ -138,6 +139,7 @@ This layer is largely closed.
 - post-H3 backlog reset
 - post-H3 completion-view refresh
 - next implementation question selection
+- first multi-replica validation
 
 This layer can now be treated as closed once.
 
@@ -151,4 +153,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, and the follow-up validation-entry selection. Under the conservative full-backlog view, completion is now read through the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next directly remaining core sprint is `K2 - Multi-Replica First Validation`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, and the first multi-replica validation evidence. Under the conservative full-backlog view, completion is now read through the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next directly remaining core sprint is `L1 - Post-K2 Backlog Review`.
