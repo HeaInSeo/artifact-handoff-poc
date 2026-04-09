@@ -16,7 +16,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -33,8 +33,9 @@
   - replica source-selection minimal cut 트랙 `F8` 기준: `1/1` 완료, `100%`
   - replica-aware validation 트랙 `F9` 기준: `1/1` 완료, `100%`
   - post-replica-aware review 트랙 `G1~G2` 기준: `2/2` 완료, `100%`
-  - current post-replica-aware follow-up 트랙 `H1~H3` 기준: `2/3` 완료, 약 `67%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~H3` 기준: `59/60` 완료, 약 `98%`
+  - current post-replica-aware follow-up 트랙 `H1~H3` 기준: `3/3` 완료, `100%`
+  - next post-H3 reset track `I1~I2` 기준: `0/2` 완료, `0%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~I2` 기준: `60/62` 완료, 약 `97%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -83,6 +84,7 @@
   - `Sprint G2`에서 다음 후속 순서를 completion refresh, observability, ordering semantics 순으로 다시 정렬
   - `Sprint H1`에서 completion overview와 progress board가 replica-aware 첫 사이클 이후 동일한 남은 질문 세트를 가리키도록 다시 정리
   - `Sprint H2`에서 actual fetch endpoint observability는 현재 metadata model 확장보다는 refinement 주제로 보고 defer 유지가 맞다는 판단을 고정
+  - `Sprint H3`에서 producer-first ordering은 현재 구현 truth로 보되, 더 넓은 policy commitment로는 아직 읽지 않는다는 판단을 고정
 
 ## 완료 스프린트 표
 
@@ -147,6 +149,7 @@
 | G2 | 완료 | post-replica-aware 이후 다음 후속 순서를 completion refresh, observability, ordering semantics로 재정렬 |
 | H1 | 완료 | completion overview와 progress board를 replica-aware 이후 상태에 맞게 다시 정리 |
 | H2 | 완료 | actual fetch endpoint observability는 현재는 refinement 주제로 보고 defer 유지 판단 고정 |
+| H3 | 완료 | producer-first ordering을 current implementation truth로 고정하되 broader policy commitment로는 아직 보지 않음 |
 
 ## 현재 backlog
 
@@ -159,16 +162,6 @@
 | 운영 | 새 문서 추가 시 bilingual pair 유지 | 높음 | 정책 고정 완료, 계속 실행 필요 |
 
 ## 추천 다음 3개 스프린트
-
-### H3 - Replica Ordering Semantics Note
-
-목표:
-
-- producer-first ordering을 current implementation truth로 둘지, 다음 policy 후보로 올릴지 note로 먼저 고정
-
-완료 기준:
-
-- ordering semantics의 현재 판단이 한 문서로 고정됨
 
 ### I1 - Post-H3 Backlog Reset
 
@@ -189,6 +182,16 @@
 완료 기준:
 
 - completion 문서와 progress board가 같은 남은 질문 세트를 가리킴
+
+### I3 - Next Implementation Question Selection
+
+목표:
+
+- `I1`, `I2` 이후 다음 실제 implementation 질문을 하나로 다시 좁힘
+
+완료 기준:
+
+- 다음 implementation 질문이 한 문서로 고정됨
 
 ## 업데이트 규칙
 

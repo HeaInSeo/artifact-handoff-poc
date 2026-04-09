@@ -38,16 +38,6 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### H3 - Replica Ordering Semantics Note
-
-목표:
-
-- producer-first ordering을 current implementation truth로 둘지, 다음 policy 후보로 둘지 note로 먼저 고정
-
-완료 기준:
-
-- ordering semantics의 현재 판단이 한 문서로 고정됨
-
 ### I1 - Post-H3 Backlog Reset
 
 목표:
@@ -68,12 +58,22 @@
 
 - completion 문서와 progress board가 같은 남은 질문 세트를 가리킴
 
+### I3 - Next Implementation Question Selection
+
+목표:
+
+- `I1`, `I2` 이후 다음 실제 implementation 질문을 하나로 다시 좁힘
+
+완료 기준:
+
+- 다음 implementation 질문이 한 문서로 고정됨
+
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `59/60`
-- 약 `98%`
+- 완료: `60/62`
+- 약 `97%`
 
 중요:
 
@@ -141,6 +141,7 @@
 - post-replica-aware backlog ordering
 - post-replica-aware completion view refresh
 - replica-aware observability follow-up
+- replica ordering semantics note
 
 이 층위는 이제 한 차례 닫힌 것으로 볼 수 있다.
 
@@ -154,4 +155,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh/observability 판단까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `H3 - Replica Ordering Semantics Note`다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh/observability/ordering 판단까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `I1 - Post-H3 Backlog Reset`이다.

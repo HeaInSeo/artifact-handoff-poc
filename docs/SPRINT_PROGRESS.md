@@ -16,7 +16,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -33,8 +33,9 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - replica source-selection minimal cut track `F8`: `1/1` complete, `100%`
   - replica-aware validation track `F9`: `1/1` complete, `100%`
   - post-replica-aware review track `G1~G2`: `2/2` complete, `100%`
-  - current post-replica-aware follow-up track `H1~H3`: `2/3` complete, about `67%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~H3`: `59/60` complete, about `98%`
+  - current post-replica-aware follow-up track `H1~H3`: `3/3` complete, `100%`
+  - next post-H3 reset track `I1~I2`: `0/2` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~I2`: `60/62` complete, about `97%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -83,6 +84,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - `Sprint G2` reordered the next follow-up questions as completion refresh first, observability second, and ordering semantics third
   - `Sprint H1` refreshed the completion overview and progress board so they now point to the same remaining post-replica-aware questions
   - `Sprint H2` fixed that actual fetch-endpoint observability remains a refinement topic and should stay deferred under the current metadata model
+  - `Sprint H3` fixed that producer-first ordering should be read as current implementation truth, but not yet as a broader policy commitment
 
 ## Completed Sprint Table
 
@@ -147,6 +149,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | G2 | Complete | reordered the next follow-up questions as completion refresh, observability, then ordering semantics |
 | H1 | Complete | refreshed the completion overview and progress board for the post-replica-aware state |
 | H2 | Complete | fixed that actual fetch-endpoint observability should remain deferred as a refinement topic for now |
+| H3 | Complete | fixed that producer-first ordering is current implementation truth, but not yet a broader policy commitment |
 
 ## Current Backlog
 
@@ -159,16 +162,6 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
 
 ## Recommended Next 3 Sprints
-
-### H3 - Replica Ordering Semantics Note
-
-Goal:
-
-- fix whether producer-first ordering should remain current implementation truth or become the next policy candidate
-
-Completion criteria:
-
-- the current judgment on ordering semantics is fixed in one document
 
 ### I1 - Post-H3 Backlog Reset
 
@@ -189,6 +182,16 @@ Goal:
 Completion criteria:
 
 - the completion document and progress board point to the same remaining question set
+
+### I3 - Next Implementation Question Selection
+
+Goal:
+
+- after `I1` and `I2`, narrow the next real implementation question again
+
+Completion criteria:
+
+- the next implementation question is fixed in one document
 
 ## Update Rule
 

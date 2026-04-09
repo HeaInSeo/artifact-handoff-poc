@@ -36,16 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### H3 - Replica Ordering Semantics Note
-
-Goal:
-
-- fix whether producer-first ordering should remain current implementation truth or become the next policy candidate
-
-Completion criteria:
-
-- the current judgment on ordering semantics is fixed in one document
-
 ### I1 - Post-H3 Backlog Reset
 
 Goal:
@@ -66,12 +56,22 @@ Completion criteria:
 
 - the completion document and progress board point to the same remaining question set
 
+### I3 - Next Implementation Question Selection
+
+Goal:
+
+- after `I1` and `I2`, narrow the next real implementation question again
+
+Completion criteria:
+
+- the next implementation question is fixed in one document
+
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `59/60`
-- about `98%`
+- complete: `60/62`
+- about `97%`
 
 Important:
 
@@ -139,6 +139,7 @@ This layer is largely closed.
 - post-replica-aware backlog ordering
 - post-replica-aware completion-view refresh
 - replica-aware observability follow-up
+- replica ordering semantics note
 
 This layer can now be treated as closed once.
 
@@ -152,4 +153,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability pass. The next directly remaining core sprint is `H3 - Replica Ordering Semantics Note`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability/ordering pass. The next directly remaining core sprint is `I1 - Post-H3 Backlog Reset`.
