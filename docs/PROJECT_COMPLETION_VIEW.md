@@ -37,16 +37,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### J2 - Post-I3 Completion Refresh
-
-Goal:
-
-- realign the completion view and progress board after `I3` and `J1`
-
-Completion criteria:
-
-- the completion document and progress board point to the same next-question set
-
 ### K1 - Post-J1 Validation Entry
 
 Goal:
@@ -61,7 +51,7 @@ Completion criteria:
 
 The currently documented roadmap should be read like this:
 
-- complete: `64/66`
+- complete: `65/67`
 - about `97%`
 
 Important:
@@ -148,4 +138,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the minimum execution cut that opens the multi-replica question. The next directly remaining core sprint is `J2 - Post-I3 Completion Refresh`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the minimum execution cut plus the immediate completion refresh that open the multi-replica question. The next directly remaining core sprint is `K1 - Post-J1 Validation Entry`.

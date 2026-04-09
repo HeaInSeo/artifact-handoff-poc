@@ -39,16 +39,6 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### J2 - Post-I3 Completion Refresh
-
-목표:
-
-- `I3`, `J1` 이후 completion view와 progress board의 남은 질문 구성을 다시 맞춤
-
-완료 기준:
-
-- completion 문서와 progress board가 같은 다음 질문 세트를 가리킴
-
 ### K1 - Post-J1 Validation Entry
 
 목표:
@@ -63,7 +53,7 @@
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `64/66`
+- 완료: `65/67`
 - 약 `97%`
 
 중요:
@@ -150,4 +140,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 multi-replica policy를 여는 최소 execution cut까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `J2 - Post-I3 Completion Refresh`다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 multi-replica policy를 여는 최소 execution cut와 그 직후 completion refresh까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `K1 - Post-J1 Validation Entry`다.
