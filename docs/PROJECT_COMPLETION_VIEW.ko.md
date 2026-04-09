@@ -38,20 +38,6 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### G2 - Post-Replica-Aware Backlog Ordering
-
-목표:
-
-- replica-aware 첫 구현/검증 흐름 이후 남은 구현 backlog를 다시 순서화
-
-핵심 질문:
-
-- 다음 2~3개 후속 질문의 우선순위는 무엇인가
-
-완료 기준:
-
-- 후속 우선순위가 한 문서로 고정
-
 ### H1 - Post-Replica-Aware Completion View Refresh
 
 목표:
@@ -72,12 +58,22 @@
 
 - observability follow-up 필요 여부가 한 문서로 고정됨
 
+### H3 - Replica Ordering Semantics Note
+
+목표:
+
+- producer-first ordering을 current implementation truth로 둘지, 다음 policy 후보로 둘지 note로 먼저 고정
+
+완료 기준:
+
+- ordering semantics의 현재 판단이 한 문서로 고정됨
+
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `56/57`
-- 약 `98%`
+- 완료: `57/60`
+- 약 `95%`
 
 중요:
 
@@ -155,4 +151,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 gap review까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `G2 - Post-Replica-Aware Backlog Ordering`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order 정리까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `H1 - Post-Replica-Aware Completion View Refresh`다.

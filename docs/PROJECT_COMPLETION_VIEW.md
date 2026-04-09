@@ -36,20 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### G2 - Post-Replica-Aware Backlog Ordering
-
-Goal:
-
-- reorder the remaining implementation backlog after the first replica-aware implementation/validation sequence
-
-Core question:
-
-- what should the next 2-3 follow-up questions be, and in what order?
-
-Completion criteria:
-
-- the next follow-up ordering is fixed in one note
-
 ### H1 - Post-Replica-Aware Completion View Refresh
 
 Goal:
@@ -70,12 +56,22 @@ Completion criteria:
 
 - the need for an observability follow-up is fixed in one document
 
+### H3 - Replica Ordering Semantics Note
+
+Goal:
+
+- fix whether producer-first ordering should remain current implementation truth or become the next policy candidate
+
+Completion criteria:
+
+- the current judgment on ordering semantics is fixed in one document
+
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `56/57`
-- about `98%`
+- complete: `57/60`
+- about `95%`
 
 Important:
 
@@ -153,4 +149,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle gap review. The next directly remaining core sprint is `G2 - Post-Replica-Aware Backlog Ordering`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering pass. The next directly remaining core sprint is `H1 - Post-Replica-Aware Completion View Refresh`.
