@@ -65,6 +65,7 @@ Research note entry point: [docs/research/README.md](docs/research/README.md)
 Failure semantics note: [docs/research/peer-fetch-failure-paths.md](docs/research/peer-fetch-failure-paths.md)
 Failure matrix: [docs/FAILURE_MATRIX.md](docs/FAILURE_MATRIX.md)
 Sprint progress board: [docs/SPRINT_PROGRESS.md](docs/SPRINT_PROGRESS.md)
+Conservative six-week parallel plan: [docs/PARALLEL_6W_DELIVERY_PLAN.md](docs/PARALLEL_6W_DELIVERY_PLAN.md)
 
 ## Layout
 

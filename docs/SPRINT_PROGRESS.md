@@ -13,6 +13,7 @@ It exists to:
 This is not a design document. It is a **progress board** and should be updated whenever a sprint finishes.
 
 For a one-page view of current completion and remaining sprints, also see [PROJECT_COMPLETION_VIEW.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PROJECT_COMPLETION_VIEW.md).
+For the conservative six-week parallel schedule that includes the full backlog, see [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md).
 
 ## Current Summary
 
@@ -97,6 +98,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - `Sprint J1` added the smallest helper cut that makes producer + first replica + second replica state repeatable
   - `Sprint J2` realigned the completion view and progress board so the next direct question is `K1`, followed by `K2` as the first multi-replica validation sprint
   - `Sprint K1` fixed the first multi-replica validation question as the scenario where producer and first replica both fail before the second replica fallback succeeds
+  - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
 
@@ -178,6 +180,16 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | Implementation | retry / recovery policy | Low | intentionally out of current scope |
 | Implementation | scheduler/controller integration evaluation | Low | still in script-assisted validation phase |
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
+
+## Six-Week Parallel Operating Baseline
+
+- conservative full-backlog schedule: `6 weeks`
+- parallel tracks:
+  - validation
+  - implementation
+  - policy/decision
+  - docs/release
+- detailed schedule: [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md)
 
 ## Recommended Next 3 Sprints
 

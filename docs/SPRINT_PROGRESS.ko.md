@@ -13,6 +13,7 @@
 이 문서는 설계 본문이 아니라 **진행 상태판**이다. 따라서 스프린트가 끝날 때마다 갱신한다.
 
 현재 완료 범위와 남은 스프린트를 한 번에 보려면 [PROJECT_COMPLETION_VIEW.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PROJECT_COMPLETION_VIEW.ko.md)를 같이 본다.
+전체 backlog를 포함한 보수적 6주 병렬 일정은 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에서 관리한다.
 
 ## 현재 요약
 
@@ -97,6 +98,7 @@
   - `Sprint J1`에서 producer + first replica + second replica 상태를 반복 가능하게 만드는 multi-replica 전용 helper cut를 추가
   - `Sprint J2`에서 `J1` 이후 직접 남은 질문은 `K1 - Post-J1 Validation Entry`, 그 다음 실검증은 `K2 - Multi-Replica First Validation`이라는 구조로 completion view와 progress board를 다시 맞춤
   - `Sprint K1`에서 first multi-replica validation question을 `producer broken + first replica unavailable + second replica fallback success` 시나리오로 고정
+  - 전체 backlog 완료 일정은 별도 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에 `6주 / 4개 병렬 트랙` 기준으로 고정
 
 ## 완료 스프린트 표
 
@@ -178,6 +180,16 @@
 | 구현 | retry / recovery policy | 낮음 | 현재 범위 밖 유지 |
 | 구현 | scheduler/controller 통합 평가 | 낮음 | 아직 script-assisted validation 단계 |
 | 운영 | 새 문서 추가 시 bilingual pair 유지 | 높음 | 정책 고정 완료, 계속 실행 필요 |
+
+## 6주 병렬 운영 기준
+
+- 전체 backlog 완료 기준 보수 일정: `6주`
+- 병렬 트랙:
+  - validation
+  - implementation
+  - policy/decision
+  - docs/release
+- 상세 일정표: [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)
 
 ## 추천 다음 3개 스프린트
 

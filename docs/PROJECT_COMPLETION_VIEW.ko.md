@@ -12,6 +12,8 @@
 - 프로젝트를 더 실제로 확장하려면 어떤 backlog가 남아 있는가
 - “완료”를 어떤 층위로 읽어야 하는가
 
+전체 backlog를 포함한 보수적 6주 병렬 일정은 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에서 본다.
+
 ## 현재 완료된 것
 
 현재까지 완료된 큰 묶음은 아래와 같다.
@@ -97,6 +99,17 @@
 - `hostPath`
 - `local PersistentVolume`
 
+## 보수적 6주 병렬 일정
+
+- 보수 일정: `6주`
+- 운영 방식: `4개 병렬 트랙`
+  - validation
+  - implementation
+  - policy/decision
+  - docs/release
+
+자세한 주차별 계획은 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에 고정한다.
+
 ## 완료를 어떻게 읽어야 하는가
 
 이 저장소는 일반적인 단일 앱 프로젝트처럼 “한 번에 완료”되는 구조와 다르다.
@@ -140,4 +153,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, 그리고 그 다음 validation entry selection까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `K2 - Multi-Replica First Validation`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, 그리고 그 다음 validation entry selection까지는 상당히 진행됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 남은 핵심 스프린트는 `K2 - Multi-Replica First Validation`이다.

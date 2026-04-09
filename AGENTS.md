@@ -87,6 +87,44 @@ README는 먼저 아래 질문에 답해야 한다.
 
 ---
 
+## Codex 병렬 운영 설정
+
+사용자가 일정 단축, 병렬 처리, Codex 팀 운영 기준을 요청하면 아래를 기본 운영 규칙으로 본다.
+
+### 기본 병렬 트랙
+
+큰 backlog는 아래 4개 트랙으로 먼저 나눈다.
+
+1. validation
+2. implementation
+3. policy/decision
+4. docs/release
+
+### 병렬화 기준
+
+- write scope가 겹치지 않는 helper/doc/note 작업은 병렬 후보로 본다.
+- broad refactor는 병렬화 대상이 아니라 범위 축소 대상이다.
+- validation evidence 수집과 policy note 정리는 가능한 한 분리한다.
+- docs/release 트랙은 결과를 늦게 몰아서 처리하지 않고 각 스프린트 직후 닫는다.
+
+### 6주 보수 일정 운영 기준
+
+- 전체 backlog 완료 기준 보수 일정은 `6주`로 본다.
+- 주차별 상세 일정은 `docs/PARALLEL_6W_DELIVERY_PLAN.ko.md`와 `docs/PARALLEL_6W_DELIVERY_PLAN.md`를 기준으로 유지한다.
+- completion/progress 문서는 이 일정과 충돌하지 않도록 스프린트 종료 시 함께 갱신한다.
+
+### 스프린트 종료 시 필수 마감
+
+각 스프린트가 끝나면 같은 턴에서 아래까지 닫는다.
+
+1. 결과 또는 판단 문서 반영
+2. 한글/영문 문서 쌍 정리
+3. `docs/SPRINT_PROGRESS.*` 갱신
+4. 필요 시 `docs/PROJECT_COMPLETION_VIEW.*` 갱신
+5. GitHub push
+
+---
+
 ## 결과 보고 형식
 
 작업 후에는 아래 형식으로 정리한다.
