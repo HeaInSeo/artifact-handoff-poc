@@ -838,6 +838,79 @@ third-node consumer local metadata:
 - 그래서 first replica가 존재해도 broken producer endpoint만 따라가다가 실패한다.
 - 이 기록은 current implementation이 아직 **producer-biased**, not replica-aware 임을 더 직접적으로 보여 준다.
 
+## Replica Source-Selection Validation
+
+`2026-04-09`에는 `F8` minimal cut 이후 실제 source-selection 변화가 생겼는지 live로 확인했습니다.
+
+scenario:
+
+- artifact id: `replica-source-select-20260409`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- third consumer node: `lab-master-0`
+- helper:
+  - [run-producer-bias-check.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-producer-bias-check.sh)
+
+실행 방식:
+
+- first replica와 `replicaNodes`를 먼저 준비
+- catalog top-level `producerAddress`만 `http://10.255.255.1:8080`으로 변경
+- producer와 first replica가 아닌 third node에서 `/artifacts/{id}` 호출
+
+판정:
+
+- `replica fallback after producer failure`: pass
+- `replica-aware source selection`: first live pass
+
+핵심 로그:
+
+```text
+== step 4: third-node request ==
+status=200
+source=peer-fetch
+artifact-handoff sprint1 sample payload
+```
+
+catalog snapshot after producer rewrite:
+
+```json
+{
+  "artifactId": "replica-source-select-20260409",
+  "producerAddress": "http://10.255.255.1:8080",
+  "replicaNodes": [
+    {
+      "address": "http://10.87.127.150:8080",
+      "localPath": "/var/lib/artifact-handoff/replica-source-select-20260409/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    }
+  ]
+}
+```
+
+third-node consumer local metadata:
+
+```json
+{
+  "artifactId": "replica-source-select-20260409",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localAddress": "http://10.87.127.18:8080",
+  "localNode": "lab-master-0",
+  "localPath": "/var/lib/artifact-handoff/replica-source-select-20260409/payload.bin",
+  "producerAddress": "http://10.255.255.1:8080",
+  "producerNode": "lab-worker-0",
+  "size": 40,
+  "source": "peer-fetch",
+  "state": "replicated"
+}
+```
+
+현재 코드 기준 해석:
+
+- current cut 이후에는 producer candidate가 실패하면 replica candidate로 넘어갈 수 있다.
+- 따라서 `replicaNodes`는 이제 actual source-selection path에 참여한다.
+- 다만 local metadata의 `producerAddress`는 여전히 origin producer field이므로, 실제 fetch endpoint를 그대로 뜻하지는 않는다.
+
 ## 참고
 
 - 이 저장소의 베이스라인과 스크립트는 `multipass-k8s-lab`이 준비한 랩 클러스터를 대상으로 동작하도록 설계되었습니다.

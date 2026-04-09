@@ -491,6 +491,43 @@ It is now:
 
 - what is the smallest cut that connects `replicaNodes` to actual source selection?
 
+## 18. replica source-selection validation
+
+On `2026-04-09`, a live validation checked whether the `F8` minimum cut produced a real source-selection change.
+
+Question:
+
+- under a broken producer situation, does a third-node consumer now succeed through replica fallback?
+
+execution helper:
+
+- [run-producer-bias-check.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-producer-bias-check.sh)
+
+What was confirmed:
+
+- artifact id: `replica-source-select-20260409`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- third consumer node: `lab-master-0`
+- even after rewriting the top-level `producerAddress` to `http://10.255.255.1:8080`,
+  the third-node request became:
+  - `status=200`
+  - `source=peer-fetch`
+- the third-node local metadata was recorded as:
+  - `state=replicated`
+  - `source=peer-fetch`
+  - `producerNode=lab-worker-0`
+  - `producerAddress=http://10.255.255.1:8080`
+
+What this means:
+
+- after the current cut, the implementation can move from a failed producer candidate to a replica candidate
+- so `replicaNodes` now participates in the actual source-selection path
+- however, local metadata still keeps `producerAddress` as the origin producer field, so it does not necessarily identify the actual fetch endpoint
+
+The first replica-aware implementation/validation cycle can now be treated as closed once,
+and the next question moves toward reviewing the remaining backlog and scope.
+
 ## Reference
 
 Detailed infrastructure-side incident history is recorded separately in `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.md`.

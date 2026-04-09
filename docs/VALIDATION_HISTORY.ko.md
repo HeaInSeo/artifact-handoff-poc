@@ -490,6 +490,43 @@
 
 로 더 좁혀진다.
 
+## 18. replica source-selection validation
+
+`2026-04-09`에는 `F8` minimal cut 이후 실제 source-selection 변화가 생겼는지 live로 검증했다.
+
+질문:
+
+- broken producer 상황에서 third-node consumer가 이제 replica fallback으로 성공하는가
+
+실행 helper:
+
+- [run-producer-bias-check.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-producer-bias-check.sh)
+
+실제 확인한 점:
+
+- artifact id: `replica-source-select-20260409`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- third consumer node: `lab-master-0`
+- top-level `producerAddress`를 `http://10.255.255.1:8080`으로 깨뜨린 상태에서도
+  third-node 요청은:
+  - `status=200`
+  - `source=peer-fetch`
+- third-node local metadata는:
+  - `state=replicated`
+  - `source=peer-fetch`
+  - `producerNode=lab-worker-0`
+  - `producerAddress=http://10.255.255.1:8080`
+
+이 기록이 의미하는 바:
+
+- current cut 이후에는 producer candidate가 실패해도 replica candidate로 넘어갈 수 있다.
+- 따라서 `replicaNodes`는 이제 actual source-selection path에 참여한다.
+- 다만 local metadata의 `producerAddress`는 여전히 origin producer field라서, 실제 fetch endpoint를 그대로 뜻하지는 않는다.
+
+이제 replica-aware fetch 첫 구현/검증 사이클은 한 차례 닫히고,
+다음 질문은 남은 backlog와 범위를 다시 정리하는 쪽으로 이동한다.
+
 ## 참고
 
 인프라 쪽 상세 장애 흐름은 `../../multipass-k8s-lab/docs/TROUBLESHOOTING_HISTORY.ko.md` 에 별도로 정리합니다.

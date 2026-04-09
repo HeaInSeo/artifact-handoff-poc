@@ -838,6 +838,79 @@ current code interpretation:
 - so even when the first replica exists, the request still follows only the broken producer endpoint and fails
 - this gives a more direct confirmation that the current implementation is still **producer-biased**, not replica-aware
 
+## Replica Source-Selection Validation
+
+On `2026-04-09`, the live validation checked whether the `F8` minimum cut produced a real source-selection change.
+
+scenario:
+
+- artifact id: `replica-source-select-20260409`
+- producer node: `lab-worker-0`
+- first replica node: `lab-worker-1`
+- third consumer node: `lab-master-0`
+- helper:
+  - [run-producer-bias-check.sh](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/scripts/run-producer-bias-check.sh)
+
+execution flow:
+
+- prepare the first replica and populated `replicaNodes`
+- rewrite only the catalog top-level `producerAddress` to `http://10.255.255.1:8080`
+- request `/artifacts/{id}` from a third node that is neither the producer nor the first replica
+
+verdict:
+
+- `replica fallback after producer failure`: pass
+- `replica-aware source selection`: first live pass
+
+key log:
+
+```text
+== step 4: third-node request ==
+status=200
+source=peer-fetch
+artifact-handoff sprint1 sample payload
+```
+
+catalog snapshot after producer rewrite:
+
+```json
+{
+  "artifactId": "replica-source-select-20260409",
+  "producerAddress": "http://10.255.255.1:8080",
+  "replicaNodes": [
+    {
+      "address": "http://10.87.127.150:8080",
+      "localPath": "/var/lib/artifact-handoff/replica-source-select-20260409/payload.bin",
+      "node": "lab-worker-1",
+      "state": "replicated"
+    }
+  ]
+}
+```
+
+third-node consumer local metadata:
+
+```json
+{
+  "artifactId": "replica-source-select-20260409",
+  "digest": "d7e0b5a63f2caaf5c4a184958550d2d14209d093be1c0aa9301af65e17aea0b1",
+  "localAddress": "http://10.87.127.18:8080",
+  "localNode": "lab-master-0",
+  "localPath": "/var/lib/artifact-handoff/replica-source-select-20260409/payload.bin",
+  "producerAddress": "http://10.255.255.1:8080",
+  "producerNode": "lab-worker-0",
+  "size": 40,
+  "source": "peer-fetch",
+  "state": "replicated"
+}
+```
+
+current code interpretation:
+
+- after the current cut, the implementation can move from a failed producer candidate to a replica candidate
+- so `replicaNodes` now participates in the actual source-selection path
+- however, local metadata still keeps `producerAddress` as the origin producer field, so it does not necessarily identify the actual fetch endpoint
+
 ## Notes
 
 - The repository baseline and scripts are intended to run against a lab cluster prepared by `multipass-k8s-lab`.

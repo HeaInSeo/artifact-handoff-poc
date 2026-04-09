@@ -36,20 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### F9 - Replica Source-Selection Validation
-
-Goal:
-
-- validate whether the `F8` cut produces a real source-selection change
-
-Core question:
-
-- under a broken producer situation, does a third-node consumer now succeed through replica fallback?
-
-Completion criteria:
-
-- replica source-selection evidence is reflected in `RESULTS` and `VALIDATION_HISTORY`
-
 ### G1 - Post-Replica-Aware Gap Review
 
 Goal:
@@ -78,11 +64,21 @@ Completion criteria:
 
 - the next follow-up ordering is fixed in one note
 
+### H1 - Post-Replica-Aware Completion View Refresh
+
+Goal:
+
+- refresh the completion overview and next roadmap after the first replica-aware implementation/validation cycle
+
+Completion criteria:
+
+- the completion document and the progress board are updated to match the new remaining-question set
+
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `54/56`
+- complete: `55/57`
 - about `96%`
 
 Important:
@@ -146,8 +142,9 @@ This layer is largely closed.
 - replica-ready state
 - producer-only bias evidence
 - minimal source-selection cut
+- replica fallback after producer failure
 
-This layer should only be considered closed after `F9`.
+This layer can now be treated as closed once.
 
 ### C. Follow-up policy / control-layer expansion complete
 
@@ -159,4 +156,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation and the first pre-implementation replica-aware phase, and the next directly remaining core sprint is `F9 - Replica Source-Selection Validation`.
+`artifact-handoff-poc` is already well through Sprint 1 validation and the first replica-aware implementation/validation cycle, and the next directly remaining core sprint is `G1 - Post-Replica-Aware Gap Review`.

@@ -38,20 +38,6 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### F9 - Replica Source-Selection Validation
-
-목표:
-
-- `F8` cut 이후 실제 source-selection 변화가 생겼는지 live validation으로 확인
-
-핵심 질문:
-
-- broken producer 상황에서 third-node consumer가 이제 replica fallback으로 성공하는가
-
-완료 기준:
-
-- `RESULTS`와 `VALIDATION_HISTORY`에 replica source-selection evidence 반영
-
 ### G1 - Post-Replica-Aware Gap Review
 
 목표:
@@ -80,11 +66,21 @@
 
 - 후속 우선순위가 한 문서로 고정
 
+### H1 - Post-Replica-Aware Completion View Refresh
+
+목표:
+
+- replica-aware 첫 구현/검증 사이클 이후 completion overview와 next roadmap를 다시 정리
+
+완료 기준:
+
+- completion 문서와 진행판의 남은 질문 구성이 서로 맞게 갱신됨
+
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `54/56`
+- 완료: `55/57`
 - 약 `96%`
 
 중요:
@@ -148,8 +144,9 @@
 - replica-ready state
 - producer-only bias evidence
 - minimal source-selection cut
+- replica fallback after producer failure
 
-이 층위는 아직 `F9` 이후에야 한 차례 닫힌다고 보는 것이 맞다.
+이 층위는 이제 한 차례 닫힌 것으로 볼 수 있다.
 
 ### C. 후속 policy / control-layer 확장 완료
 
@@ -161,4 +158,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현 전 단계까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `F9 - Replica Source-Selection Validation`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `G1 - Post-Replica-Aware Gap Review`다.
