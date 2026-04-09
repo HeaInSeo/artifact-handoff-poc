@@ -36,16 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### I1 - Post-H3 Backlog Reset
-
-Goal:
-
-- narrow the remaining implementation backlog again after the observability and ordering-semantics notes
-
-Completion criteria:
-
-- the next implementation question is fixed in one document
-
 ### I2 - Post-H3 Completion View Refresh
 
 Goal:
@@ -66,11 +56,21 @@ Completion criteria:
 
 - the next implementation question is fixed in one document
 
+### J1 - Post-I3 Execution Cut
+
+Goal:
+
+- define the smallest execution cut for the next implementation question chosen in `I3`
+
+Completion criteria:
+
+- the next execution cut is fixed in one document or helper
+
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `60/62`
+- complete: `61/63`
 - about `97%`
 
 Important:
@@ -140,6 +140,7 @@ This layer is largely closed.
 - post-replica-aware completion-view refresh
 - replica-aware observability follow-up
 - replica ordering semantics note
+- post-H3 backlog reset
 
 This layer can now be treated as closed once.
 
@@ -153,4 +154,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability/ordering pass. The next directly remaining core sprint is `I1 - Post-H3 Backlog Reset`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh/observability/ordering/backlog-reset pass. The next directly remaining core sprint is `I2 - Post-H3 Completion View Refresh`.

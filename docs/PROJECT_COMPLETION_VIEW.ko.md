@@ -38,16 +38,6 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### I1 - Post-H3 Backlog Reset
-
-목표:
-
-- observability와 ordering semantics note 이후 남은 구현 backlog를 다시 작게 정리
-
-완료 기준:
-
-- 다음 implementation 질문이 한 문서로 고정됨
-
 ### I2 - Post-H3 Completion View Refresh
 
 목표:
@@ -68,11 +58,21 @@
 
 - 다음 implementation 질문이 한 문서로 고정됨
 
+### J1 - Post-I3 Execution Cut
+
+목표:
+
+- `I3`에서 고른 다음 implementation 질문의 가장 작은 execution cut를 정의
+
+완료 기준:
+
+- 다음 execution cut가 한 문서 또는 helper로 고정됨
+
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `60/62`
+- 완료: `61/63`
 - 약 `97%`
 
 중요:
@@ -142,6 +142,7 @@
 - post-replica-aware completion view refresh
 - replica-aware observability follow-up
 - replica ordering semantics note
+- post-H3 backlog reset
 
 이 층위는 이제 한 차례 닫힌 것으로 볼 수 있다.
 
@@ -155,4 +156,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh/observability/ordering 판단까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `I1 - Post-H3 Backlog Reset`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh/observability/ordering/backlog reset까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `I2 - Post-H3 Completion View Refresh`다.
