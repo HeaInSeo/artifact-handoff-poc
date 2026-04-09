@@ -38,20 +38,6 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### G1 - Post-Replica-Aware Gap Review
-
-목표:
-
-- replica-aware 첫 구현/검증 흐름 이후 남은 backlog와 범위를 다시 점검
-
-핵심 질문:
-
-- replica-aware fetch 다음에 어떤 질문을 이어 가는 것이 현재 범위에 맞는가
-
-완료 기준:
-
-- 다음 더 큰 질문이 한 문서로 고정
-
 ### G2 - Post-Replica-Aware Backlog Ordering
 
 목표:
@@ -76,12 +62,22 @@
 
 - completion 문서와 진행판의 남은 질문 구성이 서로 맞게 갱신됨
 
+### H2 - Replica-Aware Observability Follow-Up
+
+목표:
+
+- actual fetch endpoint observability를 지금 더 다룰지, 아니면 현재 metadata model에서 defer할지 판단
+
+완료 기준:
+
+- observability follow-up 필요 여부가 한 문서로 고정됨
+
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `55/57`
-- 약 `96%`
+- 완료: `56/57`
+- 약 `98%`
 
 중요:
 
@@ -145,6 +141,7 @@
 - producer-only bias evidence
 - minimal source-selection cut
 - replica fallback after producer failure
+- post-replica-aware gap review
 
 이 층위는 이제 한 차례 닫힌 것으로 볼 수 있다.
 
@@ -158,4 +155,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `G1 - Post-Replica-Aware Gap Review`다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 gap review까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `G2 - Post-Replica-Aware Backlog Ordering`이다.

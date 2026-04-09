@@ -16,7 +16,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -32,8 +32,8 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - producer-bias validation track `F7`: `1/1` complete, `100%`
   - replica source-selection minimal cut track `F8`: `1/1` complete, `100%`
   - replica-aware validation track `F9`: `1/1` complete, `100%`
-  - post-replica-aware review track `G1~G2`: `0/2` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~G2`: `55/57` complete, about `96%`
+  - post-replica-aware review track `G1~G2`: `1/2` complete, `50%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~G2`: `56/57` complete, about `98%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -78,6 +78,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - `Sprint F7` fixed the first live evidence that a third-node consumer still follows only the broken top-level `producerAddress` and fails even while a first replica remains available
   - `Sprint F8` added the minimum cut that expands the remote candidate set in `peer_fetch()` from only the producer to producer plus `replicaNodes`
   - `Sprint F9` fixed the first live evidence that a third-node consumer now succeeds through replica fallback even after the producer endpoint is intentionally broken
+  - `Sprint G1` fixed the next narrow post-replica-aware gaps as actual fetch-endpoint observability and ordering semantics
 
 ## Completed Sprint Table
 
@@ -138,6 +139,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | F7 | Complete | live evidence fixed that a third-node consumer still follows only the broken producerAddress instead of the existing replica |
 | F8 | Complete | minimum cut added to expand `peer_fetch()` remote candidates from producer-only to producer plus replicaNodes |
 | F9 | Complete | live evidence fixed that a third-node consumer now succeeds through replica fallback after producer failure |
+| G1 | Complete | narrowed the remaining post-replica-aware gaps to observability and ordering semantics |
 
 ## Current Backlog
 
@@ -150,16 +152,6 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
 
 ## Recommended Next 3 Sprints
-
-### Sprint G1 - Post-Replica-Aware Gap Review
-
-Goal:
-
-- review the remaining backlog and scope after the first replica-aware implementation/validation sequence
-
-Completion criteria:
-
-- the next larger question after the replica-aware track is fixed in one short note
 
 ### Sprint G2 - Post-Replica-Aware Backlog Ordering
 
@@ -180,6 +172,16 @@ Goal:
 Completion criteria:
 
 - the completion document and progress board are updated to reflect the new remaining-question set
+
+### H2 - Replica-Aware Observability Follow-Up
+
+Goal:
+
+- decide whether actual fetch-endpoint observability should be handled now or deferred under the current metadata model
+
+Completion criteria:
+
+- the need for an observability follow-up is fixed in one document
 
 ## Update Rule
 

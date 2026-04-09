@@ -36,20 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### G1 - Post-Replica-Aware Gap Review
-
-Goal:
-
-- review the remaining backlog and scope after the first replica-aware implementation/validation sequence
-
-Core question:
-
-- what should come next after the first replica-aware sequence, while still matching the current scope?
-
-Completion criteria:
-
-- the next larger question is fixed in one note
-
 ### G2 - Post-Replica-Aware Backlog Ordering
 
 Goal:
@@ -74,12 +60,22 @@ Completion criteria:
 
 - the completion document and the progress board are updated to match the new remaining-question set
 
+### H2 - Replica-Aware Observability Follow-Up
+
+Goal:
+
+- decide whether actual fetch-endpoint observability should be handled now or deferred under the current metadata model
+
+Completion criteria:
+
+- the need for an observability follow-up is fixed in one document
+
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `55/57`
-- about `96%`
+- complete: `56/57`
+- about `98%`
 
 Important:
 
@@ -143,6 +139,7 @@ This layer is largely closed.
 - producer-only bias evidence
 - minimal source-selection cut
 - replica fallback after producer failure
+- post-replica-aware gap review
 
 This layer can now be treated as closed once.
 
@@ -156,4 +153,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation and the first replica-aware implementation/validation cycle, and the next directly remaining core sprint is `G1 - Post-Replica-Aware Gap Review`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle gap review. The next directly remaining core sprint is `G2 - Post-Replica-Aware Backlog Ordering`.
