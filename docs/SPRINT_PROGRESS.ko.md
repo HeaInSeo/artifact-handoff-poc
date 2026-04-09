@@ -16,7 +16,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -33,8 +33,8 @@
   - replica source-selection minimal cut 트랙 `F8` 기준: `1/1` 완료, `100%`
   - replica-aware validation 트랙 `F9` 기준: `1/1` 완료, `100%`
   - post-replica-aware review 트랙 `G1~G2` 기준: `2/2` 완료, `100%`
-  - current post-replica-aware follow-up 트랙 `H1~H3` 기준: `0/3` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~H3` 기준: `57/60` 완료, 약 `95%`
+  - current post-replica-aware follow-up 트랙 `H1~H3` 기준: `1/3` 완료, 약 `33%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~H3` 기준: `58/60` 완료, 약 `97%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -81,6 +81,7 @@
   - `Sprint F9`에서 broken producer 상황에서도 third-node consumer가 replica fallback으로 `200 source=peer-fetch`를 받는다는 live evidence를 확보
   - `Sprint G1`에서 replica-aware 첫 사이클 이후 남은 최소 갭은 actual fetch endpoint observability와 ordering semantics라는 점을 고정
   - `Sprint G2`에서 다음 후속 순서를 completion refresh, observability, ordering semantics 순으로 다시 정렬
+  - `Sprint H1`에서 completion overview와 progress board가 replica-aware 첫 사이클 이후 동일한 남은 질문 세트를 가리키도록 다시 정리
 
 ## 완료 스프린트 표
 
@@ -143,6 +144,7 @@
 | F9 | 완료 | broken producer 이후 third-node consumer가 replica fallback으로 성공한다는 live evidence 확보 |
 | G1 | 완료 | replica-aware 첫 사이클 이후 남은 최소 갭을 observability와 ordering semantics로 좁혀 고정 |
 | G2 | 완료 | post-replica-aware 이후 다음 후속 순서를 completion refresh, observability, ordering semantics로 재정렬 |
+| H1 | 완료 | completion overview와 progress board를 replica-aware 이후 상태에 맞게 다시 정리 |
 
 ## 현재 backlog
 
@@ -155,16 +157,6 @@
 | 운영 | 새 문서 추가 시 bilingual pair 유지 | 높음 | 정책 고정 완료, 계속 실행 필요 |
 
 ## 추천 다음 3개 스프린트
-
-### H1 - Post-Replica-Aware Completion View Refresh
-
-목표:
-
-- replica-aware 첫 구현/검증 사이클 완료 후 completion overview와 next roadmap를 다시 정리
-
-완료 기준:
-
-- completion 문서와 진행판의 남은 질문 구성이 서로 맞게 갱신됨
 
 ### H2 - Replica-Aware Observability Follow-Up
 
@@ -185,6 +177,16 @@
 완료 기준:
 
 - ordering semantics의 현재 판단이 한 문서로 고정됨
+
+### I1 - Post-H3 Backlog Reset
+
+목표:
+
+- observability와 ordering semantics note 이후 남은 구현 backlog를 다시 작게 정리
+
+완료 기준:
+
+- 다음 implementation 질문이 한 문서로 고정됨
 
 ## 업데이트 규칙
 

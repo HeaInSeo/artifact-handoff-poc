@@ -16,7 +16,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -33,8 +33,8 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - replica source-selection minimal cut track `F8`: `1/1` complete, `100%`
   - replica-aware validation track `F9`: `1/1` complete, `100%`
   - post-replica-aware review track `G1~G2`: `2/2` complete, `100%`
-  - current post-replica-aware follow-up track `H1~H3`: `0/3` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~H3`: `57/60` complete, about `95%`
+  - current post-replica-aware follow-up track `H1~H3`: `1/3` complete, about `33%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~H3`: `58/60` complete, about `97%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -81,6 +81,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
   - `Sprint F9` fixed the first live evidence that a third-node consumer now succeeds through replica fallback even after the producer endpoint is intentionally broken
   - `Sprint G1` fixed the next narrow post-replica-aware gaps as actual fetch-endpoint observability and ordering semantics
   - `Sprint G2` reordered the next follow-up questions as completion refresh first, observability second, and ordering semantics third
+  - `Sprint H1` refreshed the completion overview and progress board so they now point to the same remaining post-replica-aware questions
 
 ## Completed Sprint Table
 
@@ -143,6 +144,7 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | F9 | Complete | live evidence fixed that a third-node consumer now succeeds through replica fallback after producer failure |
 | G1 | Complete | narrowed the remaining post-replica-aware gaps to observability and ordering semantics |
 | G2 | Complete | reordered the next follow-up questions as completion refresh, observability, then ordering semantics |
+| H1 | Complete | refreshed the completion overview and progress board for the post-replica-aware state |
 
 ## Current Backlog
 
@@ -155,16 +157,6 @@ For a one-page view of current completion and remaining sprints, also see [PROJE
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
 
 ## Recommended Next 3 Sprints
-
-### H1 - Post-Replica-Aware Completion View Refresh
-
-Goal:
-
-- refresh the completion overview and next roadmap after the first replica-aware implementation/validation cycle
-
-Completion criteria:
-
-- the completion document and progress board are updated to reflect the new remaining-question set
 
 ### H2 - Replica-Aware Observability Follow-Up
 
@@ -185,6 +177,16 @@ Goal:
 Completion criteria:
 
 - the current judgment on ordering semantics is fixed in one document
+
+### I1 - Post-H3 Backlog Reset
+
+Goal:
+
+- narrow the remaining implementation backlog again after the observability and ordering-semantics notes
+
+Completion criteria:
+
+- the next implementation question is fixed in one document
 
 ## Update Rule
 

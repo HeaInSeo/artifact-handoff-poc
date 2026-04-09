@@ -38,16 +38,6 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### H1 - Post-Replica-Aware Completion View Refresh
-
-목표:
-
-- replica-aware 첫 구현/검증 사이클 이후 completion overview와 next roadmap를 다시 정리
-
-완료 기준:
-
-- completion 문서와 진행판의 남은 질문 구성이 서로 맞게 갱신됨
-
 ### H2 - Replica-Aware Observability Follow-Up
 
 목표:
@@ -68,12 +58,22 @@
 
 - ordering semantics의 현재 판단이 한 문서로 고정됨
 
+### I1 - Post-H3 Backlog Reset
+
+목표:
+
+- observability와 ordering semantics note 이후 남은 구현 backlog를 다시 작게 정리
+
+완료 기준:
+
+- 다음 implementation 질문이 한 문서로 고정됨
+
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `57/60`
-- 약 `95%`
+- 완료: `58/60`
+- 약 `97%`
 
 중요:
 
@@ -138,6 +138,8 @@
 - minimal source-selection cut
 - replica fallback after producer failure
 - post-replica-aware gap review
+- post-replica-aware backlog ordering
+- post-replica-aware completion view refresh
 
 이 층위는 이제 한 차례 닫힌 것으로 볼 수 있다.
 
@@ -151,4 +153,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order 정리까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `H1 - Post-Replica-Aware Completion View Refresh`다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, 그리고 그 직후 review/order/refresh 정리까지는 상당히 진행됐고, 다음 직접 남은 핵심 스프린트는 `H2 - Replica-Aware Observability Follow-Up`이다.

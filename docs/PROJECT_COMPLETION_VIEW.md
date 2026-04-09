@@ -36,16 +36,6 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### H1 - Post-Replica-Aware Completion View Refresh
-
-Goal:
-
-- refresh the completion overview and next roadmap after the first replica-aware implementation/validation cycle
-
-Completion criteria:
-
-- the completion document and the progress board are updated to match the new remaining-question set
-
 ### H2 - Replica-Aware Observability Follow-Up
 
 Goal:
@@ -66,12 +56,22 @@ Completion criteria:
 
 - the current judgment on ordering semantics is fixed in one document
 
+### I1 - Post-H3 Backlog Reset
+
+Goal:
+
+- narrow the remaining implementation backlog again after the observability and ordering-semantics notes
+
+Completion criteria:
+
+- the next implementation question is fixed in one document
+
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `57/60`
-- about `95%`
+- complete: `58/60`
+- about `97%`
 
 Important:
 
@@ -136,6 +136,8 @@ This layer is largely closed.
 - minimal source-selection cut
 - replica fallback after producer failure
 - post-replica-aware gap review
+- post-replica-aware backlog ordering
+- post-replica-aware completion-view refresh
 
 This layer can now be treated as closed once.
 
@@ -149,4 +151,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering pass. The next directly remaining core sprint is `H1 - Post-Replica-Aware Completion View Refresh`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, and the immediate post-cycle review/ordering/refresh pass. The next directly remaining core sprint is `H2 - Replica-Aware Observability Follow-Up`.
