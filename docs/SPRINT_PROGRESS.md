@@ -17,7 +17,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -52,9 +52,10 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - post-O2 execution cut track `P1`: `1/1` complete, `100%`
   - post-P1 completion refresh track `P2`: `1/1` complete, `100%`
   - post-P2 backlog review track `Q1`: `1/1` complete, `100%`
-  - post-Q1 implementation entry track `Q2`: `0/1` complete, `0%`
+  - post-Q1 implementation entry track `Q2`: `1/1` complete, `100%`
   - post-Q2 execution cut track `R1`: `0/1` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~R1`: `78/80` complete, about `97%`
+  - post-R1 completion refresh track `R2`: `0/1` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~R2`: `79/81` complete, about `98%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -122,6 +123,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - `Sprint P1` added the minimum probe helper cut that prints catalog recorded order and producer-side metadata together for the recorded replica-order question
   - `Sprint P2` realigned the completion view and progress board into the `Q1 -> Q2` flow
   - `Sprint Q1` narrowed the recorded replica-order question back down to current-implementation reading rather than broader policy
+  - `Sprint Q2` fixed the `producer -> recorded replica order` reading as the next direct implementation entry
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -206,6 +208,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | P1 | Complete | added the minimum probe helper cut for reading recorded replica-order semantics more directly |
 | P2 | Complete | realigned completion/progress into the `Q1 -> Q2` flow |
 | Q1 | Complete | narrowed the recorded replica-order question down to current-implementation reading |
+| Q2 | Complete | fixed the `producer -> recorded replica order` reading as the next direct implementation entry |
 
 ## Current Backlog
 
@@ -229,16 +232,6 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Recommended Next 3 Sprints
 
-### Q2 - Post-Q1 Implementation Entry
-
-Goal:
-
-- fix the next narrowed implementation question from `Q1` as the next direct implementation entry
-
-Completion criteria:
-
-- the next direct implementation-entry note is fixed in one document
-
 ### R1 - Post-Q2 Execution Cut
 
 Goal:
@@ -258,6 +251,16 @@ Goal:
 Completion criteria:
 
 - a completion/progress refresh note is fixed in one document
+
+### S1 - Post-R2 Backlog Review
+
+Goal:
+
+- narrow the remaining implementation backlog again after `R1` and `R2`
+
+Completion criteria:
+
+- the next follow-up question set is fixed in one document
 
 ## Update Rule
 
