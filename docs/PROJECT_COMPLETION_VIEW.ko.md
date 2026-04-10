@@ -42,21 +42,21 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### M1 - Post-L2 Implementation Reset
+### M2 - Multi-Replica Ordering Semantics Entry
 
 목표:
 
-- first multi-replica validation이 닫힌 뒤 다음 implementation backlog를 다시 재설정
+- multi-replica ordering semantics를 다음 실제 implementation question으로 여는 entry를 고정
 
 완료 기준:
 
-- 다음 실제 implementation 질문이 한 문서로 고정됨
+- ordering semantics entry note가 한 문서로 고정됨
 
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `69/71`
+- 완료: `70/72`
 - 약 `97%`
 
 중요:
@@ -155,4 +155,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, first multi-replica validation evidence, 그 이후 backlog review, 그리고 completion/progress refresh까지는 상당히 진행됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 남은 핵심 스프린트는 `M1 - Post-L2 Implementation Reset`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, first multi-replica validation evidence, 그 이후 backlog review, completion/progress refresh, 그리고 implementation reset까지는 상당히 진행됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 남은 핵심 스프린트는 `M2 - Multi-Replica Ordering Semantics Entry`이다.

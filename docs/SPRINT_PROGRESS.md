@@ -17,7 +17,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -43,9 +43,10 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - multi-replica first validation track `K2`: `1/1` complete, `100%`
   - post-K2 backlog review track `L1`: `1/1` complete, `100%`
   - post-K2 completion refresh track `L2`: `1/1` complete, `100%`
-  - post-L2 implementation reset track `M1`: `0/1` complete, `0%`
+  - post-L2 implementation reset track `M1`: `1/1` complete, `100%`
   - multi-replica ordering entry track `M2`: `0/1` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~M2`: `69/71` complete, about `97%`
+  - post-M2 execution cut track `N1`: `0/1` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~N1`: `70/72` complete, about `97%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -104,6 +105,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - `Sprint K2` collected the first live evidence that a producer-node consumer can still succeed through a second-replica fallback after both the producer candidate and the first replica candidate fail
   - `Sprint L1` narrowed the next minimum gaps after `K2` to multi-replica ordering semantics, observability refinement, and retry/recovery, and fixed the direct flow as `L2 -> M1 -> ordering semantics`
   - `Sprint L2` realigned the completion view and the progress board so they now point to the same next-question set: `M1 -> M2`
+  - `Sprint M1` regrouped the remaining post-L2 implementation backlog and fixed the next direct implementation question as multi-replica ordering semantics
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -179,14 +181,15 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | K2 | Complete | live validation confirmed second-replica fallback after producer and first-replica failure |
 | L1 | Complete | narrowed the remaining minimum gaps and follow-up order after K2 |
 | L2 | Complete | realigned completion view and progress board to the same next-question set after K2 |
+| M1 | Complete | reset the post-L2 implementation backlog around multi-replica ordering semantics |
 
 ## Current Backlog
 
 | Area | Item | Priority | Current Judgment |
 |---|---|---|---|
-| Implementation | replica-aware fetch policy | Medium | promoted as the next real question |
+| Implementation | multi-replica ordering semantics | Medium | promoted as the next real implementation question |
 | Implementation | catalog top-level failure reflection | Medium | still deferred |
-| Implementation | retry / recovery policy | Low | intentionally out of current scope |
+| Implementation | retry / recovery policy | Low | the next follow-up after multi-replica ordering |
 | Implementation | scheduler/controller integration evaluation | Low | still in script-assisted validation phase |
 | Process | keep adding bilingual pairs for new documents | High | policy is fixed, execution must continue |
 
@@ -201,16 +204,6 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 - detailed schedule: [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md)
 
 ## Recommended Next 3 Sprints
-
-### M1 - Post-L2 Implementation Reset
-
-Goal:
-
-- reset the next implementation backlog again after the first multi-replica validation closes
-
-Completion criteria:
-
-- the next real implementation question is fixed in one note
 
 ### M2 - Multi-Replica Ordering Semantics Entry
 
@@ -231,6 +224,16 @@ Goal:
 Completion criteria:
 
 - the next minimum execution cut is fixed in one note
+
+### N2 - Post-M2 Completion Refresh
+
+Goal:
+
+- realign the completion view and the progress board to the same remaining-question set after `M2`
+
+Completion criteria:
+
+- a completion/progress refresh note is fixed in one document
 
 ## Update Rule
 
