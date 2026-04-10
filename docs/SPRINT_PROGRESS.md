@@ -17,7 +17,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -44,9 +44,10 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - post-K2 backlog review track `L1`: `1/1` complete, `100%`
   - post-K2 completion refresh track `L2`: `1/1` complete, `100%`
   - post-L2 implementation reset track `M1`: `1/1` complete, `100%`
-  - multi-replica ordering entry track `M2`: `0/1` complete, `0%`
+  - multi-replica ordering entry track `M2`: `1/1` complete, `100%`
   - post-M2 execution cut track `N1`: `0/1` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~N1`: `70/72` complete, about `97%`
+  - post-M2 completion refresh track `N2`: `0/1` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~N2`: `71/73` complete, about `97%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -106,6 +107,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - `Sprint L1` narrowed the next minimum gaps after `K2` to multi-replica ordering semantics, observability refinement, and retry/recovery, and fixed the direct flow as `L2 -> M1 -> ordering semantics`
   - `Sprint L2` realigned the completion view and the progress board so they now point to the same next-question set: `M1 -> M2`
   - `Sprint M1` regrouped the remaining post-L2 implementation backlog and fixed the next direct implementation question as multi-replica ordering semantics
+  - `Sprint M2` fixed multi-replica ordering semantics as an explicit implementation question about `producer -> recorded replica order`
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -182,6 +184,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | L1 | Complete | narrowed the remaining minimum gaps and follow-up order after K2 |
 | L2 | Complete | realigned completion view and progress board to the same next-question set after K2 |
 | M1 | Complete | reset the post-L2 implementation backlog around multi-replica ordering semantics |
+| M2 | Complete | fixed multi-replica ordering semantics as an implementation question around `producer -> recorded replica order` |
 
 ## Current Backlog
 
@@ -205,16 +208,6 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Recommended Next 3 Sprints
 
-### M2 - Multi-Replica Ordering Semantics Entry
-
-Goal:
-
-- fix the final entry point for opening multi-replica ordering semantics as the next real implementation question
-
-Completion criteria:
-
-- an ordering-semantics entry note is fixed in one document
-
 ### N1 - Post-M2 Execution Cut
 
 Goal:
@@ -234,6 +227,16 @@ Goal:
 Completion criteria:
 
 - a completion/progress refresh note is fixed in one document
+
+### O1 - Post-N2 Backlog Review
+
+Goal:
+
+- narrow the remaining implementation backlog again after `N1` and `N2`
+
+Completion criteria:
+
+- the next minimum follow-up question set is fixed in one note
 
 ## Update Rule
 

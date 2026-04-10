@@ -17,7 +17,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -44,9 +44,10 @@
   - post-K2 backlog review track `L1` 기준: `1/1` 완료, `100%`
   - post-K2 completion refresh track `L2` 기준: `1/1` 완료, `100%`
   - post-L2 implementation reset track `M1` 기준: `1/1` 완료, `100%`
-  - multi-replica ordering entry track `M2` 기준: `0/1` 완료, `0%`
+  - multi-replica ordering entry track `M2` 기준: `1/1` 완료, `100%`
   - post-M2 execution cut track `N1` 기준: `0/1` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~N1` 기준: `70/72` 완료, 약 `97%`
+  - post-M2 completion refresh track `N2` 기준: `0/1` 완료, `0%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~N2` 기준: `71/73` 완료, 약 `97%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -106,6 +107,7 @@
   - `Sprint L1`에서 `K2` 이후 최소 남은 갭을 multi-replica ordering semantics, observability refinement, retry/recovery로 다시 좁히고, 다음 직접 흐름을 `L2 -> M1 -> ordering semantics`로 고정
   - `Sprint L2`에서 completion view와 progress board가 `M1 -> M2`를 같은 다음 질문 세트로 가리키도록 다시 정렬
   - `Sprint M1`에서 `L2` 이후 남은 실제 implementation backlog를 다시 묶고 다음 직접 implementation 질문을 multi-replica ordering semantics로 고정
+  - `Sprint M2`에서 multi-replica ordering semantics를 `producer -> recorded replica order`라는 현재 implementation question으로 여는 entry를 고정
   - 전체 backlog 완료 일정은 별도 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에 `6주 / 4개 병렬 트랙` 기준으로 고정
 
 ## 완료 스프린트 표
@@ -182,6 +184,7 @@
 | L1 | 완료 | K2 이후 최소 남은 갭과 후속 순서를 다시 좁혀 고정 |
 | L2 | 완료 | K2 이후 completion view와 progress board를 같은 다음 질문 세트로 정렬 |
 | M1 | 완료 | L2 이후 다음 실제 implementation backlog를 multi-replica ordering semantics 중심으로 재설정 |
+| M2 | 완료 | multi-replica ordering semantics를 `producer -> recorded replica order` 기준의 implementation question으로 여는 entry를 고정 |
 
 ## 현재 backlog
 
@@ -205,16 +208,6 @@
 
 ## 추천 다음 3개 스프린트
 
-### M2 - Multi-Replica Ordering Semantics Entry
-
-목표:
-
-- multi-replica ordering semantics를 다음 실제 implementation question으로 열지 최종 entry를 고정
-
-완료 기준:
-
-- ordering semantics entry note가 한 문서로 고정됨
-
 ### N1 - Post-M2 Execution Cut
 
 목표:
@@ -234,6 +227,16 @@
 완료 기준:
 
 - completion/progress refresh note가 한 문서로 고정됨
+
+### O1 - Post-N2 Backlog Review
+
+목표:
+
+- `N1`, `N2` 이후 남은 구현 backlog를 다시 좁게 정리
+
+완료 기준:
+
+- 다음 최소 후속 질문 세트가 한 문서로 고정됨
 
 ## 업데이트 규칙
 

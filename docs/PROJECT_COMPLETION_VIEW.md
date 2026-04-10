@@ -40,21 +40,21 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### M2 - Multi-Replica Ordering Semantics Entry
+### N1 - Post-M2 Execution Cut
 
 Goal:
 
-- fix the entry point for opening multi-replica ordering semantics as the next real implementation question
+- define the minimum execution cut that opens ordering semantics
 
 Completion criteria:
 
-- the ordering-semantics entry note is fixed in one document
+- the next minimum execution cut is fixed in one note
 
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `70/72`
+- complete: `71/73`
 - about `97%`
 
 Important:
@@ -153,4 +153,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, the first multi-replica validation evidence, the follow-up backlog review after that validation, the completion/progress refresh after that review, and the implementation reset after `L2`. Under the conservative full-backlog view, completion is now read through the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next directly remaining core sprint is `M2 - Multi-Replica Ordering Semantics Entry`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, the first multi-replica validation evidence, the follow-up backlog review after that validation, the completion/progress refresh after that review, the implementation reset after `L2`, and the ordering-semantics entry after that reset. Under the conservative full-backlog view, completion is now read through the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next directly remaining core sprint is `N1 - Post-M2 Execution Cut`.
