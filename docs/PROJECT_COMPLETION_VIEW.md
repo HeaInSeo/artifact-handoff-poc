@@ -40,21 +40,21 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### P1 - Post-O2 Execution Cut
+### P2 - Post-P1 Completion Refresh
 
 Goal:
 
-- define the minimum execution cut for the recorded replica-order implementation question fixed by `O2`
+- realign the completion view and the progress board to the same remaining-question set after `O2` and `P1`
 
 Completion criteria:
 
-- the next minimum execution-cut note is fixed in one document
+- a completion/progress refresh note is fixed in one document
 
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `75/77`
+- complete: `76/78`
 - about `97%`
 
 Important:
@@ -153,4 +153,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, the first multi-replica validation evidence, the follow-up backlog review after that validation, the completion/progress refresh after that review, the implementation reset after `L2`, the ordering-semantics entry after that reset, the first execution cut for that ordering question, the refresh after that cut, the post-N2 backlog review after that refresh, and the entry that fixes recorded replica-order semantics as the next direct implementation topic. Under the conservative full-backlog view, completion is now read through the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next directly remaining core sprint is `P1 - Post-O2 Execution Cut`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, the first multi-replica validation evidence, the follow-up backlog review after that validation, the completion/progress refresh after that review, the implementation reset after `L2`, the ordering-semantics entry after that reset, the first execution cut for that ordering question, the refresh after that cut, the post-N2 backlog review after that refresh, the entry that fixes recorded replica-order semantics as the next direct implementation topic, and the minimum probe helper cut that makes that semantics easier to read directly. Under the conservative full-backlog view, completion is now read through the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next directly remaining core sprint is `P2 - Post-P1 Completion Refresh`.
