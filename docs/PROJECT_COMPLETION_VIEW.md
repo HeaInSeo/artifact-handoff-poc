@@ -40,21 +40,21 @@ In other words, the repository already has substantial fixed evidence for:
 
 According to the current progress board, the directly remaining sprints are:
 
-### N2 - Post-M2 Completion Refresh
+### O1 - Post-N2 Backlog Review
 
 Goal:
 
-- realign the completion view and the progress board to the same remaining-question set after `M2` and `N1`
+- narrow the remaining implementation backlog again after `N1` and `N2`
 
 Completion criteria:
 
-- a completion/progress refresh note is fixed in one document
+- the next minimum follow-up question set is fixed in one note
 
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `72/74`
+- complete: `73/75`
 - about `97%`
 
 Important:
@@ -153,4 +153,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, the first multi-replica validation evidence, the follow-up backlog review after that validation, the completion/progress refresh after that review, the implementation reset after `L2`, the ordering-semantics entry after that reset, and the first execution cut for that ordering question. Under the conservative full-backlog view, completion is now read through the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next directly remaining core sprint is `N2 - Post-M2 Completion Refresh`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, the first multi-replica validation evidence, the follow-up backlog review after that validation, the completion/progress refresh after that review, the implementation reset after `L2`, the ordering-semantics entry after that reset, the first execution cut for that ordering question, and the refresh after that cut. Under the conservative full-backlog view, completion is now read through the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next directly remaining core sprint is `O1 - Post-N2 Backlog Review`.
