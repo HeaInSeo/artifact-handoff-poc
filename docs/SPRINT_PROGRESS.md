@@ -17,7 +17,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -55,9 +55,10 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - post-Q1 implementation entry track `Q2`: `1/1` complete, `100%`
   - post-Q2 execution cut track `R1`: `1/1` complete, `100%`
   - post-R1 completion refresh track `R2`: `1/1` complete, `100%`
-  - post-R2 backlog review track `S1`: `0/1` complete, `0%`
+  - post-R2 backlog review track `S1`: `1/1` complete, `100%`
   - post-S1 implementation entry track `S2`: `0/1` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~S2`: `81/83` complete, about `98%`
+  - post-S2 execution cut track `T1`: `0/1` complete, `0%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~T1`: `82/84` complete, about `98%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -128,6 +129,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - `Sprint Q2` fixed the `producer -> recorded replica order` reading as the next direct implementation entry
   - `Sprint R1` added the minimum wrapper helper for replaying that reading as ordered-candidate output
   - `Sprint R2` realigned the completion view and progress board to the same remaining-question set after `Q2` and `R1`
+  - `Sprint S1` narrowed the remaining implementation backlog again after `R1` and `R2`, and fixed the next direct question as `S2`
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -215,6 +217,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | Q2 | Complete | fixed the `producer -> recorded replica order` reading as the next direct implementation entry |
 | R1 | Complete | added the minimum wrapper helper for replaying the `producer -> recorded replica order` reading |
 | R2 | Complete | realigned completion/progress to the same remaining-question set after `Q2` and `R1` |
+| S1 | Complete | narrowed the remaining implementation backlog again after `R1` and `R2`, and fixed the next direct question as `S2` |
 
 ## Current Backlog
 
@@ -238,16 +241,6 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Recommended Next 3 Sprints
 
-### S1 - Post-R2 Backlog Review
-
-Goal:
-
-- narrow the remaining implementation backlog again after `R1` and `R2`
-
-Completion criteria:
-
-- the next follow-up question set is fixed in one document
-
 ### S2 - Post-S1 Implementation Entry
 
 Goal:
@@ -267,6 +260,16 @@ Goal:
 Completion criteria:
 
 - a helper or minimal validation cut is fixed in one document
+
+### T2 - Post-T1 Completion Refresh
+
+Goal:
+
+- realign the completion view and the progress board to the same remaining-question set after `S2` and `T1`
+
+Completion criteria:
+
+- a completion/progress refresh note is fixed in one document
 
 ## Update Rule
 

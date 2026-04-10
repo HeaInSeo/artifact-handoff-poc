@@ -42,21 +42,21 @@
 
 현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
 
-### S1 - Post-R2 Backlog Review
+### S2 - Post-S1 Implementation Entry
 
 목표:
 
-- `R1`, `R2` 이후 남은 구현 backlog를 다시 좁게 정리
+- `S1`에서 좁힌 다음 구현 질문을 실제 implementation entry로 고정
 
 완료 기준:
 
-- 다음 후속 질문 세트가 한 문서로 고정됨
+- 다음 직접 implementation entry note가 한 문서로 고정됨
 
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `81/83`
+- 완료: `82/84`
 - 약 `97%`
 
 중요:
@@ -155,4 +155,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, first multi-replica validation evidence, 그 이후 backlog review, completion/progress refresh, implementation reset, ordering semantics entry, 그 ordering question을 위한 첫 execution cut, 그 이후 refresh, post-N2 backlog review, recorded replica-order semantics를 다음 직접 implementation topic으로 고정하는 entry, 그 의미를 더 직접 읽기 위한 최소 probe helper cut, 그 이후 남은 질문 세트를 `Q1 -> Q2` 흐름으로 정렬하는 refresh, recorded replica-order question을 current implementation reading 수준으로 다시 좁히는 backlog review, 그 reading을 다음 직접 implementation entry로 고정하는 단계, 그 reading을 재실행 가능한 ordered-candidate 출력으로 보여 주는 최소 wrapper helper cut, 그리고 `Q2`, `R1` 이후 completion/progress 문서를 같은 남은 질문 세트로 맞추는 refresh까지는 상당히 진행됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 남은 핵심 스프린트는 `S1 - Post-R2 Backlog Review`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, first multi-replica validation evidence, 그 이후 backlog review, completion/progress refresh, implementation reset, ordering semantics entry, 그 ordering question을 위한 첫 execution cut, 그 이후 refresh, post-N2 backlog review, recorded replica-order semantics를 다음 직접 implementation topic으로 고정하는 entry, 그 의미를 더 직접 읽기 위한 최소 probe helper cut, 그 이후 남은 질문 세트를 `Q1 -> Q2` 흐름으로 정렬하는 refresh, recorded replica-order question을 current implementation reading 수준으로 다시 좁히는 backlog review, 그 reading을 다음 직접 implementation entry로 고정하는 단계, 그 reading을 재실행 가능한 ordered-candidate 출력으로 보여 주는 최소 wrapper helper cut, `Q2`, `R1` 이후 completion/progress 문서를 같은 남은 질문 세트로 맞추는 refresh, 그리고 그 이후 남은 구현 backlog를 다시 좁히는 review까지는 상당히 진행됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 남은 핵심 스프린트는 `S2 - Post-S1 Implementation Entry`이다.

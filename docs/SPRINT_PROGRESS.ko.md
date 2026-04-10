@@ -17,7 +17,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -55,9 +55,10 @@
   - post-Q1 implementation entry track `Q2` 기준: `1/1` 완료, `100%`
   - post-Q2 execution cut track `R1` 기준: `1/1` 완료, `100%`
   - post-R1 completion refresh track `R2` 기준: `1/1` 완료, `100%`
-  - post-R2 backlog review track `S1` 기준: `0/1` 완료, `0%`
+  - post-R2 backlog review track `S1` 기준: `1/1` 완료, `100%`
   - post-S1 implementation entry track `S2` 기준: `0/1` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~S2` 기준: `81/83` 완료, 약 `98%`
+  - post-S2 execution cut track `T1` 기준: `0/1` 완료, `0%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~T1` 기준: `82/84` 완료, 약 `98%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -128,6 +129,7 @@
   - `Sprint Q2`에서 `producer -> recorded replica order` reading을 다음 직접 implementation entry로 고정
   - `Sprint R1`에서 그 reading을 ordered remote candidate output으로 재실행할 수 있는 최소 wrapper helper cut를 추가
   - `Sprint R2`에서 `Q2`, `R1` 이후 completion view와 progress board를 같은 남은 질문 세트로 다시 정렬
+  - `Sprint S1`에서 `R1`, `R2` 이후 남은 구현 backlog를 다시 좁혀 다음 직접 질문을 `S2`로 고정
   - 전체 backlog 완료 일정은 별도 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에 `6주 / 4개 병렬 트랙` 기준으로 고정
 
 ## 완료 스프린트 표
@@ -215,6 +217,7 @@
 | Q2 | 완료 | `producer -> recorded replica order` reading을 다음 직접 implementation entry로 고정 |
 | R1 | 완료 | `producer -> recorded replica order` reading을 재실행 가능한 ordered-candidate output으로 만드는 최소 wrapper helper cut 추가 |
 | R2 | 완료 | `Q2`, `R1` 이후 completion/progress를 같은 남은 질문 세트로 다시 정렬 |
+| S1 | 완료 | `R1`, `R2` 이후 남은 구현 backlog를 다시 좁혀 다음 직접 질문을 `S2`로 고정 |
 
 ## 현재 backlog
 
@@ -238,16 +241,6 @@
 
 ## 추천 다음 3개 스프린트
 
-### S1 - Post-R2 Backlog Review
-
-목표:
-
-- `R1`, `R2` 이후 남은 구현 backlog를 다시 좁게 정리
-
-완료 기준:
-
-- 다음 후속 질문 세트가 한 문서로 고정됨
-
 ### S2 - Post-S1 Implementation Entry
 
 목표:
@@ -267,6 +260,16 @@
 완료 기준:
 
 - helper 또는 최소 validation cut가 한 문서로 고정됨
+
+### T2 - Post-T1 Completion Refresh
+
+목표:
+
+- `S2`, `T1` 이후 completion view와 progress board를 같은 남은 질문 세트로 다시 정렬
+
+완료 기준:
+
+- completion/progress refresh note가 한 문서로 고정됨
 
 ## 업데이트 규칙
 
