@@ -131,6 +131,7 @@ These can follow later if needed:
 - `docs/research/dragonfly-with.ko.md`
 - `docs/research/dragonfly-with-update-01.ko.md`
 - `docs/research/dragonfly-adapter-contract.ko.md`
+- `docs/research/dynamic-dag-placement-validation.md`
 
 ## Common Structure For Each Research Note
 

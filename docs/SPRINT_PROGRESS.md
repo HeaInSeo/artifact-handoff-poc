@@ -17,7 +17,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`, `U1`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -60,7 +60,8 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - post-S2 execution cut track `T1`: `1/1` complete, `100%`
   - post-T1 completion refresh track `T2`: `1/1` complete, `100%`
   - post-T2 backlog review track `T3`: `1/1` complete, `100%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~T3`: `86/86` complete, `100%`
+  - dynamic DAG placement validation track `U1`: `1/1` complete, `100%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~U1`: `87/87` complete, `100%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -138,6 +139,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - `Sprint T3` narrowed the remaining post-perspective-reading refinement question again into a small next entry scope
   - as a separate research extension, the repository has started expanding `docs/research/dragonfly-with*` around Dragonfly fork-fit and upstream-alignment questions
   - based on remote lab validation at `100.123.80.48`, the repository added a `dragonfly-adapter-contract` research note grounded in Helm install and `dfcache` export checks
+  - `Sprint U1` fixed the current understanding that the remote Multipass K8s validation of `poc` does not show parent-result-driven dynamic placement; the observed same-node outcome was a `local-path` PVC `selected-node` side effect
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -230,6 +232,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | T1 | Complete | added the minimum perspective helper cut that replays the remote candidate order from each agent pod's point of view |
 | T2 | Complete | realigned the remaining question set after `S2` and `T1` into the `T3 -> U1` flow |
 | T3 | Complete | narrowed the remaining post-perspective-reading refinement question again into a small next entry scope |
+| U1 | Complete | validated on the remote Multipass K8s lab that the current `poc` path has no dynamic placement hints in Job specs and that the observed same-node outcome comes from PVC `selected-node` side effects |
 
 ## Current Backlog
 
@@ -238,6 +241,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | Implementation | multi-replica ordering semantics | Medium | perspective-aware reading review is closed, and the next step is to refix the next entry scope in `U1` |
 | Research | Dragonfly fork-fit / upstream alignment | High | opened as a research track, with shallow adapter fit favored over a deep fork |
 | Research | Dragonfly adapter contract | High | added a product-owned contract draft backed by remote lab validation |
+| Validation | dynamic DAG placement | High | remote validation now shows the current `poc` path does not implement dynamic placement, and the next step should be an interface cut in `U2` |
 | Implementation | catalog top-level failure reflection | Medium | still deferred |
 | Implementation | retry / recovery policy | Low | the next follow-up after multi-replica ordering |
 | Implementation | scheduler/controller integration evaluation | Low | still in script-assisted validation phase |
@@ -255,31 +259,31 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Recommended Next 3 Sprints
 
-### U1 - Post-T3 Implementation Entry
+### U2 - Dynamic Placement Interface Cut
 
 Goal:
 
-- fix the next narrowed implementation question from `T3` as the next direct implementation entry
+- fix the minimum interface/adapter cut that can express parent-result-driven placement
 
 Completion criteria:
 
-- the next implementation-entry note is fixed in one document
+- the interface-cut note is fixed in one document
 
-### U2 - Post-U1 Execution Cut
+### U3 - Parent-Result Placement Injection Validation
 
 Goal:
 
-- define the smallest execution cut for the next implementation question fixed in `U1`
+- connect the `U2` interface to real child Job mutation and validate it
 
 Completion criteria:
 
-- a helper or minimal cut note is fixed in one document
+- placement-mutation evidence is captured on the remote Multipass K8s lab
 
-### U3 - Post-U2 Completion Refresh
+### U4 - Post-U3 Completion Refresh
 
 Goal:
 
-- realign the completion view and the progress board to the same remaining-question set after `U1` and `U2`
+- realign the completion view and the progress board to the same remaining-question set after `U2` and `U3`
 
 Completion criteria:
 

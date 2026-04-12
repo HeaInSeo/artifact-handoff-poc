@@ -17,7 +17,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`, `U1`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -60,7 +60,8 @@
   - post-S2 execution cut track `T1` 기준: `1/1` 완료, `100%`
   - post-T1 completion refresh track `T2` 기준: `1/1` 완료, `100%`
   - post-T2 backlog review track `T3` 기준: `1/1` 완료, `100%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~T3` 기준: `86/86` 완료, `100%`
+  - dynamic DAG placement validation track `U1` 기준: `1/1` 완료, `100%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~U1` 기준: `87/87` 완료, `100%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -138,6 +139,7 @@
   - `Sprint T3`에서 perspective-aware reading 이후 남은 refinement question을 다시 작은 entry 범위로 넘기기 위해 backlog를 재축소
   - 별도 research extension으로 Dragonfly 포크 적용 가능성과 업스트림 업데이트 정합성 유지 가능성을 `docs/research/dragonfly-with*` 계열 문서로 확장하기 시작
   - remote lab(`100.123.80.48`)에서 Dragonfly Helm install과 `dfcache` export 실검증을 바탕으로 `dragonfly-adapter-contract` 연구 문서를 추가
+  - `Sprint U1`에서 원격 multipass K8s lab 위 `poc` 실검증으로 current path가 parent-result-driven dynamic placement를 구현하지 않으며, observed same-node는 `local-path` PVC의 `selected-node` side effect라는 점을 고정
   - 전체 backlog 완료 일정은 별도 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에 `6주 / 4개 병렬 트랙` 기준으로 고정
 
 ## 완료 스프린트 표
@@ -230,6 +232,7 @@
 | T1 | 완료 | 각 agent pod 관점의 remote candidate order를 재실행하는 최소 perspective helper cut 추가 |
 | T2 | 완료 | `S2`, `T1` 이후 남은 질문 세트를 `T3 -> U1` 흐름으로 다시 정렬 |
 | T3 | 완료 | perspective-aware reading 이후 남은 refinement question을 다시 작은 entry 범위로 넘기기 위해 backlog 재축소 |
+| U1 | 완료 | 원격 multipass K8s lab에서 current `poc` path의 Job spec에는 dynamic placement 힌트가 없고, observed same-node는 PVC `selected-node` side effect임을 실검증 |
 
 ## 현재 backlog
 
@@ -238,6 +241,7 @@
 | 구현 | multi-replica ordering semantics | 중간 | perspective-aware reading review까지 닫혔고, 다음은 `U1`에서 entry scope 재고정 |
 | 조사 | Dragonfly fork-fit / upstream alignment | 높음 | shallow adapter 가능성은 높고, deep fork는 비권장이라는 연구 축을 열었음 |
 | 조사 | Dragonfly adapter contract | 높음 | remote lab 실검증을 바탕으로 product-owned contract 초안을 추가 |
+| 검증 | dynamic DAG placement | 높음 | current `poc` path는 dynamic placement를 구현하지 않는다는 원격 실검증이 확보됐고, 다음은 `U2`에서 interface cut를 여는 것이 맞음 |
 | 구현 | catalog top-level failure reflection | 중간 | 여전히 defer 유지 |
 | 구현 | retry / recovery policy | 낮음 | multi-replica ordering 다음 후속 질문 |
 | 구현 | scheduler/controller 통합 평가 | 낮음 | 아직 script-assisted validation 단계 |
@@ -255,31 +259,31 @@
 
 ## 추천 다음 3개 스프린트
 
-### U1 - Post-T3 Implementation Entry
+### U2 - Dynamic Placement Interface Cut
 
 목표:
 
-- `T3`에서 좁힌 다음 구현 질문을 다시 direct implementation entry로 고정
+- parent-result-driven placement를 표현할 최소 interface/adapter cut를 고정
 
 완료 기준:
 
-- 다음 implementation entry note가 한 문서로 고정됨
+- interface cut note가 한 문서로 고정됨
 
-### U2 - Post-U1 Execution Cut
+### U3 - Parent-Result Placement Injection Validation
 
 목표:
 
-- `U1`에서 고정한 다음 구현 질문을 위한 최소 execution cut를 정의
+- `U2`에서 정의한 interface를 실제 child Job mutation으로 연결하는 최소 validation을 수행
 
 완료 기준:
 
-- helper 또는 최소 cut note가 한 문서로 고정됨
+- 원격 multipass K8s lab에서 child Job placement mutation evidence가 확보됨
 
-### U3 - Post-U2 Completion Refresh
+### U4 - Post-U3 Completion Refresh
 
 목표:
 
-- `U1`, `U2` 이후 completion view와 progress board를 같은 남은 질문 세트로 다시 정렬
+- `U2`, `U3` 이후 completion view와 progress board를 같은 남은 질문 세트로 다시 정렬
 
 완료 기준:
 
