@@ -130,6 +130,7 @@ These can follow later if needed:
 - `docs/research/cilium-fit-gap.ko.md`
 - `docs/research/dragonfly-with.ko.md`
 - `docs/research/dragonfly-with-update-01.ko.md`
+- `docs/research/dragonfly-adapter-contract.ko.md`
 
 ## Common Structure For Each Research Note
 

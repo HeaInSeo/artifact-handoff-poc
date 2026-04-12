@@ -137,6 +137,7 @@
   - `Sprint T2`에서 `S2`, `T1` 이후 남은 질문 세트를 `T3 -> U1` 흐름으로 다시 정렬
   - `Sprint T3`에서 perspective-aware reading 이후 남은 refinement question을 다시 작은 entry 범위로 넘기기 위해 backlog를 재축소
   - 별도 research extension으로 Dragonfly 포크 적용 가능성과 업스트림 업데이트 정합성 유지 가능성을 `docs/research/dragonfly-with*` 계열 문서로 확장하기 시작
+  - remote lab(`100.123.80.48`)에서 Dragonfly Helm install과 `dfcache` export 실검증을 바탕으로 `dragonfly-adapter-contract` 연구 문서를 추가
   - 전체 backlog 완료 일정은 별도 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에 `6주 / 4개 병렬 트랙` 기준으로 고정
 
 ## 완료 스프린트 표
@@ -236,6 +237,7 @@
 |---|---|---|---|
 | 구현 | multi-replica ordering semantics | 중간 | perspective-aware reading review까지 닫혔고, 다음은 `U1`에서 entry scope 재고정 |
 | 조사 | Dragonfly fork-fit / upstream alignment | 높음 | shallow adapter 가능성은 높고, deep fork는 비권장이라는 연구 축을 열었음 |
+| 조사 | Dragonfly adapter contract | 높음 | remote lab 실검증을 바탕으로 product-owned contract 초안을 추가 |
 | 구현 | catalog top-level failure reflection | 중간 | 여전히 defer 유지 |
 | 구현 | retry / recovery policy | 낮음 | multi-replica ordering 다음 후속 질문 |
 | 구현 | scheduler/controller 통합 평가 | 낮음 | 아직 script-assisted validation 단계 |

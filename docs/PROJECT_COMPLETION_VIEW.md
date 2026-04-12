@@ -99,6 +99,12 @@ The following items are not immediate sprints in the current roadmap, but they r
 - whether the current PoC semantics can stay aligned without a deep fork
 - whether upstream release movement can be absorbed at the adapter boundary
 
+### 8. Dragonfly adapter contract research
+
+- whether a product-owned contract can sit above Dragonfly as the backend
+- whether the minimum shape can be narrowed to `Put / EnsureOnNode / Stat / Warm / Evict`
+- whether lower-layer transport evidence has been established through remote lab validation
+
 ## Conservative Six-Week Parallel Schedule
 
 - conservative schedule: `6 weeks`

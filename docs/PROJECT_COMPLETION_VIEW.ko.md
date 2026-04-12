@@ -101,6 +101,12 @@
 - deep fork 없이도 현재 PoC semantics와 정합성을 유지할 수 있는지
 - 업스트림 릴리스 변화가 adapter boundary에서 흡수 가능한지
 
+### 8. Dragonfly adapter contract research
+
+- product-owned contract를 먼저 두고 Dragonfly를 backend로 붙일 수 있는지
+- `Put / EnsureOnNode / Stat / Warm / Evict` 같은 최소 contract로 좁힐 수 있는지
+- remote lab 실검증으로 lower-layer transport 근거를 확보했는지
+
 ## 보수적 6주 병렬 일정
 
 - 보수 일정: `6주`

@@ -132,6 +132,7 @@
 - `docs/research/cilium-fit-gap.ko.md`
 - `docs/research/dragonfly-with.ko.md`
 - `docs/research/dragonfly-with-update-01.ko.md`
+- `docs/research/dragonfly-adapter-contract.ko.md`
 
 ## 각 조사 문서의 공통 구조
 
