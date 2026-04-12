@@ -31,6 +31,7 @@
 11. 실제 `poc`/`spawner` 변경과 원격 재실행으로 child Job의 explicit placement mutation을 실검증
 12. 그 실검증과 current code path를 바탕으로 dynamic fallback의 다음 직접 validation question을 entry note로 고정
 13. current `nodeSelector` path를 기준으로 현재 구현 truth는 `same-node required`이고 `preferred locality`는 아직 future validation target이라는 판단 고정
+14. dynamic placement가 API object에 들어가므로 fallback trigger도 API observable에서 읽어야 하고, 1순위 후보는 `PodScheduled=False, Unschedulable`라는 판단 고정
 
 즉 현재 저장소는:
 
@@ -47,16 +48,16 @@
 
 ## 현재 문서화된 로드맵 기준 남은 스프린트
 
-현재 진행판 기준으로 `U6`까지의 문서화된 로드맵은 모두 완료됐다.
+현재 진행판 기준으로 `U7`까지의 문서화된 로드맵은 모두 완료됐다.
 
 즉 현재는 문서화된 현재 로드맵 안의 미완료 스프린트가 없고,
-다음 직접 후속은 `U7 - Fallback Trigger Signal Validation`처럼 same-node required path의 failure signal을 더 좁히는 단계다.
+다음 직접 후속은 `U8 - Required-To-Preferred Downgrade Entry`처럼 trigger 이후 downgrade 조건을 좁히는 단계다.
 
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `91/91`
+- 완료: `92/92`
 - `100%`
 
 중요:
@@ -97,7 +98,8 @@
 - `U3`에서 child Job의 explicit placement mutation까지는 원격 실검증으로 확보됨
 - `U5`에서 다음 직접 질문은 same-node required path 이후의 fallback semantics로 고정됨
 - `U6`에서 current implementation truth는 required locality라는 판단까지 고정됨
-- 다음 단계는 fallback trigger signal과 downgrade 조건, 그리고 controller-owned resolution을 어떻게 올릴지 정하는 것
+- `U7`에서 fallback trigger는 API observable에서 읽어야 하고, 1순위 후보는 `PodScheduled=False, Unschedulable`라고 고정됨
+- 다음 단계는 downgrade 조건과 K8s observable integration, 그리고 controller-owned resolution을 어떻게 올릴지 정하는 것
 - 현재 구현은 node-level mutate hook까지는 들어갔지만, broader controller/scheduler 일반화는 아직 열려 있음
 
 ### 6. 필요 시 storage option 후속 비교
@@ -123,7 +125,8 @@
 - `U3`에서 child Job의 `nodeSelector`와 placement annotation이 explicit mutation으로 들어간다는 점을 재실검증
 - `U5`에서 same-node failure 이후 remote fallback semantics를 다음 직접 validation question으로 고정
 - `U6`에서 current path는 `same-node required`로 읽어야 한다는 validation 기준을 고정
-- 다음 단계는 observable fallback trigger signal을 실제 validation question으로 좁히는 것
+- `U7`에서 observable fallback trigger signal의 1순위 후보를 `PodScheduled=False, Unschedulable`로 고정
+- 다음 단계는 그 trigger가 왔을 때 required locality를 어떤 조건에서 낮출지 정하는 것
 
 ## 보수적 6주 병렬 일정
 
@@ -180,4 +183,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, first multi-replica validation evidence, 그 이후 backlog review, completion/progress refresh, implementation reset, ordering semantics entry, 그 ordering question을 위한 첫 execution cut, 그 이후 refresh, post-N2 backlog review, recorded replica-order semantics를 다음 직접 implementation topic으로 고정하는 entry, 그 의미를 더 직접 읽기 위한 최소 probe helper cut, 그 이후 남은 질문 세트를 `Q1 -> Q2` 흐름으로 정렬하는 refresh, recorded replica-order question을 current implementation reading 수준으로 다시 좁히는 backlog review, 그 reading을 다음 직접 implementation entry로 고정하는 단계, 그 reading을 재실행 가능한 ordered-candidate 출력으로 보여 주는 최소 wrapper helper cut, `Q2`, `R1` 이후 completion/progress 문서를 같은 남은 질문 세트로 맞추는 refresh, 그 이후 남은 구현 backlog를 다시 좁히는 review, consumer perspective-aware remote candidate order reading을 고정하는 entry와 그 reading을 각 agent pod 관점에서 재실행하는 최소 helper cut, 그 이후 남은 질문 세트를 `T3 -> U1` 흐름으로 다시 정렬하는 refresh, perspective-aware reading 이후 남은 refinement question을 다시 작은 entry 범위로 넘기는 backlog review, 원격 multipass K8s VM에서 current `poc` path의 same-node 결과가 dynamic DAG placement가 아니라 storage binding side effect라는 점을 확인하는 실검증, 그 결과를 바탕으로 dynamic placement를 `ArtifactBinding + PlacementIntent + ResolvedPlacement`로 분리하는 최소 interface cut 고정, 실제 `poc`/`spawner` 변경과 원격 재실행으로 child Job의 explicit placement mutation을 확인하는 validation, 그 실검증과 current code path를 바탕으로 dynamic fallback의 다음 직접 validation question을 고정하는 entry, 그리고 current `nodeSelector` path를 `same-node required`로 읽어야 한다는 validation 기준 고정까지는 상당히 진행됐다. 현재 문서화된 로드맵은 `U6`까지 모두 완료됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 후속 단계는 `U7 - Fallback Trigger Signal Validation`다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, first multi-replica validation evidence, 그 이후 backlog review, completion/progress refresh, implementation reset, ordering semantics entry, 그 ordering question을 위한 첫 execution cut, 그 이후 refresh, post-N2 backlog review, recorded replica-order semantics를 다음 직접 implementation topic으로 고정하는 entry, 그 의미를 더 직접 읽기 위한 최소 probe helper cut, 그 이후 남은 질문 세트를 `Q1 -> Q2` 흐름으로 정렬하는 refresh, recorded replica-order question을 current implementation reading 수준으로 다시 좁히는 backlog review, 그 reading을 다음 직접 implementation entry로 고정하는 단계, 그 reading을 재실행 가능한 ordered-candidate 출력으로 보여 주는 최소 wrapper helper cut, `Q2`, `R1` 이후 completion/progress 문서를 같은 남은 질문 세트로 맞추는 refresh, 그 이후 남은 구현 backlog를 다시 좁히는 review, consumer perspective-aware remote candidate order reading을 고정하는 entry와 그 reading을 각 agent pod 관점에서 재실행하는 최소 helper cut, 그 이후 남은 질문 세트를 `T3 -> U1` 흐름으로 다시 정렬하는 refresh, perspective-aware reading 이후 남은 refinement question을 다시 작은 entry 범위로 넘기는 backlog review, 원격 multipass K8s VM에서 current `poc` path의 same-node 결과가 dynamic DAG placement가 아니라 storage binding side effect라는 점을 확인하는 실검증, 그 결과를 바탕으로 dynamic placement를 `ArtifactBinding + PlacementIntent + ResolvedPlacement`로 분리하는 최소 interface cut 고정, 실제 `poc`/`spawner` 변경과 원격 재실행으로 child Job의 explicit placement mutation을 확인하는 validation, 그 실검증과 current code path를 바탕으로 dynamic fallback의 다음 직접 validation question을 고정하는 entry, current `nodeSelector` path를 `same-node required`로 읽어야 한다는 validation 기준 고정, 그리고 fallback trigger는 API observable에서 읽어야 하며 1순위 후보는 `PodScheduled=False, Unschedulable`라는 판단 고정까지는 상당히 진행됐다. 현재 문서화된 로드맵은 `U7`까지 모두 완료됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 후속 단계는 `U8 - Required-To-Preferred Downgrade Entry`다.
