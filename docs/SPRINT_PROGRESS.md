@@ -17,7 +17,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -56,9 +56,11 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - post-Q2 execution cut track `R1`: `1/1` complete, `100%`
   - post-R1 completion refresh track `R2`: `1/1` complete, `100%`
   - post-R2 backlog review track `S1`: `1/1` complete, `100%`
-  - post-S1 implementation entry track `S2`: `0/1` complete, `0%`
-  - post-S2 execution cut track `T1`: `0/1` complete, `0%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~T1`: `82/84` complete, about `98%`
+  - post-S1 implementation entry track `S2`: `1/1` complete, `100%`
+  - post-S2 execution cut track `T1`: `1/1` complete, `100%`
+  - post-T1 completion refresh track `T2`: `1/1` complete, `100%`
+  - post-T2 backlog review track `T3`: `1/1` complete, `100%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~T3`: `86/86` complete, `100%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -130,6 +132,10 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - `Sprint R1` added the minimum wrapper helper for replaying that reading as ordered-candidate output
   - `Sprint R2` realigned the completion view and progress board to the same remaining-question set after `Q2` and `R1`
   - `Sprint S1` narrowed the remaining implementation backlog again after `R1` and `R2`, and fixed the next direct question as `S2`
+  - `Sprint S2` fixed the next direct implementation entry as the `consumer perspective-aware producer -> recorded replica order` reading
+  - `Sprint T1` added the minimum perspective helper cut that replays the remote candidate order from each agent pod's point of view
+  - `Sprint T2` realigned the remaining question set after `S2` and `T1` into the `T3 -> U1` flow
+  - `Sprint T3` narrowed the remaining post-perspective-reading refinement question again into a small next entry scope
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -218,12 +224,16 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | R1 | Complete | added the minimum wrapper helper for replaying the `producer -> recorded replica order` reading |
 | R2 | Complete | realigned completion/progress to the same remaining-question set after `Q2` and `R1` |
 | S1 | Complete | narrowed the remaining implementation backlog again after `R1` and `R2`, and fixed the next direct question as `S2` |
+| S2 | Complete | fixed the next direct implementation entry as the `consumer perspective-aware producer -> recorded replica order` reading |
+| T1 | Complete | added the minimum perspective helper cut that replays the remote candidate order from each agent pod's point of view |
+| T2 | Complete | realigned the remaining question set after `S2` and `T1` into the `T3 -> U1` flow |
+| T3 | Complete | narrowed the remaining post-perspective-reading refinement question again into a small next entry scope |
 
 ## Current Backlog
 
 | Area | Item | Priority | Current Judgment |
 |---|---|---|---|
-| Implementation | multi-replica ordering semantics | Medium | promoted as the next real implementation question |
+| Implementation | multi-replica ordering semantics | Medium | perspective-aware reading review is closed, and the next step is to refix the next entry scope in `U1` |
 | Implementation | catalog top-level failure reflection | Medium | still deferred |
 | Implementation | retry / recovery policy | Low | the next follow-up after multi-replica ordering |
 | Implementation | scheduler/controller integration evaluation | Low | still in script-assisted validation phase |
@@ -241,31 +251,31 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Recommended Next 3 Sprints
 
-### S2 - Post-S1 Implementation Entry
+### U1 - Post-T3 Implementation Entry
 
 Goal:
 
-- fix the next narrowed implementation question from `S1` as the next direct implementation entry
+- fix the next narrowed implementation question from `T3` as the next direct implementation entry
 
 Completion criteria:
 
-- the next direct implementation-entry note is fixed in one document
+- the next implementation-entry note is fixed in one document
 
-### T1 - Post-S2 Execution Cut
+### U2 - Post-U1 Execution Cut
 
 Goal:
 
-- define the smallest execution cut for the next implementation question fixed in `S2`
+- define the smallest execution cut for the next implementation question fixed in `U1`
 
 Completion criteria:
 
-- a helper or minimal validation cut is fixed in one document
+- a helper or minimal cut note is fixed in one document
 
-### T2 - Post-T1 Completion Refresh
+### U3 - Post-U2 Completion Refresh
 
 Goal:
 
-- realign the completion view and the progress board to the same remaining-question set after `S2` and `T1`
+- realign the completion view and the progress board to the same remaining-question set after `U1` and `U2`
 
 Completion criteria:
 

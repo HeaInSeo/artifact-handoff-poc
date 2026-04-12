@@ -25,6 +25,7 @@
 5. producer-only bias 실증
 6. `replicaNodes`를 remote candidate set에 연결하는 최소 구현 cut
 7. multi-replica 상태를 준비하는 최소 execution cut
+8. consumer perspective-aware remote candidate order reading 고정과 재실행 helper cut
 
 즉 현재 저장소는:
 
@@ -35,29 +36,23 @@
 - replica-ready state
 - producer-only bias evidence
 - second-replica fallback evidence
+- perspective-aware remote candidate order replay
 
 까지는 실제 문서와 실검증으로 상당히 고정된 상태다.
 
 ## 현재 문서화된 로드맵 기준 남은 스프린트
 
-현재 진행판 기준으로 바로 남아 있는 스프린트는 아래와 같다.
+현재 진행판 기준으로 `T3`까지의 문서화된 로드맵은 모두 완료됐다.
 
-### S2 - Post-S1 Implementation Entry
-
-목표:
-
-- `S1`에서 좁힌 다음 구현 질문을 실제 implementation entry로 고정
-
-완료 기준:
-
-- 다음 직접 implementation entry note가 한 문서로 고정됨
+즉 현재는 문서화된 현재 로드맵 안의 미완료 스프린트가 없고,
+다음 직접 후속은 `U1 - Post-T3 Implementation Entry`처럼 새 entry 사이클로 넘어가는 단계다.
 
 ## 현재 로드맵 기준 진행률
 
 현재 문서화된 로드맵 기준 진행률은 다음과 같이 읽는다.
 
-- 완료: `82/84`
-- 약 `97%`
+- 완료: `86/86`
+- `100%`
 
 중요:
 
@@ -155,4 +150,4 @@
 
 ## 현재 한 줄 요약
 
-현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, first multi-replica validation evidence, 그 이후 backlog review, completion/progress refresh, implementation reset, ordering semantics entry, 그 ordering question을 위한 첫 execution cut, 그 이후 refresh, post-N2 backlog review, recorded replica-order semantics를 다음 직접 implementation topic으로 고정하는 entry, 그 의미를 더 직접 읽기 위한 최소 probe helper cut, 그 이후 남은 질문 세트를 `Q1 -> Q2` 흐름으로 정렬하는 refresh, recorded replica-order question을 current implementation reading 수준으로 다시 좁히는 backlog review, 그 reading을 다음 직접 implementation entry로 고정하는 단계, 그 reading을 재실행 가능한 ordered-candidate 출력으로 보여 주는 최소 wrapper helper cut, `Q2`, `R1` 이후 completion/progress 문서를 같은 남은 질문 세트로 맞추는 refresh, 그리고 그 이후 남은 구현 backlog를 다시 좁히는 review까지는 상당히 진행됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 남은 핵심 스프린트는 `S2 - Post-S1 Implementation Entry`이다.
+현재 `artifact-handoff-poc`는 Sprint 1 validation과 replica-aware fetch의 첫 번째 구현/검증 사이클, multi-replica policy를 여는 최소 execution cut, first multi-replica validation evidence, 그 이후 backlog review, completion/progress refresh, implementation reset, ordering semantics entry, 그 ordering question을 위한 첫 execution cut, 그 이후 refresh, post-N2 backlog review, recorded replica-order semantics를 다음 직접 implementation topic으로 고정하는 entry, 그 의미를 더 직접 읽기 위한 최소 probe helper cut, 그 이후 남은 질문 세트를 `Q1 -> Q2` 흐름으로 정렬하는 refresh, recorded replica-order question을 current implementation reading 수준으로 다시 좁히는 backlog review, 그 reading을 다음 직접 implementation entry로 고정하는 단계, 그 reading을 재실행 가능한 ordered-candidate 출력으로 보여 주는 최소 wrapper helper cut, `Q2`, `R1` 이후 completion/progress 문서를 같은 남은 질문 세트로 맞추는 refresh, 그 이후 남은 구현 backlog를 다시 좁히는 review, consumer perspective-aware remote candidate order reading을 고정하는 entry와 그 reading을 각 agent pod 관점에서 재실행하는 최소 helper cut, 그 이후 남은 질문 세트를 `T3 -> U1` 흐름으로 다시 정렬하는 refresh, 그리고 perspective-aware reading 이후 남은 refinement question을 다시 작은 entry 범위로 넘기는 backlog review까지는 상당히 진행됐다. 현재 문서화된 로드맵은 `T3`까지 모두 완료됐고, 전체 backlog 완료는 보수적으로 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md) 기준 `6주`로 본다. 다음 직접 후속 단계는 `U1 - Post-T3 Implementation Entry`다.

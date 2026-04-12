@@ -25,6 +25,7 @@ The major completed areas so far are:
 5. direct evidence of the producer-only bias
 6. the minimum implementation cut that connects `replicaNodes` to the remote candidate set
 7. the minimum execution cut that prepares a repeatable multi-replica state
+8. the entry/cut pair that fixes and replays the consumer perspective-aware remote candidate order reading
 
 In other words, the repository already has substantial fixed evidence for:
 
@@ -35,27 +36,21 @@ In other words, the repository already has substantial fixed evidence for:
 - replica-ready state
 - producer-only bias evidence
 - second-replica fallback evidence
+- perspective-aware remote candidate order replay
 
 ## Remaining Sprints In The Current Documented Roadmap
 
-According to the current progress board, the directly remaining sprints are:
+According to the current progress board, the documented roadmap through `T3` is now complete.
 
-### S2 - Post-S1 Implementation Entry
-
-Goal:
-
-- fix the next narrowed implementation question from `S1` as the next direct implementation entry
-
-Completion criteria:
-
-- the next direct implementation-entry note is fixed in one document
+That means there are no unfinished sprints left inside the currently documented roadmap itself,
+and the next direct follow-up moves into a new entry cycle such as `U1 - Post-T3 Implementation Entry`.
 
 ## Progress Percentage For The Current Roadmap
 
 The currently documented roadmap should be read like this:
 
-- complete: `82/84`
-- about `97%`
+- complete: `86/86`
+- `100%`
 
 Important:
 
@@ -153,4 +148,4 @@ This layer is still closer to future backlog than to current completion.
 
 ## One-Line Summary
 
-`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, the first multi-replica validation evidence, the follow-up backlog review after that validation, the completion/progress refresh after that review, the implementation reset after `L2`, the ordering-semantics entry after that reset, the first execution cut for that ordering question, the refresh after that cut, the post-N2 backlog review after that refresh, the entry that fixes recorded replica-order semantics as the next direct implementation topic, the minimum probe helper cut that makes that semantics easier to read directly, the refresh that realigns the remaining question set into the `Q1 -> Q2` flow, the backlog review that narrows that question back down to current-implementation reading, the entry that fixes that reading as the next direct implementation entry, the minimum wrapper helper that replays that reading as ordered-candidate output, the refresh that realigns completion/progress after `Q2` and `R1`, and the review that narrows the remaining implementation backlog again after that state. Under the conservative full-backlog view, completion is now read through the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next directly remaining core sprint is `S2 - Post-S1 Implementation Entry`.
+`artifact-handoff-poc` is already well through Sprint 1 validation, the first replica-aware implementation/validation cycle, the minimum execution cut for the multi-replica question, the first multi-replica validation evidence, the follow-up backlog review after that validation, the completion/progress refresh after that review, the implementation reset after `L2`, the ordering-semantics entry after that reset, the first execution cut for that ordering question, the refresh after that cut, the post-N2 backlog review after that refresh, the entry that fixes recorded replica-order semantics as the next direct implementation topic, the minimum probe helper cut that makes that semantics easier to read directly, the refresh that realigns the remaining question set into the `Q1 -> Q2` flow, the backlog review that narrows that question back down to current-implementation reading, the entry that fixes that reading as the next direct implementation entry, the minimum wrapper helper that replays that reading as ordered-candidate output, the refresh that realigns completion/progress after `Q2` and `R1`, the review that narrows the remaining implementation backlog again after that state, the new entry/cut pair that fixes and replays the consumer perspective-aware remote candidate order reading, the follow-up refresh that realigns the remaining question set into the `T3 -> U1` flow, and the backlog review that narrows the remaining post-perspective-reading refinement question again. The currently documented roadmap is now complete through `T3`, and the conservative full-backlog view remains anchored to the `6-week` plan in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md). The next direct follow-up step is `U1 - Post-T3 Implementation Entry`.

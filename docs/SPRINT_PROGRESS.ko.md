@@ -17,7 +17,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -56,9 +56,11 @@
   - post-Q2 execution cut track `R1` 기준: `1/1` 완료, `100%`
   - post-R1 completion refresh track `R2` 기준: `1/1` 완료, `100%`
   - post-R2 backlog review track `S1` 기준: `1/1` 완료, `100%`
-  - post-S1 implementation entry track `S2` 기준: `0/1` 완료, `0%`
-  - post-S2 execution cut track `T1` 기준: `0/1` 완료, `0%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~T1` 기준: `82/84` 완료, 약 `98%`
+  - post-S1 implementation entry track `S2` 기준: `1/1` 완료, `100%`
+  - post-S2 execution cut track `T1` 기준: `1/1` 완료, `100%`
+  - post-T1 completion refresh track `T2` 기준: `1/1` 완료, `100%`
+  - post-T2 backlog review track `T3` 기준: `1/1` 완료, `100%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~T3` 기준: `86/86` 완료, `100%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -130,6 +132,10 @@
   - `Sprint R1`에서 그 reading을 ordered remote candidate output으로 재실행할 수 있는 최소 wrapper helper cut를 추가
   - `Sprint R2`에서 `Q2`, `R1` 이후 completion view와 progress board를 같은 남은 질문 세트로 다시 정렬
   - `Sprint S1`에서 `R1`, `R2` 이후 남은 구현 backlog를 다시 좁혀 다음 직접 질문을 `S2`로 고정
+  - `Sprint S2`에서 다음 직접 implementation entry를 `consumer perspective-aware producer -> recorded replica order` reading으로 고정
+  - `Sprint T1`에서 각 agent pod 관점의 remote candidate order를 재실행하는 최소 perspective helper cut를 추가
+  - `Sprint T2`에서 `S2`, `T1` 이후 남은 질문 세트를 `T3 -> U1` 흐름으로 다시 정렬
+  - `Sprint T3`에서 perspective-aware reading 이후 남은 refinement question을 다시 작은 entry 범위로 넘기기 위해 backlog를 재축소
   - 전체 backlog 완료 일정은 별도 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에 `6주 / 4개 병렬 트랙` 기준으로 고정
 
 ## 완료 스프린트 표
@@ -218,12 +224,16 @@
 | R1 | 완료 | `producer -> recorded replica order` reading을 재실행 가능한 ordered-candidate output으로 만드는 최소 wrapper helper cut 추가 |
 | R2 | 완료 | `Q2`, `R1` 이후 completion/progress를 같은 남은 질문 세트로 다시 정렬 |
 | S1 | 완료 | `R1`, `R2` 이후 남은 구현 backlog를 다시 좁혀 다음 직접 질문을 `S2`로 고정 |
+| S2 | 완료 | 다음 직접 implementation entry를 `consumer perspective-aware producer -> recorded replica order` reading으로 고정 |
+| T1 | 완료 | 각 agent pod 관점의 remote candidate order를 재실행하는 최소 perspective helper cut 추가 |
+| T2 | 완료 | `S2`, `T1` 이후 남은 질문 세트를 `T3 -> U1` 흐름으로 다시 정렬 |
+| T3 | 완료 | perspective-aware reading 이후 남은 refinement question을 다시 작은 entry 범위로 넘기기 위해 backlog 재축소 |
 
 ## 현재 backlog
 
 | 영역 | 항목 | 우선순위 | 현재 판단 |
 |---|---|---|---|
-| 구현 | multi-replica ordering semantics | 중간 | 다음 실제 implementation 질문으로 승격 |
+| 구현 | multi-replica ordering semantics | 중간 | perspective-aware reading review까지 닫혔고, 다음은 `U1`에서 entry scope 재고정 |
 | 구현 | catalog top-level failure reflection | 중간 | 여전히 defer 유지 |
 | 구현 | retry / recovery policy | 낮음 | multi-replica ordering 다음 후속 질문 |
 | 구현 | scheduler/controller 통합 평가 | 낮음 | 아직 script-assisted validation 단계 |
@@ -241,31 +251,31 @@
 
 ## 추천 다음 3개 스프린트
 
-### S2 - Post-S1 Implementation Entry
+### U1 - Post-T3 Implementation Entry
 
 목표:
 
-- `S1`에서 좁힌 다음 구현 질문을 실제 implementation entry로 고정
+- `T3`에서 좁힌 다음 구현 질문을 다시 direct implementation entry로 고정
 
 완료 기준:
 
-- 다음 직접 implementation entry note가 한 문서로 고정됨
+- 다음 implementation entry note가 한 문서로 고정됨
 
-### T1 - Post-S2 Execution Cut
+### U2 - Post-U1 Execution Cut
 
 목표:
 
-- `S2`에서 고정한 다음 구현 질문을 위한 최소 execution cut 정의
+- `U1`에서 고정한 다음 구현 질문을 위한 최소 execution cut를 정의
 
 완료 기준:
 
-- helper 또는 최소 validation cut가 한 문서로 고정됨
+- helper 또는 최소 cut note가 한 문서로 고정됨
 
-### T2 - Post-T1 Completion Refresh
+### U3 - Post-U2 Completion Refresh
 
 목표:
 
-- `S2`, `T1` 이후 completion view와 progress board를 같은 남은 질문 세트로 다시 정렬
+- `U1`, `U2` 이후 completion view와 progress board를 같은 남은 질문 세트로 다시 정렬
 
 완료 기준:
 
