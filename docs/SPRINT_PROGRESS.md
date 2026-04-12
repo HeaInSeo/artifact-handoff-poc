@@ -17,7 +17,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`, `U1`, `U2`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`, `U1`, `U2`, `U3`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -62,7 +62,8 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - post-T2 backlog review track `T3`: `1/1` complete, `100%`
   - dynamic DAG placement validation track `U1`: `1/1` complete, `100%`
   - dynamic placement interface cut track `U2`: `1/1` complete, `100%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~U2`: `88/88` complete, `100%`
+  - parent-result placement injection validation track `U3`: `1/1` complete, `100%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~U3`: `89/89` complete, `100%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -142,6 +143,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - based on remote lab validation at `100.123.80.48`, the repository added a `dragonfly-adapter-contract` research note grounded in Helm install and `dfcache` export checks
   - `Sprint U1` fixed the current understanding that the remote Multipass K8s validation of `poc` does not show parent-result-driven dynamic placement; the observed same-node outcome was a `local-path` PVC `selected-node` side effect
   - `Sprint U2` fixed the minimum interface cut for dynamic placement from the same remote evidence, separating it into `ArtifactBinding + PlacementIntent + ResolvedPlacement`
+  - `Sprint U3` validated with real `poc`/`spawner` changes and a rerun on the remote Multipass K8s lab that child Job `nodeSelector` and placement annotations now carry explicit parent-result-driven mutation
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -236,6 +238,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | T3 | Complete | narrowed the remaining post-perspective-reading refinement question again into a small next entry scope |
 | U1 | Complete | validated on the remote Multipass K8s lab that the current `poc` path has no dynamic placement hints in Job specs and that the observed same-node outcome comes from PVC `selected-node` side effects |
 | U2 | Complete | fixed the minimum dynamic-placement interface cut from the same remote evidence, separating it into `ArtifactBinding + PlacementIntent + ResolvedPlacement` |
+| U3 | Complete | validated with real `poc`/`spawner` changes and a remote Multipass K8s rerun that child Job `nodeSelector` and placement annotations now carry explicit parent-result-driven mutation |
 
 ## Current Backlog
 
@@ -244,8 +247,8 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | Implementation | multi-replica ordering semantics | Medium | perspective-aware reading review is closed, and the next step is to refix the next entry scope in `U1` |
 | Research | Dragonfly fork-fit / upstream alignment | High | opened as a research track, with shallow adapter fit favored over a deep fork |
 | Research | Dragonfly adapter contract | High | added a product-owned contract draft backed by remote lab validation |
-| Validation | dynamic DAG placement | High | remote validation now shows the current `poc` path does not implement dynamic placement, and `U2` fixed the minimum interface cut from that result |
-| Implementation | placement interface / submit mutation | High | the next step is `U3`, which should validate real child Job mutation |
+| Validation | dynamic DAG placement | High | `U3` now validates explicit parent-result-driven child Job mutation on the remote lab, but remote fallback semantics are still open |
+| Implementation | dynamic fallback after explicit placement | High | the next step is to fix the same-node-preferred / remote-fallback question as the next direct validation entry |
 | Implementation | catalog top-level failure reflection | Medium | still deferred |
 | Implementation | retry / recovery policy | Low | the next follow-up after multi-replica ordering |
 | Implementation | scheduler/controller integration evaluation | Low | still in script-assisted validation phase |
@@ -263,35 +266,38 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Recommended Next 3 Sprints
 
-### U3 - Parent-Result Placement Injection Validation
-
-Goal:
-
-- connect the `U2` interface to actual child Job placement mutation
-
-Completion criteria:
-
-- explicit placement-mutation evidence is captured on the remote Multipass K8s lab
-
-### U4 - Post-U3 Completion Refresh
-
-Goal:
-
-- realign completion/progress documents to the same remaining-question set after `U3`
-
-Completion criteria:
-
-- a refresh note is fixed in one document
+The `U4` completion/progress refresh was absorbed into this `U3` close-out turn.
+So the next direct follow-up should move into the fallback question.
 
 ### U5 - Dynamic Fallback Validation Entry
 
 Goal:
 
-- fix the remote-fallback question as the next direct validation entry after explicit placement mutation
+- fix the same-node-preferred / remote-fallback question as the next direct validation entry after explicit placement mutation
 
 Completion criteria:
 
-- the next validation-entry note is fixed in one document
+- the fallback question is fixed as a narrow entry note
+
+### U6 - Same-Node Required vs Preferred Validation
+
+Goal:
+
+- decide the actual validation criteria for whether explicit `nodeSelector` should stay required or move to preferred placement
+
+Completion criteria:
+
+- the required-vs-preferred judgment is fixed in one document
+
+### U7 - Controller-Owned Placement Resolution Entry
+
+Goal:
+
+- open the next narrow question of whether the current node-level mutate hook should be raised into product/controller-owned placement resolution
+
+Completion criteria:
+
+- the next direct implementation question for controller-owned resolution is fixed as an entry note
 
 ## Update Rule
 
