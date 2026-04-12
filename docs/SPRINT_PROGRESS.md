@@ -17,7 +17,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 
 ## Current Summary
 
-- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`, `U1`, `U2`, `U3`, `U5`, `U6`, `U7`
+- completed sprints: `B1` through `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`, `U1`, `U2`, `U3`, `U5`, `U6`, `U7`, `U8`
 - progress:
   - failure-doc cleanup track `C1~C12`: `12/12` complete, `100%`
   - post-freeze transition track `D1~D3`: `3/3` complete, `100%`
@@ -66,7 +66,8 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - dynamic fallback validation entry track `U5`: `1/1` complete, `100%`
   - same-node required vs preferred validation track `U6`: `1/1` complete, `100%`
   - fallback trigger signal validation track `U7`: `1/1` complete, `100%`
-  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~U7`: `92/92` complete, `100%`
+  - required-to-preferred downgrade entry track `U8`: `1/1` complete, `100%`
+  - currently documented sprint set `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~U8`: `93/93` complete, `100%`
   - this percentage is for the current documentation/validation cleanup roadmap, not for every future implementation expansion
 - current state:
   - Sprint 1 baseline validation and failure-semantics tightening are largely in place
@@ -150,6 +151,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - `Sprint U5` fixed the next direct validation question from the `U3` live result and the current code path as the dynamic-fallback trigger / transition / target-semantics question after the same-node-required path
   - `Sprint U6` fixed from the remote live result and the current `nodeSelector` code path that the current implementation truth is `same-node required`, while `preferred locality` remains a future validation target rather than current truth
   - `Sprint U7` fixed that because dynamic placement now lands in API objects, the fallback trigger should also be read from API-level observables, with `PodScheduled=False, Unschedulable` as the primary candidate for the current same-node-required path
+  - `Sprint U8` fixed that downgrade should be read as a two-stage entry of `required -> preferred`, then `preferred -> remote-capable resolution`, rather than an immediate jump straight to remote execution
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -248,6 +250,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | U5 | Complete | fixed the next direct validation question from the `U3` live result and the current code path as the dynamic fallback trigger / transition / target-semantics question |
 | U6 | Complete | fixed from the remote live result and the current `nodeSelector` code path that the current implementation truth is `same-node required`, while `preferred locality` remains a future validation target |
 | U7 | Complete | fixed that because dynamic placement now lands in API objects, the fallback trigger should also be read from API-level observables, with `PodScheduled=False, Unschedulable` as the primary candidate |
+| U8 | Complete | fixed that downgrade should be read as a two-stage entry of `required -> preferred`, then `preferred -> remote-capable resolution`, rather than an immediate jump straight to remote execution |
 
 ## Current Backlog
 
@@ -257,7 +260,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | Research | Dragonfly fork-fit / upstream alignment | High | opened as a research track, with shallow adapter fit favored over a deep fork |
 | Research | Dragonfly adapter contract | High | added a product-owned contract draft backed by remote lab validation |
 | Validation | dynamic DAG placement | High | `U3` already validates explicit child Job mutation, and `U5` narrows the next direct question to fallback semantics, but actual fallback validation is still open |
-| Validation | dynamic fallback after explicit placement | High | `U7` narrows the primary trigger candidate to `PodScheduled=False, Unschedulable`, and the next step is to define how that should downgrade required locality into preferred or remote-capable execution |
+| Validation | dynamic fallback after explicit placement | High | `U8` fixes the downgrade direction as `required -> preferred -> remote-capable`, and the next step is to define how K8s observables should enter the current fallback-judgment path |
 | Implementation | catalog top-level failure reflection | Medium | still deferred |
 | Implementation | retry / recovery policy | Low | the next follow-up after multi-replica ordering |
 | Implementation | scheduler/controller integration evaluation | Low | still in script-assisted validation phase |
@@ -279,27 +282,27 @@ The `U4` completion/progress refresh was absorbed into the `U3` close-out turn,
 and this `U5` sprint fixed the fallback entry itself.
 So the next direct follow-up should move down into the actual fallback-validation criteria.
 
-### U8 - Required-To-Preferred Downgrade Entry
-
-Goal:
-
-- fix under what conditions the current required-locality path should downgrade into preferred locality or a remote-capable path
-
-Completion criteria:
-
-- the downgrade conditions are fixed in one entry note
-
 ### U9 - K8s Observable Integration Validation
 
 Goal:
 
-- fix how `K8sObserver.ObservePod()` / `ObserveWorkload()` should be wired into the current fallback judgment path
+- fix how `K8sObserver.ObservePod()` / `ObserveWorkload()` should connect into the current fallback-judgment path
 
 Completion criteria:
 
 - the K8s observable integration judgment is fixed in one validation note
 
-### U10 - Controller-Owned Placement Resolution Entry
+### U10 - Remote-Capable Resolution Entry
+
+Goal:
+
+- fix what policy inputs should open the remote-capable resolution path after preferred locality
+
+Completion criteria:
+
+- the remote-capable resolution entry is fixed in one document
+
+### U11 - Controller-Owned Placement Resolution Entry
 
 Goal:
 
