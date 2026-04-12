@@ -17,7 +17,7 @@
 
 ## 현재 요약
 
-- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`, `U1`, `U2`, `U3`, `U5`, `U6`, `U7`, `U8`, `U9`
+- 완료 스프린트: `B1` ~ `B16`, `C1`, `C2`, `C3`, `C4`, `C5`, `C6`, `C7`, `C8`, `C9`, `C10`, `C11`, `C12`, `D1`, `D2`, `D3`, `D4`, `D5`, `D6`, `D7`, `D8`, `D9`, `D10`, `D11`, `D12`, `D13`, `E1`, `E2`, `E3`, `E4`, `E5`, `F1`, `F2`, `F3`, `F4`, `F5`, `F6`, `F7`, `F8`, `F9`, `G1`, `G2`, `H1`, `H2`, `H3`, `I1`, `I2`, `I3`, `J1`, `J2`, `K1`, `K2`, `L1`, `L2`, `M1`, `M2`, `N1`, `N2`, `O1`, `O2`, `P1`, `P2`, `Q1`, `Q2`, `R1`, `R2`, `S1`, `S2`, `T1`, `T2`, `T3`, `U1`, `U2`, `U3`, `U5`, `U6`, `U7`, `U8`, `U9`, `U10`
 - 진행률:
   - failure-doc 정리 트랙 `C1~C12` 기준: `12/12` 완료, `100%`
   - post-freeze transition 트랙 `D1~D3` 기준: `3/3` 완료, `100%`
@@ -68,7 +68,8 @@
   - fallback trigger signal validation track `U7` 기준: `1/1` 완료, `100%`
   - required-to-preferred downgrade entry track `U8` 기준: `1/1` 완료, `100%`
   - K8s observable integration validation track `U9` 기준: `1/1` 완료, `100%`
-  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~U9` 기준: `94/94` 완료, `100%`
+  - remote-capable resolution entry track `U10` 기준: `1/1` 완료, `100%`
+  - 현재 문서화된 스프린트 전체 `B1~B16` + `C1~C12` + `D1~D13` + `E1~E5` + `F1~U10` 기준: `95/95` 완료, `100%`
   - 이 수치는 문서/검증 정리 로드맵 기준이며, 향후 구현 확장 전체를 뜻하지는 않음
 - 현재 상태:
   - Sprint 1 baseline validation과 failure semantics 정리는 상당 부분 완료
@@ -154,6 +155,7 @@
   - `Sprint U7`에서 dynamic placement가 API object 수준에 들어가므로 fallback trigger도 API observable로 읽어야 하며, current same-node required path의 1순위 trigger 후보는 `PodScheduled=False, Unschedulable`라는 판단을 고정
   - `Sprint U8`에서 downgrade는 바로 remote path로 가는 것이 아니라 `required -> preferred`, 그 다음 `preferred -> remote-capable resolution`의 2단계 entry로 읽어야 한다는 판단을 고정
   - `Sprint U9`에서 `Wait()`는 terminal path로 유지하고, `ObservePod()` / `ObserveWorkload()`는 별도 fallback judgment layer가 읽는 integration 방향이 맞다는 판단을 고정
+  - `Sprint U10`에서 remote-capable resolution은 단순 scheduling 완화가 아니라 `consume policy + producerNode + replicaNodes/recorded order + observable failure signal`을 함께 읽는 artifact-aware policy step이라는 판단을 고정
   - 전체 backlog 완료 일정은 별도 [PARALLEL_6W_DELIVERY_PLAN.ko.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.ko.md)에 `6주 / 4개 병렬 트랙` 기준으로 고정
 
 ## 완료 스프린트 표
@@ -254,6 +256,7 @@
 | U7 | 완료 | dynamic placement가 API object에 들어가므로 fallback trigger도 API observable에서 읽어야 하고, current same-node required path의 1순위 trigger 후보는 `PodScheduled=False, Unschedulable`라는 판단을 고정 |
 | U8 | 완료 | downgrade는 바로 remote path가 아니라 `required -> preferred`, 그 다음 `preferred -> remote-capable resolution`의 2단계 entry로 읽어야 한다는 판단을 고정 |
 | U9 | 완료 | `Wait()`는 terminal path로 유지하고, `ObservePod()` / `ObserveWorkload()`는 별도 fallback judgment layer가 읽는 integration 방향이 맞다는 판단을 고정 |
+| U10 | 완료 | remote-capable resolution은 단순 scheduling 완화가 아니라 `consume policy + producerNode + replicaNodes/recorded order + observable failure signal`을 함께 읽는 artifact-aware policy step이라는 판단을 고정 |
 
 ## 현재 backlog
 
@@ -263,7 +266,7 @@
 | 조사 | Dragonfly fork-fit / upstream alignment | 높음 | shallow adapter 가능성은 높고, deep fork는 비권장이라는 연구 축을 열었음 |
 | 조사 | Dragonfly adapter contract | 높음 | remote lab 실검증을 바탕으로 product-owned contract 초안을 추가 |
 | 검증 | dynamic DAG placement | 높음 | `U3`에서 explicit child Job mutation까지는 확보됐고, `U5`에서 다음 직접 질문을 fallback semantics로 좁혔지만 실제 fallback validation은 아직 남아 있음 |
-| 검증 | dynamic fallback after explicit placement | 높음 | `U9`에서 K8s observer는 별도 fallback judgment layer가 읽는 구조로 좁혔고, 다음은 remote-capable resolution을 어떤 policy input으로 열지 정해야 함 |
+| 검증 | dynamic fallback after explicit placement | 높음 | `U10`에서 remote-capable resolution 입력 집합을 좁혔고, 다음은 이 판단을 controller-owned path로 올릴지 정해야 함 |
 | 구현 | catalog top-level failure reflection | 중간 | 여전히 defer 유지 |
 | 구현 | retry / recovery policy | 낮음 | multi-replica ordering 다음 후속 질문 |
 | 구현 | scheduler/controller 통합 평가 | 낮음 | 아직 script-assisted validation 단계 |
@@ -285,16 +288,6 @@
 이번 `U5`에서 fallback entry까지 고정했다.
 그래서 다음 직접 후속은 fallback validation 기준 쪽으로 내려가야 한다.
 
-### U10 - Remote-Capable Resolution Entry
-
-목표:
-
-- preferred locality 이후 remote-capable resolution을 어떤 policy input으로 열지 entry를 고정
-
-완료 기준:
-
-- remote-capable resolution entry가 한 문서로 고정됨
-
 ### U11 - Controller-Owned Placement Resolution Entry
 
 목표:
@@ -306,6 +299,16 @@
 - controller-owned resolution entry가 한 문서로 고정됨
 
 ### U12 - Observable-To-Resubmit Validation Entry
+
+목표:
+
+- observable signal에서 실제 resubmit 판단으로 넘어가는 validation question을 고정
+
+완료 기준:
+
+- observable-to-resubmit validation note가 한 문서로 고정됨
+
+### U13 - Replica-Aware Remote Resolution Entry
 
 목표:
 
