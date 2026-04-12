@@ -130,6 +130,8 @@
 - `docs/research/hostpath-vs-localpv.ko.md`
 - `docs/research/peer-fetch-failure-paths.ko.md`
 - `docs/research/cilium-fit-gap.ko.md`
+- `docs/research/dragonfly-with.ko.md`
+- `docs/research/dragonfly-with-update-01.ko.md`
 
 ## 각 조사 문서의 공통 구조
 

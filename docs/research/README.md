@@ -128,6 +128,8 @@ These can follow later if needed:
 - `docs/research/hostpath-vs-localpv.ko.md`
 - `docs/research/peer-fetch-failure-paths.ko.md`
 - `docs/research/cilium-fit-gap.ko.md`
+- `docs/research/dragonfly-with.ko.md`
+- `docs/research/dragonfly-with-update-01.ko.md`
 
 ## Common Structure For Each Research Note
 

@@ -136,6 +136,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
   - `Sprint T1` added the minimum perspective helper cut that replays the remote candidate order from each agent pod's point of view
   - `Sprint T2` realigned the remaining question set after `S2` and `T1` into the `T3 -> U1` flow
   - `Sprint T3` narrowed the remaining post-perspective-reading refinement question again into a small next entry scope
+  - as a separate research extension, the repository has started expanding `docs/research/dragonfly-with*` around Dragonfly fork-fit and upstream-alignment questions
   - the full-backlog completion schedule is separately fixed in [PARALLEL_6W_DELIVERY_PLAN.md](/opt/go/src/github.com/HeaInSeo/artifact-handoff-poc/docs/PARALLEL_6W_DELIVERY_PLAN.md) as a `6-week / 4-track` plan
 
 ## Completed Sprint Table
@@ -234,6 +235,7 @@ For the conservative six-week parallel schedule that includes the full backlog, 
 | Area | Item | Priority | Current Judgment |
 |---|---|---|---|
 | Implementation | multi-replica ordering semantics | Medium | perspective-aware reading review is closed, and the next step is to refix the next entry scope in `U1` |
+| Research | Dragonfly fork-fit / upstream alignment | High | opened as a research track, with shallow adapter fit favored over a deep fork |
 | Implementation | catalog top-level failure reflection | Medium | still deferred |
 | Implementation | retry / recovery policy | Low | the next follow-up after multi-replica ordering |
 | Implementation | scheduler/controller integration evaluation | Low | still in script-assisted validation phase |

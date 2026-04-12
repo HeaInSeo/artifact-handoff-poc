@@ -95,6 +95,12 @@
 - `hostPath`
 - `local PersistentVolume`
 
+### 7. Dragonfly fork-fit / upstream alignment research
+
+- Dragonfly를 distribution backend candidate로 얕게 붙일 수 있는지
+- deep fork 없이도 현재 PoC semantics와 정합성을 유지할 수 있는지
+- 업스트림 릴리스 변화가 adapter boundary에서 흡수 가능한지
+
 ## 보수적 6주 병렬 일정
 
 - 보수 일정: `6주`

@@ -93,6 +93,12 @@ The following items are not immediate sprints in the current roadmap, but they r
 - `hostPath`
 - `local PersistentVolume`
 
+### 7. Dragonfly fork-fit / upstream alignment research
+
+- whether Dragonfly can be attached as a shallow distribution-backend candidate
+- whether the current PoC semantics can stay aligned without a deep fork
+- whether upstream release movement can be absorbed at the adapter boundary
+
 ## Conservative Six-Week Parallel Schedule
 
 - conservative schedule: `6 weeks`
